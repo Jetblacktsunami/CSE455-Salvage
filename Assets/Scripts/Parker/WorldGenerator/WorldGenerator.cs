@@ -20,6 +20,7 @@ namespace ParkerSpaceSystem
 	{
 		public struct WorldSpecs
 		{
+			public string spaceName;
 			public int spaceArea;
 			public int mapLength;
 			public float cellLength;
@@ -30,7 +31,7 @@ namespace ParkerSpaceSystem
 		/// Use to Procedurally generate a space world with a random seed
 		/// length x width
 		/// </summary>
-		public static void GenerateSpace( int mapLength , int numberOfSubdivisions, Vector2 startingVector )
+		public static void GenerateSpace( int mapLength , int numberOfSubdivisions, Vector2 startingVector, string SpaceName )
 		{
 			WorldSpecs spec = new WorldSpecs ();
 			spec.spaceArea = mapLength * mapLength;
@@ -62,7 +63,7 @@ namespace ParkerSpaceSystem
 		{
 			Vector2 startPoint = new Vector2(details.start.x - (details.mapLength * 0.5f), details.start.y - (details.mapLength * 0.5f));
 
-			GameObject parent = new GameObject ("SpaceCells");
+			GameObject parent = new GameObject (details.spaceName);
 			parent.transform.position = Vector2.zero;
 
 
@@ -73,7 +74,7 @@ namespace ParkerSpaceSystem
 				{
 					GameObject cell = new GameObject ( x + "," +  y );
 					cell.transform.parent = parent.transform;
-					cell.AddComponent<WorldCell>();
+					cell.AddComponent<WorldCell>().Activate();
 					cell.transform.localScale = new Vector2(details.cellLength ,details.cellLength);
 					cell.transform.position = new Vector2(startPoint.x + i + (details.cellLength/2.0f) , startPoint.y + j + (details.cellLength / 2.0f) );
 					cell.AddComponent<BoxCollider2D>();
