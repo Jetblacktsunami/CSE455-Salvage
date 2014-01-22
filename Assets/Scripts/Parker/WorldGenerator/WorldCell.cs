@@ -9,11 +9,12 @@ public class WorldCell : MonoBehaviour
 	public string worldName;
 	public string cellName;
 	public float distanceFromCenter;
-	public bool hasBeenGenerated = false;
+	public string fileName;
+
 #if UNITY_EDITOR
-	public string fileName = Application.dataPath + "/SaveData/";
+	public string directory = Application.dataPath + "/SaveData/";
 #else
-	public string fileName = Application.persistentDataPath;
+	public string directory = Application.persistentDataPath + "/SaveData/";
 #endif
 
 
@@ -22,13 +23,18 @@ public class WorldCell : MonoBehaviour
 		cellName = gameObject.name;
 		worldName = gameObject.transform.parent.name;
 		distanceFromCenter = Vector2.Distance(Vector2.zero, gameObject.transform.position );
-		fileName +=  worldName + cellName;
+		directory += "/" + worldName + "/";
+		fileName += directory + cellName + ".xml";
 	}
 
 	public void Activate()
 	{
-		if (File.Exists(fileName)) 
+		Debug.Log ("Activating");
+		Start();
+
+		if (Directory.Exists(directory) && File.Exists(fileName)) 
 		{
+			Debug.Log("Loading");
 			Load ();
 		}
 		else
@@ -43,6 +49,10 @@ public class WorldCell : MonoBehaviour
 
 	public void Save()
 	{
+		if(!Directory.Exists(fileName))
+		{
+			Directory.CreateDirectory(directory);
+		}
 		XmlTextWriter writer = new XmlTextWriter (fileName, System.Text.Encoding.UTF8);
 
 		writer.WriteStartElement ("Asteroids");
@@ -54,7 +64,11 @@ public class WorldCell : MonoBehaviour
 	
 	public void Load()
 	{
+		XmlTextReader reader = new XmlTextReader (fileName);
 
+		Debug.Log ("found " + fileName);
+
+		reader.Close ();
 	}
 
 

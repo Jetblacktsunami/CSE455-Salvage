@@ -34,6 +34,7 @@ namespace ParkerSpaceSystem
 		public static void GenerateSpace( int mapLength , int numberOfSubdivisions, Vector2 startingVector, string SpaceName )
 		{
 			WorldSpecs spec = new WorldSpecs ();
+			spec.spaceName = SpaceName;
 			spec.spaceArea = mapLength * mapLength;
 			spec.mapLength = mapLength;
 			spec.cellLength = SquareMathCalculations.FindSmallestDivisionSideLength(spec.mapLength, numberOfSubdivisions);  
@@ -45,7 +46,7 @@ namespace ParkerSpaceSystem
 
 		public void SaveSpace( string filename )
 		{
-
+			
 		}
 
 		public void LoadSpace( string filename )
@@ -66,8 +67,6 @@ namespace ParkerSpaceSystem
 			GameObject parent = new GameObject (details.spaceName);
 			parent.transform.position = Vector2.zero;
 
-
-			int referenceNumber = 0;
 			for(float i = 0, x = 0; i < details.mapLength ; i += details.cellLength, x++)
 			{
 				for(float j = 0, y = 0; j < details.mapLength; j += details.cellLength, y++)
@@ -78,7 +77,6 @@ namespace ParkerSpaceSystem
 					cell.transform.localScale = new Vector2(details.cellLength ,details.cellLength);
 					cell.transform.position = new Vector2(startPoint.x + i + (details.cellLength/2.0f) , startPoint.y + j + (details.cellLength / 2.0f) );
 					cell.AddComponent<BoxCollider2D>();
-					referenceNumber++;
 				}
 			}
 		}
