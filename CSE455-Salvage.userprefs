@@ -1,10 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Ryan\MenuAlphaFade.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Ryan\MenuAnchorMoveY.cs">
     <Files>
-      <File FileName="Assets\Scripts\Ryan\MenuAnchorMove.cs" Line="28" Column="27" />
-      <File FileName="Assets\Test.cs" Line="25" Column="3" />
-      <File FileName="Assets\Scripts\Ryan\MenuAlphaFade.cs" Line="17" Column="8" />
+      <File FileName="Assets\Scripts\Ryan\MenuAlphaFade.cs" Line="21" Column="1" />
+      <File FileName="Assets\Scripts\Ryan\PanelAlpha.cs" Line="25" Column="1" />
+      <File FileName="Assets\Scripts\Ryan\MenuAnchorMoveX.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Ryan\MenuAnchorMoveY.cs" Line="23" Column="55" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
