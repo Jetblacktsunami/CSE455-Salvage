@@ -3,37 +3,35 @@ using System.Collections;
 
 public class TitleAnchorMoveY : MonoBehaviour 
 {
+	public delegate void MenuStart( bool titleIsClicked );
+	public static event MenuStart onTitleClick;
+
 	public GameObject move;
-	public float seconds;
-	public float timeDelay;
+	//public float seconds;
+	//public float timeDelay;
 	public float speed;
 	private UIAnchor anchor;
-	public bool click;
+	private bool go;
 	
 	
 	void Start()
 	{
 		anchor = move.GetComponent<UIAnchor> ();
-		click = false;
 	}
 
 	void OnClick ()
 	{
-		click = true; 
-	}
-	public bool BroadcastClick()
-	{
-		if(click == true)
+		if(onTitleClick != null)
 		{
-			return true;
+			onTitleClick (true);
+			go = true;
 		}
-		return false;
 	}
 
 	void Update()
 	{
 
-		if (anchor.relativeOffset.y < 0.25f && click == true) 
+		if (anchor.relativeOffset.y < 0.25f && go == true) 
 		{
 			anchor.relativeOffset.y += speed;
 		}
