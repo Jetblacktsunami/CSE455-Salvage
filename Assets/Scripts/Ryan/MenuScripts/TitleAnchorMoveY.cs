@@ -11,12 +11,14 @@ public class TitleAnchorMoveY : MonoBehaviour
 	//public float timeDelay;
 	public float speed;
 	private UIAnchor anchor;
+	private UIStretch stretch;
 	private bool go;
 	
 	
 	void Start()
 	{
 		anchor = move.GetComponent<UIAnchor> ();
+		stretch = move.GetComponent<UIStretch> ();
 	}
 
 	void OnClick ()

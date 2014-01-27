@@ -5,6 +5,8 @@ public class MenuAnchorMoveX : MonoBehaviour
 {
 	public delegate void OpenNewGame( bool newGameIsClicked );
 	public static event OpenNewGame onNewGameClick;
+	public delegate void OpenLoadGame( bool loadGameIsClicked );
+	public static event OpenLoadGame onLoadGameClick;
 
 	public GameObject move;
 	public float seconds;
@@ -16,7 +18,8 @@ public class MenuAnchorMoveX : MonoBehaviour
 	private bool clicked2;
 	private bool shift1;
 	private bool shift2;
-	
+
+
 	void Start()
 	{
 		anchor = move.GetComponent<UIAnchor> ();
@@ -35,11 +38,17 @@ public class MenuAnchorMoveX : MonoBehaviour
 	{
 		if(shift1 == true && shift2 != true)
 		{
-			if(onNewGameClick != null)
+			if(onNewGameClick != null && gameObject.tag == "NewGame")
 			{
 				onNewGameClick(true);
 				clicked2 = true;
 			}
+			if(onLoadGameClick != null && gameObject.tag == "LoadGame")
+			{
+				onLoadGameClick(true);
+				clicked2 = true;
+			}
+
 			clicked1 = true;
 		}
 		if(shift2 == true)
@@ -68,6 +77,10 @@ public class MenuAnchorMoveX : MonoBehaviour
 		if(anchor.relativeOffset.x > 0 && clicked1 == true)
 		{
 			anchor.relativeOffset.x -= speed * 0.3f;
+		}
+		if(clicked1 == true && anchor.relativeOffset.x <= 0 && gameObject.tag == "LoadGame" && anchor.relativeOffset.y <= 0.1f)
+		{
+			anchor.relativeOffset.y += speed * 0.3f;
 		}
 		if(anchor.relativeOffset.x <= 0 && shift1 == true)
 		{
