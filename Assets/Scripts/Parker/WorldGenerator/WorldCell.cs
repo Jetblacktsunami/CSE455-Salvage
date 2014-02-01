@@ -46,6 +46,8 @@ public class WorldCell : MonoBehaviour
 			directory += "/" + worldName + "/";
 			fileName += directory + cellName + ".xml";
 			startRan = true;
+
+
 		}
 	}
 
@@ -75,8 +77,8 @@ public class WorldCell : MonoBehaviour
 	private IEnumerator Generate ()
 	{
 		Debug.Log("Generating");
-		GameObject asteroid = new GameObject("Asteroid");
-		asteroid.AddComponent<Asteroid>();
+		//GameObject asteroid = new GameObject("Asteroid");
+		//asteroid.AddComponent<Asteroid>();
 
 		yield return new WaitForSeconds (0);
 		Save ();
