@@ -124,6 +124,11 @@ namespace ParkerSpaceSystem
 
 			}
 
+			for(int i = 0, j = 1 ; i < bowwow.Count; i++)
+			{
+				Debug.DrawRay( bowwow[i], bowwow[j], Color.green, 2000);
+				j += 1 % bowwow.Count;
+			}
 
 			for(int i = startingXpos; i < -(startingXpos); i++)
 			{
@@ -169,7 +174,7 @@ namespace ParkerSpaceSystem
 							}
 						}
 
-						if( bowwow.Contains(new Vector2(i,j)))
+						if( !bowwow.Contains(new Vector2(i,j)))
 						{
 							Debug.Log(degree);
 							float xCoord = (i + details.mapLength /2) / (float)details.mapLength * 25.6f;
@@ -223,31 +228,6 @@ namespace ParkerSpaceSystem
 					cell.AddComponent<BoxCollider2D>();
 				}
 			}
-		}
-
-		public static void PerlinTest(Texture2D noiseTex)
-		{
-			int pixW = 1024;
-			int pixY = 1024;
-			Color[] pix = new Color[pixW * pixY];
-			float scale = 1.0f;
-
-			float y = 0.0f;
-			while (y < noiseTex.height) 
-			{
-				float x = 0.0f;
-				while (x < noiseTex.width) 
-				{
-					float xCoord = x / noiseTex.width * scale;
-					float yCoord = y / noiseTex.height * scale;
-					float sample = Mathf.PerlinNoise(xCoord, yCoord);
-					pix[(int)(y * noiseTex.width + x)] = new Color(sample, sample, sample);
-					x++;
-				}
-				y++;
-			}
-			noiseTex.SetPixels(pix);
-			noiseTex.Apply();
 		}
 	}
 }
