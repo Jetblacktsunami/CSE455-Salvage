@@ -91,7 +91,7 @@ public class PlayerInformation : MonoBehaviour
 	
 	public float getMaxSpeed()
 	{
-		returnMaxSpeed;
+		return maxSpeed;
 	}
 	
 	public float getThrusterDelay()
