@@ -5,7 +5,8 @@ using System;
 public class VolumeState : MonoBehaviour 
 {
 	public static Action<volumeSliderType> SliderMoved;
-	public enum volumeSliderType {Master, FX, Music};
+	public enum volumeSliderType{Master, FX, Music};
+	public volumeSliderType sliderBackType;
 	private UISlider volume;
 
 	void Start()
@@ -13,14 +14,30 @@ public class VolumeState : MonoBehaviour
 		volume = gameObject.GetComponent<UISlider> ();
 	}
 
-	void OnValueChange (float volume)
+	void OnEnable()
 	{
-		Debug.Log(volume);
+		VolumeThumb.thumbIsPressed += UpdateFromThumb;
 	}
-	/*
-	void Update()
+
+	void OnDisable()
 	{
-		camera.audio.volume = volume.value;
+		VolumeThumb.thumbIsPressed -= UpdateFromThumb;
 	}
-	*/
+
+	void UpdateFromThumb (volumeSliderType sliderType)
+	{
+		if(sliderBackType.CompareTo(sliderType) == 0)
+		{
+			Debug.Log (sliderType + " " + volume.value);
+		}
+	}
+
+	void OnPress(bool isPressed)
+	{
+		if (!isPressed)
+		{
+			Debug.Log(sliderBackType + " " + volume.value);
+		}
+	}
+
 }
