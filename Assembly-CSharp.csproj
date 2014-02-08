@@ -177,6 +177,8 @@
      <Compile Include="Assets\Scripts\Ryan\MenuScripts\MenuAlpha.cs" />
      <Compile Include="Assets\Scripts\Ryan\MenuScripts\MenuBack.cs" />
      <Compile Include="Assets\Scripts\Ryan\MenuScripts\SubMenuAlpha.cs" />
+     <Compile Include="Assets\Scripts\Ryan\MenuScripts\SubMenuScripts\Generate.cs" />
+     <Compile Include="Assets\Scripts\Ryan\MenuScripts\SubMenuScripts\OutputToXML.cs" />
      <Compile Include="Assets\Scripts\Ryan\MenuScripts\SubMenuScripts\VolumeState.cs" />
      <Compile Include="Assets\Scripts\Ryan\MenuScripts\SubMenuScripts\VolumeThumb.cs" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Depth Cutout.shader" />

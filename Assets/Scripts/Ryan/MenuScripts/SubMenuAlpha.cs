@@ -29,7 +29,7 @@ public class SubMenuAlpha : MonoBehaviour
 	{
 		if (bType == panelType) 
 		{
-			Debug.Log(bType);
+//			Debug.Log(bType);
 			panel.alpha = 1.0f;
 		}
 		else 

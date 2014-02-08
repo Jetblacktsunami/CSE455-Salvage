@@ -12,6 +12,19 @@ public class VolumeState : MonoBehaviour
 	void Start()
 	{
 		volume = gameObject.GetComponent<UISlider> ();
+		//Debug.Log (sliderBackType);
+		if(sliderBackType == volumeSliderType.Master)
+		{
+			volume.value = PlayerPrefs.GetFloat("MasterVol");
+		}
+		else if(sliderBackType == volumeSliderType.FX)
+		{
+			volume.value = PlayerPrefs.GetFloat("FXVol");
+		}
+		else if(sliderBackType == volumeSliderType.Music)
+		{
+			volume.value = PlayerPrefs.GetFloat("MusicVol");
+		}
 	}
 
 	void OnEnable()
@@ -26,9 +39,23 @@ public class VolumeState : MonoBehaviour
 
 	void UpdateFromThumb (volumeSliderType sliderType)
 	{
-		if(sliderBackType.CompareTo(sliderType) == 0)
+
+		if(sliderBackType == (sliderType))
 		{
-			Debug.Log (sliderType + " " + volume.value);
+			if(sliderBackType == volumeSliderType.Master)
+			{
+				PlayerPrefs.SetFloat("MasterVol", volume.value);
+			}
+			else if(sliderBackType == volumeSliderType.FX)
+			{
+				PlayerPrefs.SetFloat("FXVol", volume.value);
+			}
+			else if(sliderBackType == volumeSliderType.Music)
+			{
+				PlayerPrefs.SetFloat("MusicVol", volume.value);
+			}
+			//Debug.Log (sliderType + " " + volume.value);
+
 		}
 	}
 
@@ -36,7 +63,19 @@ public class VolumeState : MonoBehaviour
 	{
 		if (!isPressed)
 		{
-			Debug.Log(sliderBackType + " " + volume.value);
+		//	Debug.Log(sliderBackType + " " + volume.value);
+			if(sliderBackType == volumeSliderType.Master)
+			{
+				PlayerPrefs.SetFloat("MasterVol", volume.value);
+			}
+			else if(sliderBackType == volumeSliderType.FX)
+			{
+				PlayerPrefs.SetFloat("FXVol", volume.value);
+			}
+			else if(sliderBackType == volumeSliderType.Music)
+			{
+				PlayerPrefs.SetFloat("MusicVol", volume.value);
+			}
 		}
 	}
 
