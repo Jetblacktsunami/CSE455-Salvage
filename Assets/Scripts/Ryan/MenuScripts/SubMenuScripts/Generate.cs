@@ -9,6 +9,7 @@ public class Generate : MonoBehaviour
 	// Update is called once per frame
 	void OnClick () 
 	{
-		generateIsClicked;
+		generateIsClicked();
+		Application.LoadLevel ("InGame");
 	}
 }

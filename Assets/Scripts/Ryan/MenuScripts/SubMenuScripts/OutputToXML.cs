@@ -3,7 +3,14 @@ using System.Collections;
 
 public class OutputToXML : MonoBehaviour 
 {
+	public enum inputType {Name, Seed};
+	public inputType inputTypeValue;
+	private UIInput inputValue;
 
+	void Start()
+	{
+		inputValue = gameObject.GetComponent<UIInput> ();
+	}
 
 	void OnEnable()
 	{
@@ -16,11 +23,7 @@ public class OutputToXML : MonoBehaviour
 
 	void send()
 	{
-
+		Debug.Log(inputTypeValue + " " + inputValue.value);
 	}
-
-	// Update is called once per frame
-	void Update () {
 	
-	}
 }
