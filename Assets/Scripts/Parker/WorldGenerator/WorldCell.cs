@@ -274,7 +274,7 @@ public class WorldCell : MonoBehaviour
 					writer.WriteWhitespace("\t");
 					writer.WriteStartAttribute("AsteroidPosition");
 					writer.WriteAttributeString("AsteroidPosition",asteroidPosition[i,j].x.ToString());
-					writer.WriteAttributeString("AstroidPosition", + asteroidPosition[i,j].y.ToString());
+					writer.WriteAttributeString("AstroidPosition", asteroidPosition[i,j].y.ToString());
 					writer.WriteWhitespace("\n\t\t");
 					writer.WriteElementString("PerlinValue", perlinValue[c].ToString());
 					writer.WriteWhitespace("\n");
