@@ -34,4 +34,10 @@ public class SquareMathCalculations
 		}
 	}
 
+	public static float Noise(int x, int y)
+	{
+		int n = x + y * 57;
+		n = (n << 13) ^ n;
+		return (1.0f - ((n * ( n * n * 15731 + 1376312589) + 1376312589) & 0x7ffffffff) / 1073741824.0f);
+	}
 }
