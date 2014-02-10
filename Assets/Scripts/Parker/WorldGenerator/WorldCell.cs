@@ -246,7 +246,7 @@ public class WorldCell : MonoBehaviour
 						float yCoord = ((j + transform.position.y) + details.mapLength /2) / (float)details.mapLength * 25.6f;						
 						float scale = Mathf.PerlinNoise(xCoord,yCoord);
 
-						if(scale > 0.4f)
+						if(scale > 0.4f && scale > 0.0f)
 						{
 							asteroidPosition[i + ((int)details.cellLength/2 ),j + ((int)details.cellLength/2 )].Set(i + transform.position.x, j + transform.position.y);
 							perlinValue[(i + ((int)details.cellLength/2))* (int)details.cellLength + (j+ ((int)details.cellLength/2))] = scale;
@@ -272,9 +272,10 @@ public class WorldCell : MonoBehaviour
 				if(!Vector2.Equals(asteroidPosition[i,j],Vector2.zero))
 				{
 					writer.WriteWhitespace("\t");
-					writer.WriteStartAttribute("AsteroidPosition");
-					writer.WriteAttributeString("AsteroidPosition",asteroidPosition[i,j].x.ToString());
-					writer.WriteAttributeString("AstroidPosition", asteroidPosition[i,j].y.ToString());
+					writer.WriteStartElement("AsteroidPosition");
+					writer.WriteAttributeString("x ",asteroidPosition[i,j].x.ToString());
+					writer.WriteAttributeString("y ",asteroidPosition[i,j].y.ToString());
+					writer.WriteEndElement();
 					writer.WriteWhitespace("\n\t\t");
 					writer.WriteElementString("PerlinValue", perlinValue[c].ToString());
 					writer.WriteWhitespace("\n");
@@ -298,7 +299,10 @@ public class WorldCell : MonoBehaviour
 		foreach(Asteroid child in children)
 		{
 			writer.WriteWhitespace("\t");
-			writer.WriteElementString("AsteroidPosition", child.transform.position.x.ToString() + "," + child.transform.position.y.ToString());
+			writer.WriteStartElement("AsteroidPosition");
+			writer.WriteAttributeString("x ",child.transform.position.x.ToString());
+			writer.WriteAttributeString("y ",child.transform.position.y.ToString());
+			writer.WriteEndAttribute();
 			writer.WriteWhitespace("\n\t\t");
 			writer.WriteElementString("PerlinValue", child.perlinValue.ToString());
 			writer.WriteWhitespace("\n");
@@ -323,14 +327,11 @@ public class WorldCell : MonoBehaviour
 				switch(reader.Name)
 				{
 					case "AsteroidPosition" :
-						Debug.Log(reader.ReadElementString());
-						string element = reader.ReadElementString();
-						string[] seperatedString = element.Split(new char[]{','}, 2);
-						Debug.Log(seperatedString[0]);
-						positions.Add(new Vector2(float.Parse(seperatedString[0]), float.Parse(seperatedString[1])));
+						positions.Add(new Vector2(float.Parse(reader.GetAttribute(0)), float.Parse(reader.GetAttribute(1))));
 						break;
 
 					case "PerlinValue":
+						Debug.Log("Adding a perlin value");
 						perlin.Add( float.Parse(reader.ReadElementString()));
 						break;
 				}
@@ -342,12 +343,15 @@ public class WorldCell : MonoBehaviour
 		Debug.Log("Generating stuff");
 
 		int associatedPerlinPosition = 0;
+		Debug.Log(positions.Count);
 		foreach(Vector2 asteroidPosition in positions)
 		{
 			GameObject game = GameObject.CreatePrimitive(PrimitiveType.Cube);
-			game.transform.position = (transform.position + (Vector3)asteroidPosition);
+			game.transform.position = (Vector3)asteroidPosition;
 			game.transform.parent = parent.transform;
-			game.AddComponent<Asteroid>().perlinValue = perlin[associatedPerlinPosition];
+			Asteroid temp =	game.AddComponent<Asteroid>();
+			temp.perlinValue = perlin[associatedPerlinPosition];
+			temp.Change();
 			associatedPerlinPosition++;
 		}
 	}

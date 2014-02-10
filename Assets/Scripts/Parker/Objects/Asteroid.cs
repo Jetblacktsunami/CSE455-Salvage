@@ -9,6 +9,9 @@ public class Asteroid : MonoBehaviour
 	public float perlinValue = 1.0f;
 	public float durability = 100.0f;
 
-
+	public void Change()
+	{
+		gameObject.transform.localScale = new Vector3(perlinValue / 10,perlinValue / 10,1.0f);
+	}
 
 }
