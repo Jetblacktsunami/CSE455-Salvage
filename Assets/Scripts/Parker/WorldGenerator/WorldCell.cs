@@ -159,7 +159,6 @@ public class WorldCell : MonoBehaviour
 				}
 			}
 		}
-		
 
 
 		XmlTextWriter writer = new XmlTextWriter (fileName, System.Text.Encoding.UTF8);
