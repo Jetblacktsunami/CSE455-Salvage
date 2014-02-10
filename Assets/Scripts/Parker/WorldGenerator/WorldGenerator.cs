@@ -223,8 +223,6 @@ namespace ParkerSpaceSystem
 		public static List<WorldSpecs> GetCreatedWorlds()
 		{
 			List<WorldSpecs> existingSpecs = new List<WorldSpecs>();
-			List<float> numberofCells = new List<float>();
-			int currentWorldSpec = 0;
 			XmlTextReader reader = new XmlTextReader(directory + "CreatedWorlds.xml");
 			
 			while(reader.Read())

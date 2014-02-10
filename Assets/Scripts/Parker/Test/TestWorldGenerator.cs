@@ -10,7 +10,6 @@ public class TestWorldGenerator : MonoBehaviour
 	{
 		//ParkerSpaceSystem.WorldGenerator.Instance.GenerateSpace(128, 8, new Vector2(0.0f,0.0f),"TEST Space");
 		List<ParkerSpaceSystem.WorldGenerator.WorldSpecs> worlds = ParkerSpaceSystem.WorldGenerator.GetCreatedWorlds();
-
 		ParkerSpaceSystem.WorldGenerator.Instance.GenerateSpace (worlds [0]);
 	}
 	
