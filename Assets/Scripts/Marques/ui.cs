@@ -21,10 +21,10 @@ public class ui : MonoBehaviour
 
 	void OnGUI () 
 	{
-		GUI.Box(new Rect(10, 10, healthBarlenght, 20), curHealth / maxHealth);
+		GUI.Box(new Rect(10, 10, healthBarlenght, 20), (curHealth / maxHealth).ToString());
 	}
 
-	public void AdjustcurHealth (adj) 
+	public void AdjustcurHealth (int adj) 
 	{
 		curHealth += adj;
 		if(curHealth < 0)
@@ -33,9 +33,9 @@ public class ui : MonoBehaviour
 			curHealth = maxHealth;
 		if(maxHealth < 1)
 			maxHealth = 1;
-		healthBarlenght = (Screen.width / 2) * (curHealth / (float)maxHealth);\
-		if (curHealth = 0) {
-			<what you want to be done>
+		healthBarlenght = (Screen.width / 2) * (curHealth / (float)maxHealth);
+		if (curHealth == 0) {
+			//<what you want to be done>
 		}
 	}
 };
