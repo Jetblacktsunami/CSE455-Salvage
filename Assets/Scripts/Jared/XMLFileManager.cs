@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.IO;
 using System.Xml;
+using System.Xml.Linq;
 using System.Text;
 using System.Security.Cryptography;
 
@@ -10,7 +11,7 @@ public class XMLFileManager : MonoBehaviour
 {
 	public static void EncryptFile (string path)
 	{
-		if (!File.Exists(path))
+		if(!File.Exists(path))
 		{
 			Debug.Log("File Not Found At: " + path);
 			return;
@@ -38,7 +39,7 @@ public class XMLFileManager : MonoBehaviour
 	
 	public static void DecryptFile (string path)
 	{
-		if (!File.Exists(path))
+		if(!File.Exists(path))
 		{
 			Debug.Log("File Not Found At: " + path);
 			return;
@@ -65,6 +66,6 @@ public class XMLFileManager : MonoBehaviour
 
 		}
 
-		xmlFile.Save (path);
+		xmlFile.Save(path);
 	}
 }
