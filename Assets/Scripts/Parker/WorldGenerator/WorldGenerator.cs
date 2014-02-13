@@ -25,6 +25,7 @@ namespace ParkerSpaceSystem
 		public static WorldSpecs worldspec = new WorldSpecs();
 		public enum ActionType{ load, saved, nothing };
 		public static Action<ActionType> worldDoneLoading;
+		public List<GameObject> Planets = new List<GameObject> ();
 
 #if UNITY_EDITOR
 		public static string mainDirectory = Application.dataPath + "/SaveData/";
@@ -92,6 +93,7 @@ namespace ParkerSpaceSystem
 		/// <param name="details">Details.</param>
 		public void GenerateSpace( WorldSpecs details)
 		{
+			worldspec = details;
 			CreateCells (details);
 		}
 
@@ -310,12 +312,15 @@ namespace ParkerSpaceSystem
 					cell.transform.parent = parent.transform;
 					cell.transform.localScale = new Vector3(details.cellLength ,details.cellLength,1.0f);
 					cell.transform.position = new Vector2(startPoint.x + i + (details.cellLength/2.0f) , startPoint.y + j + (details.cellLength / 2.0f) );
-					cell.AddComponent<WorldCell>().Activate();
+					cell.AddComponent<WorldCell>();
 					cell.AddComponent<BoxCollider2D>().isTrigger = true;
 					worldspec.totalNumberOfCells++;
 				}
 			}
-			worldDoneLoading(ActionType.load);
+			if(worldDoneLoading != null)
+			{
+				worldDoneLoading(ActionType.load);
+			}
 		}
 	}
 }

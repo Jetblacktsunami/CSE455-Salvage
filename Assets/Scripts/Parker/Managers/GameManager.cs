@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
 	public GameObject playerObject;
 	public enum FunctionCallType{ load, save, exit };
 
-	private FunctionCallType functionCall = FunctionCallType.load;
 	private static GameManager instance;
 
 
@@ -80,6 +79,7 @@ public class GameManager : MonoBehaviour
 
 	void OnEnable()
 	{
+
 		ParkerSpaceSystem.WorldGenerator.worldDoneLoading += OnWorldLoadDone;
 	}
 
