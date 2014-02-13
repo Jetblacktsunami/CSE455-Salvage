@@ -1,14 +1,13 @@
 using UnityEngine;
 using System.IO;
 using System.Xml;
-//#if UNITY_WP8
-using System.Xml.Linq;
-//#endif
 using System.Collections;
 using System.Collections.Generic;
 
 public class PlayerInformation : MonoBehaviour 
 {
+   private string deviceID;
+
 	private string ship;
 	private int maxHealth;
 	private int currentHealth;
@@ -28,6 +27,26 @@ public class PlayerInformation : MonoBehaviour
 	private string weapon;
 	private int weaponDamage;
 	private float weaponFireRate;
+	
+#if UNITY_EDITOR || UNITY_PC 	
+	private string savePath = "Assets/Resources/Player Data/Info.xml";
+#endif
+	
+#if UNITY_IPHONE || UNITY_ANDROID
+#if !UNITY_EDITOR
+	private string savePath = Application.persistentDataPath + "/Info.xml";
+#endif	
+#endif
+
+	void Start()
+	{
+#if UNITY_ANDROID
+		if(Application.platform ==  RuntimePlatform.Android)
+		{
+			UnityEngine.AndroidJNI.AttachCurrentThread();
+		}
+#endif
+	}
 	
 	public string getShip()
 	{
