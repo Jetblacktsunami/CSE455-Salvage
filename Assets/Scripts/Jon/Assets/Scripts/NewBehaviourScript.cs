@@ -2,12 +2,12 @@
 using System.Collections;
 
 [RequireComponent (typeof (CharacterController))]
-
-public class MoveAround : MoveAround {
+public class MoveAround : MonoBehaviour 
+{
 	public float speed = 3.0f;
 	public float rotateSpeed = 10.0f;
-	public Joystick moveJoystick;
-	public Joystick rotateJoystick;
+//	public Joystick moveJoystick;
+//	public Joystick rotateJoystick;
 
 	// Use this for initialization
 	void Start () {
