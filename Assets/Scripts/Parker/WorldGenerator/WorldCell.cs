@@ -21,22 +21,53 @@ public class WorldCell : MonoBehaviour
 	#endregion
 
 	#region data ; for this class
+	private enum CellStatus{ active, standby, init };
+	private CellStatus status = CellStatus.standby;
+
 	public GameObject parent;
 	private string worldName; //name of the generated world
 	private string cellName; //id of this cell
 	private string fileName; //the exact file we are either saving or loading from
 	private bool startRan = false; //has the start function ran this game for this cell
+	public bool deactivateNow = false;
+	public bool activateNow = false;
 	#pragma warning disable 0414
 	private float distanceFromCenter = 0.0f; //this is going to be used to add varience in the spawned asteriods
 	#pragma warning restore
 	private List<Asteroid> children = new List<Asteroid>();
 	#endregion
 
+	public void Update()
+	{
+		float distance = Vector3.Distance(gameObject.transform.position, GameManager.Instance.playerObject.transform.position);
+		if(distance <= (gameObject.transform.localScale.x * 2.0f) && status != CellStatus.active)
+		{
+			Activate();
+			status = CellStatus.active;
+		}
+		else if(distance > (gameObject.transform.localScale.x * 2.0f) && status != CellStatus.standby)
+		{
+			Deactivate();
+			status = CellStatus.standby;
+		}
+//		if(deactivateNow)
+//		{
+//			Deactivate();
+//			deactivateNow = false;
+//		}
+//		if(activateNow)
+//		{
+//			Activate();
+//			activateNow = false;
+//		}
+	}
 	//first function that runs upon startup of object
 	public void Start()
 	{
 		if(!startRan)
 		{
+			Debug.Log ("Start is called");
+
 			cellName = gameObject.name;
 			worldName = gameObject.transform.parent.name;
 			distanceFromCenter = Vector2.Distance(Vector2.zero, gameObject.transform.position );
@@ -55,10 +86,6 @@ public class WorldCell : MonoBehaviour
 			parent.transform.position = transform.position;
 			parent.transform.parent = transform;
 			parent.transform.localScale = Vector3.one;
-			if(Mathf.Abs(transform.position.x) - (ParkerSpaceSystem.WorldGenerator.worldspec.cellLength/2.0f) == 0)
-			{
-				Activate();
-			}
 		}
 	}
 
@@ -84,27 +111,42 @@ public class WorldCell : MonoBehaviour
 	public void Deactivate()
 	{
 		Save ();
-		for(int i = 0;  i < gameObject.transform.childCount; i++)
+		if(gameObject.transform.childCount > 0)
 		{
-			gameObject.transform.GetChild(i).gameObject.SetActive(false);
+			for(int i = 0;  i < gameObject.transform.childCount; i++)
+			{
+				gameObject.transform.GetChild(i).gameObject.SetActive(false);
+			}
 		}
 	}
 
 	//Called when object is enabled
 	public void OnEnable()
 	{
-		
+		GameManager.gameManagerCalls += GameManagerEventHandler;
 	}
 
 	//Called when disabled
 	public void OnDisable()
 	{
-
+		GameManager.gameManagerCalls -= GameManagerEventHandler;
 	}
 
+	public void GameManagerEventHandler(GameManager.FunctionCallType type)
+	{
+		if(type == GameManager.FunctionCallType.save)
+		{
+			Save();
+		}
+		else if(type == GameManager.FunctionCallType.load)
+		{
+			Load();
+		}
+	}
 	//if this is the first time being activated the cell will call this to spawn the asteroids
 	public void GenerateXMLData ()
 	{
+		Debug.Log ("Generating xml");
 		if(!Directory.Exists(directory))
 		{
 			Directory.CreateDirectory(directory);
@@ -162,14 +204,15 @@ public class WorldCell : MonoBehaviour
 							degree = 180;
 						}
 					}
-					
-					if( !details.invalidSpawnPoints.Contains(new Vector2(i,j)))
+
+					Debug.Log("checking");
+					if( details.invalidSpawnPoints == null || !details.invalidSpawnPoints.Contains(new Vector2(i,j)))
 					{
 						float xCoord = ((i + transform.position.x) + details.mapLength /2) / (float)details.mapLength * 25.6f;
 						float yCoord = ((j + transform.position.y) + details.mapLength /2) / (float)details.mapLength * 25.6f;						
 						float scale = Mathf.PerlinNoise(xCoord,yCoord);
 
-						if(scale > 0.4f && scale > 0.0f)
+						if(scale < 0.4f && scale > 0.45f)
 						{
 							asteroidPosition[i + ((int)details.cellLength/2 ),j + ((int)details.cellLength/2 )].Set(i + transform.position.x, j + transform.position.y);
 							perlinValue[(i + ((int)details.cellLength/2))* (int)details.cellLength + (j+ ((int)details.cellLength/2))] = scale;
@@ -191,8 +234,8 @@ public class WorldCell : MonoBehaviour
 		{
 			for(int j = 0; j < (int)details.cellLength; j++, c++)
 			{
-				if(!Vector2.Equals(asteroidPosition[i,j],Vector2.zero))
-				{
+//				if(!Vector2.Equals(asteroidPosition[i,j],Vector2.zero))
+//				{
 					writer.WriteWhitespace("\t");
 					writer.WriteStartElement("AsteroidPosition");
 					writer.WriteAttributeString("x ",asteroidPosition[i,j].x.ToString());
@@ -201,7 +244,7 @@ public class WorldCell : MonoBehaviour
 					writer.WriteWhitespace("\n\t\t");
 					writer.WriteElementString("PerlinValue", perlinValue[c].ToString());
 					writer.WriteWhitespace("\n");
-				}
+//				}
 			}
 		}
 
@@ -218,25 +261,32 @@ public class WorldCell : MonoBehaviour
 		}
 		XmlTextWriter writer = new XmlTextWriter (fileName, System.Text.Encoding.UTF8);
 
+		writer.WriteStartDocument();
+		writer.WriteWhitespace("\n");
+		writer.WriteStartElement("Root");
+		writer.WriteWhitespace("\n");
+
 		foreach(Asteroid child in children)
 		{
 			writer.WriteWhitespace("\t");
 			writer.WriteStartElement("AsteroidPosition");
 			writer.WriteAttributeString("x ",child.transform.position.x.ToString());
 			writer.WriteAttributeString("y ",child.transform.position.y.ToString());
-			writer.WriteEndAttribute();
+			writer.WriteEndElement();
 			writer.WriteWhitespace("\n\t\t");
 			writer.WriteElementString("PerlinValue", child.perlinValue.ToString());
 			writer.WriteWhitespace("\n");
 		}
-		
+
+		writer.WriteEndDocument ();
 		writer.Close ();
 	}
 
 	//loads all the objects in the cell
 	public void Load()
 	{
-		if(gameObject.transform.childCount <= 1)
+		GameObject child = transform.GetChild (0).gameObject;
+		if(gameObject.transform.childCount <= 1 && child && child.transform.childCount == 0)
 		{
 			List<Vector2> positions = new List<Vector2>();
 			List<float> perlin = new List<float>();
@@ -262,27 +312,38 @@ public class WorldCell : MonoBehaviour
 			reader.Close ();
 		
 			int associatedPerlinPosition = 0;
-			Debug.Log(positions.Count);
+
 			foreach(Vector2 asteroidPosition in positions)
 			{
 				GameObject game = GameObject.Instantiate(Resources.Load("Asteroid/Asteroid")) as GameObject;
-				game.transform.position = (Vector3)asteroidPosition;
+				game.transform.position = (Vector3)(asteroidPosition + new Vector2(Random.Range(-1.0f, 1.0f),Random.Range(-1.0f, 1.0f)));
 				game.transform.parent = parent.transform;
 				Asteroid temp =	game.AddComponent<Asteroid>();
 				temp.perlinValue = perlin[associatedPerlinPosition];
 				temp.Change();
+				temp.parentCell = this;
 				associatedPerlinPosition++;
+				children.Add(temp);
 			}
 		}
 		else
 		{
+			Debug.Log(gameObject.transform.childCount);
 			for(int i = 0; i < gameObject.transform.childCount ; i++)
 			{
-				gameObject.transform.GetChild(i).gameObject.SetActive(true);
+				child.SetActive(true);
 			}
 		}
 	}
 
+	public void RemoveAsteroid(Asteroid self)
+	{
+		if(children.Contains(self))
+		{
+			children.Remove(self);
+		}
+	}
+	/****************************************
 	public void OnTriggerEnter(Collider other)
 	{
 		if(other.gameObject.name == "Player")
@@ -298,4 +359,6 @@ public class WorldCell : MonoBehaviour
 			Deactivate();
 		}
 	}
+	*******************************************/
+
 }

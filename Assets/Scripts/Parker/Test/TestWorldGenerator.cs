@@ -8,9 +8,10 @@ public class TestWorldGenerator : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		//ParkerSpaceSystem.WorldGenerator.Instance.GenerateSpace(128, 8, new Vector2(0.0f,0.0f),"TEST Space");
+		//ParkerSpaceSystem.WorldGenerator.Instance.GenerateSpace(128, 8, new Vector2(0.0f,0.0f),"TEST Space", 200);
 		List<ParkerSpaceSystem.WorldGenerator.WorldSpecs> worlds = ParkerSpaceSystem.WorldGenerator.GetCreatedWorlds();
-		ParkerSpaceSystem.WorldGenerator.Instance.GenerateSpace (worlds [0]);
+		GameManager.savedLevel = worlds [0];
+		Application.LoadLevel ("InGame");
+		//ParkerSpaceSystem.WorldGenerator.Instance.GenerateSpace (worlds [0]);
 	}
-	
 }
