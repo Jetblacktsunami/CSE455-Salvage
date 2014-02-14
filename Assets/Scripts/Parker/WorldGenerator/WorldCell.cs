@@ -40,34 +40,28 @@ public class WorldCell : MonoBehaviour
 	public void Update()
 	{
 		float distance = Vector3.Distance(gameObject.transform.position, GameManager.Instance.playerObject.transform.position);
-		if(distance <= (gameObject.transform.localScale.x * 2.0f) && status != CellStatus.active)
+		float cellSize = gameObject.transform.localScale.x;
+		if(distance <= cellSize + 2.0f && status != CellStatus.active)
 		{
 			Activate();
 			status = CellStatus.active;
 		}
-		else if(distance > (gameObject.transform.localScale.x * 2.0f) && status != CellStatus.standby)
+		else if(distance > cellSize + 2.0f && status != CellStatus.standby && status != CellStatus.init)
 		{
 			Deactivate();
 			status = CellStatus.standby;
 		}
-//		if(deactivateNow)
-//		{
-//			Deactivate();
-//			deactivateNow = false;
-//		}
-//		if(activateNow)
-//		{
-//			Activate();
-//			activateNow = false;
-//		}
+		if(distance > cellSize * 4 && status != CellStatus.init) 
+		{
+			GarbageCollect();
+			status = CellStatus.init;
+		}
 	}
 	//first function that runs upon startup of object
 	public void Start()
 	{
 		if(!startRan)
 		{
-			Debug.Log ("Start is called");
-
 			cellName = gameObject.name;
 			worldName = gameObject.transform.parent.name;
 			distanceFromCenter = Vector2.Distance(Vector2.zero, gameObject.transform.position );
@@ -120,6 +114,20 @@ public class WorldCell : MonoBehaviour
 		}
 	}
 
+	public void GarbageCollect()
+	{
+		if(gameObject.transform.childCount > 0)
+		{
+			for(int i = 0; i < transform.childCount; i++)
+			{
+				if(gameObject.transform.GetChild(i).gameObject.name == "Asteroid")
+				{
+					Destroy(gameObject.transform.GetChild(i).gameObject);
+				}
+			}
+		}
+	}
+
 	//Called when object is enabled
 	public void OnEnable()
 	{
@@ -152,7 +160,7 @@ public class WorldCell : MonoBehaviour
 			Directory.CreateDirectory(directory);
 		}
 
-		ParkerSpaceSystem.WorldGenerator.WorldSpecs details = ParkerSpaceSystem.WorldGenerator.worldspec;
+		WorldGenerator.WorldSpecs details = WorldGenerator.worldspec;
 
 		Random.seed = details.seed;
 		float maxDistance = details.mapLength / 2.0f;
@@ -212,7 +220,7 @@ public class WorldCell : MonoBehaviour
 						float yCoord = ((j + transform.position.y) + details.mapLength /2) / (float)details.mapLength * 25.6f;						
 						float scale = Mathf.PerlinNoise(xCoord,yCoord);
 
-						if(scale < 0.4f && scale > 0.45f)
+						if(scale < 0.4f && scale > 0.045f)
 						{
 							asteroidPosition[i + ((int)details.cellLength/2 ),j + ((int)details.cellLength/2 )].Set(i + transform.position.x, j + transform.position.y);
 							perlinValue[(i + ((int)details.cellLength/2))* (int)details.cellLength + (j+ ((int)details.cellLength/2))] = scale;
@@ -234,8 +242,8 @@ public class WorldCell : MonoBehaviour
 		{
 			for(int j = 0; j < (int)details.cellLength; j++, c++)
 			{
-//				if(!Vector2.Equals(asteroidPosition[i,j],Vector2.zero))
-//				{
+				if(!Vector2.Equals(asteroidPosition[i,j],Vector2.zero))
+				{
 					writer.WriteWhitespace("\t");
 					writer.WriteStartElement("AsteroidPosition");
 					writer.WriteAttributeString("x ",asteroidPosition[i,j].x.ToString());
@@ -244,7 +252,7 @@ public class WorldCell : MonoBehaviour
 					writer.WriteWhitespace("\n\t\t");
 					writer.WriteElementString("PerlinValue", perlinValue[c].ToString());
 					writer.WriteWhitespace("\n");
-//				}
+				}
 			}
 		}
 
