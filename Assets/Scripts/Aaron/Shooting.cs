@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Shooting : MonoBehaviour {
 	public AudioSource shooting;
-
+/******************
 	// Use this for initialization
 	void Start () {
 		shooting = (AudioSource)gameObject.AddComponent ("AudioSource");
@@ -18,4 +18,5 @@ public class Shooting : MonoBehaviour {
 		shooting.PlayOneShot ();
 	
 	}
+	*********************/
 }
