@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+	<AsteroidPosition x ="14.80863" y ="52.54565" />
+		<PerlinValue>0.3382221</PerlinValue>
+	<AsteroidPosition x ="15.46829" y ="52.52694" />
+		<PerlinValue>0.2811706</PerlinValue>
+	<AsteroidPosition x ="14.70918" y ="53.56189" />
+		<PerlinValue>0.3368417</PerlinValue>
+	<AsteroidPosition x ="13.83741" y ="56.71977" />
+		<PerlinValue>0.3368417</PerlinValue>
+	<AsteroidPosition x ="15.28759" y ="59.08193" />
+		<PerlinValue>0.2811706</PerlinValue>
+	<AsteroidPosition x ="16.43653" y ="61.18768" />
+		<PerlinValue>0.3382232</PerlinValue>
+	<AsteroidPosition x ="16.68409" y ="52.67217" />
+		<PerlinValue>0.3105965</PerlinValue>
+	<AsteroidPosition x ="17.914" y ="53.93213" />
+		<PerlinValue>0.2376151</PerlinValue>
+	<AsteroidPosition x ="18.34926" y ="54.36153" />
+		<PerlinValue>0.2583054</PerlinValue>
+	<AsteroidPosition x ="18.1757" y ="53.54927" />
+		<PerlinValue>0.3216952</PerlinValue>
+	<AsteroidPosition x ="16.17384" y ="56.868" />
+		<PerlinValue>0.3382221</PerlinValue>
+	<AsteroidPosition x ="19.33072" y ="55.19552" />
+		<PerlinValue>0.3179554</PerlinValue>
+	<AsteroidPosition x ="18.2879" y ="58.55172" />
+		<PerlinValue>0.294667</PerlinValue>
+	<AsteroidPosition x ="19.8177" y ="58.85592" />
+		<PerlinValue>0.3414474</PerlinValue>
+	<AsteroidPosition x ="17.08994" y ="51.07646" />
+		<PerlinValue>0.3368417</PerlinValue>
+	<AsteroidPosition x ="17.39272" y ="52.57875" />
+		<PerlinValue>0.2568156</PerlinValue>
+	<AsteroidPosition x ="18.86335" y ="52.90266" />
+		<PerlinValue>0.2342776</PerlinValue>
+	<AsteroidPosition x ="16.98105" y ="54.45927" />
+		<PerlinValue>0.2696219</PerlinValue>
+	<AsteroidPosition x ="17.94849" y ="57.07167" />
+		<PerlinValue>0.3033994</PerlinValue>
+	<AsteroidPosition x ="18.26624" y ="58.23452" />
+		<PerlinValue>0.2811706</PerlinValue>
+	<AsteroidPosition x ="19.10362" y ="56.19202" />
+		<PerlinValue>0.250758</PerlinValue>
+	<AsteroidPosition x ="19.18535" y ="58.12524" />
+		<PerlinValue>0.2927189</PerlinValue>
+	<AsteroidPosition x ="18.03887" y ="47.47973" />
+		<PerlinValue>0.3609293</PerlinValue>
+	<AsteroidPosition x ="18.62128" y ="51.51328" />
+		<PerlinValue>0.2811706</PerlinValue>
+	<AsteroidPosition x ="22.1554" y ="51.28156" />
+		<PerlinValue>0.2653908</PerlinValue>
+	<AsteroidPosition x ="18.07248" y ="52.80895" />
+		<PerlinValue>0.3280636</PerlinValue>
+	<AsteroidPosition x ="18.89381" y ="55.75454" />
+		<PerlinValue>0.3368417</PerlinValue>
+	<AsteroidPosition x ="18.86794" y ="59.20266" />
+		<PerlinValue>0.2764076</PerlinValue>
+	<AsteroidPosition x ="19.27734" y ="57.49246" />
+		<PerlinValue>0.3396119</PerlinValue>
+	<AsteroidPosition x ="18.78609" y ="50.90048" />
+		<PerlinValue>0.3841849</PerlinValue>
+	<AsteroidPosition x ="21.15902" y ="50.13675" />
+		<PerlinValue>0.3382232</PerlinValue>
+	<AsteroidPosition x ="20.34951" y ="53.49455" />
+		<PerlinValue>0.3658489</PerlinValue>
+	<AsteroidPosition x ="18.17656" y ="56.83688" />
+		<PerlinValue>0.3455814</PerlinValue>
+	<AsteroidPosition x ="19.4744" y ="56.23991" />
+		<PerlinValue>0.3939797</PerlinValue>
+	<AsteroidPosition x ="21.26864" y ="58.16991" />
+		<PerlinValue>0.3694672</PerlinValue>
+	<AsteroidPosition x ="21.09756" y ="57.41018" />
+		<PerlinValue>0.3841849</PerlinValue>
+	<AsteroidPosition x ="23.56496" y ="53.20093" />
+		<PerlinValue>0.3803812</PerlinValue>
+	<AsteroidPosition x ="25.37457" y ="52.61965" />
+		<PerlinValue>0.3511603</PerlinValue>
+	<AsteroidPosition x ="25.63182" y ="50.68617" />
+		<PerlinValue>0.3473899</PerlinValue>
+	<AsteroidPosition x ="25.84718" y ="53.48838" />
+		<PerlinValue>0.1996058</PerlinValue>
+	<AsteroidPosition x ="25.18139" y ="54.37255" />
+		<PerlinValue>0.1914223</PerlinValue>
+	<AsteroidPosition x ="25.3525" y ="54.68252" />
+		<PerlinValue>0.3253153</PerlinValue>
+	<AsteroidPosition x ="27.9215" y ="53.67872" />
+		<PerlinValue>0.3069771</PerlinValue>
+	<AsteroidPosition x ="25.70535" y ="52.08405" />
+		<PerlinValue>0.1527392</PerlinValue>
+	<AsteroidPosition x ="27.75619" y ="55.53754" />
+		<PerlinValue>0.1527392</PerlinValue>
+	<AsteroidPosition x ="26.78225" y ="54.37923" />
+		<PerlinValue>0.3069787</PerlinValue>
+	<AsteroidPosition x ="27.76294" y ="50.0148" />
+		<PerlinValue>0.2940692</PerlinValue>
+	<AsteroidPosition x ="26.46103" y ="53.9142" />
+		<PerlinValue>0.1626576</PerlinValue>
+	<AsteroidPosition x ="26.3768" y ="55.83728" />
+		<PerlinValue>0.1790251</PerlinValue>
+	<AsteroidPosition x ="27.63197" y ="55.30379" />
+		<PerlinValue>0.3382238</PerlinValue>
+	<AsteroidPosition x ="28.63541" y ="51.75589" />
+		<PerlinValue>0.3368417</PerlinValue>
+	<AsteroidPosition x ="27.65603" y ="51.26736" />
+		<PerlinValue>0.2740853</PerlinValue>
+	<AsteroidPosition x ="27.69847" y ="55.07967" />
+		<PerlinValue>0.2227289</PerlinValue>
+	<AsteroidPosition x ="27.14221" y ="52.86118" />
+		<PerlinValue>0.2811706</PerlinValue>
+	<AsteroidPosition x ="27.94652" y ="49.89266" />
+		<PerlinValue>0.3831514</PerlinValue>
+	<AsteroidPosition x ="30.59944" y ="47.95917" />
+		<PerlinValue>0.2734651</PerlinValue>
+	<AsteroidPosition x ="29.25099" y ="50.93652" />
+		<PerlinValue>0.2811706</PerlinValue>
+	<AsteroidPosition x ="28.95831" y ="50.3595" />
+		<PerlinValue>0.3176412</PerlinValue>
+	<AsteroidPosition x ="30.37172" y ="53.51092" />
+		<PerlinValue>0.3368417</PerlinValue>
+	<AsteroidPosition x ="28.58322" y ="54.3887" />
+		<PerlinValue>0.3952834</PerlinValue>
+	<AsteroidPosition x ="29.48122" y ="47.94634" />
+		<PerlinValue>0.3137965</PerlinValue>
+	<AsteroidPosition x ="28.44353" y ="49.78202" />
+		<PerlinValue>0.2589447</PerlinValue>
+	<AsteroidPosition x ="29.4493" y ="50.77588" />
+		<PerlinValue>0.3382232</PerlinValue>
+	<AsteroidPosition x ="30.6444" y ="48.60291" />
+		<PerlinValue>0.3694676</PerlinValue>
+	<AsteroidPosition x ="32.06014" y ="53.92562" />
+		<PerlinValue>0.3694676</PerlinValue>
+</Root>

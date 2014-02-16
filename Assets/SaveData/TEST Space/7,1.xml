@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+	<AsteroidPosition x ="50.78109" y ="-38.58311" />
+		<PerlinValue>0.3694672</PerlinValue>
+	<AsteroidPosition x ="51.67385" y ="-33.77654" />
+		<PerlinValue>0.3069775</PerlinValue>
+	<AsteroidPosition x ="52.3725" y ="-37.07408" />
+		<PerlinValue>0.2577551</PerlinValue>
+	<AsteroidPosition x ="51.39436" y ="-35.46868" />
+		<PerlinValue>0.3512397</PerlinValue>
+	<AsteroidPosition x ="51.20362" y ="-35.65235" />
+		<PerlinValue>0.3898749</PerlinValue>
+	<AsteroidPosition x ="52.97564" y ="-33.81688" />
+		<PerlinValue>0.3069771</PerlinValue>
+	<AsteroidPosition x ="51.51338" y ="-32.77875" />
+		<PerlinValue>0.1781168</PerlinValue>
+	<AsteroidPosition x ="53.47936" y ="-34.24242" />
+		<PerlinValue>0.1753221</PerlinValue>
+	<AsteroidPosition x ="52.90129" y ="-33.45006" />
+		<PerlinValue>0.1527392</PerlinValue>
+	<AsteroidPosition x ="53.44804" y ="-33.56298" />
+		<PerlinValue>0.09643196</PerlinValue>
+	<AsteroidPosition x ="54.27229" y ="-33.44247" />
+		<PerlinValue>0.1527392</PerlinValue>
+	<AsteroidPosition x ="54.4644" y ="-33.6142" />
+		<PerlinValue>0.1827608</PerlinValue>
+</Root>

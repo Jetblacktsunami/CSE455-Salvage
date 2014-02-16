@@ -5,7 +5,7 @@ using System.Collections;
 public class GameManager : MonoBehaviour 
 {
 	public static Action<FunctionCallType> gameManagerCalls;
-	public static ParkerSpaceSystem.WorldGenerator.WorldSpecs savedLevel;
+	public static WorldGenerator.WorldSpecs savedLevel;
 
 	public static string WorldName;
 	public static int seed;
@@ -61,12 +61,12 @@ public class GameManager : MonoBehaviour
 		{
 		 	if(savedLevel.spaceArea > 0)  
 			{
-				ParkerSpaceSystem.WorldGenerator.Instance.GenerateSpace(savedLevel);
-				savedLevel = default(ParkerSpaceSystem.WorldGenerator.WorldSpecs);
+				WorldGenerator.Instance.GenerateSpace(savedLevel);
+				savedLevel = default(WorldGenerator.WorldSpecs);
 			}
 			else
 			{
-				ParkerSpaceSystem.WorldGenerator.Instance.GenerateSpace(256 , 6 ,Vector2.zero, WorldName ,seed );
+				WorldGenerator.Instance.GenerateSpace(256 , 6 ,Vector2.zero, WorldName ,seed );
 				WorldName = "";
 				seed = 0;
 			}
@@ -80,15 +80,15 @@ public class GameManager : MonoBehaviour
 	void OnEnable()
 	{
 
-		ParkerSpaceSystem.WorldGenerator.worldDoneLoading += OnWorldLoadDone;
+		WorldGenerator.worldDoneLoading += OnWorldLoadDone;
 	}
 
 	void OnDisable()
 	{
-		ParkerSpaceSystem.WorldGenerator.worldDoneLoading -= OnWorldLoadDone;
+		WorldGenerator.worldDoneLoading -= OnWorldLoadDone;
 	}
 
-	void OnWorldLoadDone(ParkerSpaceSystem.WorldGenerator.ActionType action)
+	void OnWorldLoadDone(WorldGenerator.ActionType action)
 	{
 		playerObject = GameObject.Instantiate((Resources.Load("Player"))) as GameObject;
 		playerObject.SendMessage("Load",SendMessageOptions.DontRequireReceiver);
