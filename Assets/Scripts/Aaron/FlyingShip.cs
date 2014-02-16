@@ -4,6 +4,7 @@ using System.Collections;
 public class FlyingShip : MonoBehaviour {
 	public AudioSource flying_ship;
 
+	/********************
 	// Use this for initialization
 	void Start () {
 		flying_ship = (AudioSource)gameObject.AddComponent ("AudioSource");
@@ -19,4 +20,5 @@ public class FlyingShip : MonoBehaviour {
 		flying_ship.Play ();
 	
 	}
+	***********************/
 }
