@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Alarm : MonoBehaviour {
+public class Alarm : MonoBehaviour 
+{
 	public AudioSource lh_alarm; //low-health alarm
-
+	public AudioClip alarm;
+/**********We can fix this later : Gerardo Parker
 	// Use this for initialization
 	void Start () {
 		lh_alarm = (AudioSource)gameObject.AddComponent ("AudioSource");
@@ -13,10 +15,11 @@ public class Alarm : MonoBehaviour {
 		lh_alarm.loop = true;
 	
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		lh_alarm.Play ();
 	
 	}
+	*******/
 }

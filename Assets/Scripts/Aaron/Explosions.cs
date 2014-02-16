@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Explosions : MonoBehaviour {
+public class Explosions : MonoBehaviour 
+{
 	public AudioSource explosion;
-
+	/******************
 	// Use this for initialization
 	void Start () {
 		explosion = (AudioSource)gameObject.AddComponent ("AudioSource");
@@ -17,7 +18,8 @@ public class Explosions : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		explosion.PlayOneShot ();
+//		explosion.PlayOneShot ();
 	
 	}
+	*********************/
 }

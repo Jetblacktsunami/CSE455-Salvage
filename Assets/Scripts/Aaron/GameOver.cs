@@ -4,6 +4,7 @@ using System.Collections;
 public class GameOver : MonoBehaviour {
 	public AudioSource game_over;
 
+	/**************************
 	// Use this for initialization
 	void Start () {
 		game_over = (AudioSource)gameObject.AddComponent ("AudioSource");
@@ -19,4 +20,5 @@ public class GameOver : MonoBehaviour {
 		game_over.PlayOneShot ();
 	
 	}
+	**************************/
 }

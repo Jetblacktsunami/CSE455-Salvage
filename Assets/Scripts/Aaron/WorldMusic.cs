@@ -5,7 +5,7 @@ using System.Collections;
 
 public class WorldMusic : MonoBehaviour {
 	public AudioSource bckgrnd_music; //Used AudioSource instead of AudioClip becasue that was the name of the object component
-
+	/********************
 	// Use this for initialization
 	void Start () {
 
@@ -22,4 +22,5 @@ public class WorldMusic : MonoBehaviour {
 		bckgrnd_music.Play ();
 	
 	}
+	**********************/
 }
