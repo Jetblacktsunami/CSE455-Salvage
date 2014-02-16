@@ -26,13 +26,12 @@ public class WorldCell : MonoBehaviour
 	private string cellName; //id of this cell
 	private string fileName; //the exact file we are either saving or loading from
 	private bool startRan = false; //has the start function ran this game for this cell
-#pragma warning disable 0414
+	#pragma warning disable 0414
 	private float distanceFromCenter = 0.0f; //this is going to be used to add varience in the spawned asteriods
-#pragma warning restore
+	#pragma warning restore
 	private List<Asteroid> children = new List<Asteroid>();
 	#endregion
 
-	
 	//first function that runs upon startup of object
 	public void Start()
 	{
@@ -56,6 +55,10 @@ public class WorldCell : MonoBehaviour
 			parent.transform.position = transform.position;
 			parent.transform.parent = transform;
 			parent.transform.localScale = Vector3.one;
+			if(Mathf.Abs(transform.position.x) - (ParkerSpaceSystem.WorldGenerator.worldspec.cellLength/2.0f) == 0)
+			{
+				Activate();
+			}
 		}
 	}
 
@@ -80,10 +83,25 @@ public class WorldCell : MonoBehaviour
 	//turns the object off
 	public void Deactivate()
 	{
-		gameObject.SetActive(false);
 		Save ();
+		for(int i = 0;  i < gameObject.transform.childCount; i++)
+		{
+			gameObject.transform.GetChild(i).gameObject.SetActive(false);
+		}
 	}
-				
+
+	//Called when object is enabled
+	public void OnEnable()
+	{
+		
+	}
+
+	//Called when disabled
+	public void OnDisable()
+	{
+
+	}
+
 	//if this is the first time being activated the cell will call this to spawn the asteroids
 	public void GenerateXMLData ()
 	{
@@ -93,7 +111,8 @@ public class WorldCell : MonoBehaviour
 		}
 
 		ParkerSpaceSystem.WorldGenerator.WorldSpecs details = ParkerSpaceSystem.WorldGenerator.worldspec;
-		
+
+		Random.seed = details.seed;
 		float maxDistance = details.mapLength / 2.0f;
 		float[] perlinValue = new float[(int)details.cellLength * (int)details.cellLength];
 
@@ -217,40 +236,66 @@ public class WorldCell : MonoBehaviour
 	//loads all the objects in the cell
 	public void Load()
 	{
-		List<Vector2> positions = new List<Vector2>();
-		List<float> perlin = new List<float>();
-
-		XmlTextReader reader = new XmlTextReader(fileName);
-
-		while(reader.Read())
+		if(gameObject.transform.childCount <= 1)
 		{
-			if(reader.IsStartElement() && reader.NodeType == XmlNodeType.Element)
-			{
-				switch(reader.Name)
-				{
-					case "AsteroidPosition" :
-						positions.Add(new Vector2(float.Parse(reader.GetAttribute(0)), float.Parse(reader.GetAttribute(1))));
-						break;
+			List<Vector2> positions = new List<Vector2>();
+			List<float> perlin = new List<float>();
 
-					case "PerlinValue":
-						perlin.Add( float.Parse(reader.ReadElementString()));
-						break;
+			XmlTextReader reader = new XmlTextReader(fileName);
+
+			while(reader.Read())
+			{
+				if(reader.IsStartElement() && reader.NodeType == XmlNodeType.Element)
+				{
+					switch(reader.Name)
+					{
+						case "AsteroidPosition" :
+							positions.Add(new Vector2(float.Parse(reader.GetAttribute(0)), float.Parse(reader.GetAttribute(1))));
+							break;
+
+						case "PerlinValue":
+							perlin.Add( float.Parse(reader.ReadElementString()));
+							break;
+					}
 				}
 			}
+			reader.Close ();
+		
+			int associatedPerlinPosition = 0;
+			Debug.Log(positions.Count);
+			foreach(Vector2 asteroidPosition in positions)
+			{
+				GameObject game = GameObject.Instantiate(Resources.Load("Asteroid/Asteroid")) as GameObject;
+				game.transform.position = (Vector3)asteroidPosition;
+				game.transform.parent = parent.transform;
+				Asteroid temp =	game.AddComponent<Asteroid>();
+				temp.perlinValue = perlin[associatedPerlinPosition];
+				temp.Change();
+				associatedPerlinPosition++;
+			}
 		}
-		reader.Close ();
-	
-		int associatedPerlinPosition = 0;
-		Debug.Log(positions.Count);
-		foreach(Vector2 asteroidPosition in positions)
+		else
 		{
-			GameObject game = GameObject.CreatePrimitive(PrimitiveType.Cube);
-			game.transform.position = (Vector3)asteroidPosition;
-			game.transform.parent = parent.transform;
-			Asteroid temp =	game.AddComponent<Asteroid>();
-			temp.perlinValue = perlin[associatedPerlinPosition];
-			temp.Change();
-			associatedPerlinPosition++;
+			for(int i = 0; i < gameObject.transform.childCount ; i++)
+			{
+				gameObject.transform.GetChild(i).gameObject.SetActive(true);
+			}
+		}
+	}
+
+	public void OnTriggerEnter(Collider other)
+	{
+		if(other.gameObject.name == "Player")
+		{
+			Activate();
+		}
+	}
+
+	public void OnTriggerExit(Collider other)
+	{
+		if(other.gameObject.name == "Player")
+		{
+			Deactivate();
 		}
 	}
 }

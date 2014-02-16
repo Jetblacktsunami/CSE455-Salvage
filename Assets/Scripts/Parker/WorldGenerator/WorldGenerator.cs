@@ -11,6 +11,7 @@
  * ***************************/
 
 using UnityEngine;
+using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,16 +23,21 @@ namespace ParkerSpaceSystem
 	{
 		private static WorldGenerator instance;
 		public static WorldSpecs worldspec = new WorldSpecs();
+		public enum ActionType{ load, saved, nothing };
+		public static Action<ActionType> worldDoneLoading;
 
 #if UNITY_EDITOR
 		public static string mainDirectory = Application.dataPath + "/SaveData/";
 		public static string directory = Application.dataPath + "/SaveData/";
-
 #else
 		public static string mainDirectory = Application.persistentDataPath + "/SaveData/";
 		public static string directory = Application.persistentDataPath + "/SaveData/";
 #endif
 
+		/// <summary>
+		/// Gets or sets the instance.
+		/// </summary>
+		/// <value>The instance.</value>
 		public static WorldGenerator Instance
 		{
 			get
@@ -57,10 +63,14 @@ namespace ParkerSpaceSystem
 			}
 		}
 
+		/// <summary>
+		/// Start this instance.
+		/// </summary>
 		void Start()
 		{
 			Instance = this;
 		}
+
 
 		public struct WorldSpecs
 		{
@@ -71,9 +81,15 @@ namespace ParkerSpaceSystem
 			public int totalNumberOfCells;
 			public Vector2 start;
 			public float degreeJumpStep;
+			public int seed;
+			public int subdivisions;
 			public List<Vector2> invalidSpawnPoints;
 		}
 
+		/// <summary>
+		/// Generates the space.
+		/// </summary>
+		/// <param name="details">Details.</param>
 		public void GenerateSpace( WorldSpecs details)
 		{
 			CreateCells (details);
@@ -83,7 +99,7 @@ namespace ParkerSpaceSystem
 		/// Use to Procedurally generate a space world with a random seed
 		/// length x width
 		/// </summary>
-		public void GenerateSpace( int mapLength , int numberOfSubdivisions, Vector2 startingVector, string SpaceName )
+		public void GenerateSpace( int mapLength , int numberOfSubdivisions, Vector2 startingVector, string SpaceName, int seed)
 		{
 			//worldspec = new WorldSpecs ();
 			worldspec.spaceName = SpaceName;
@@ -92,6 +108,8 @@ namespace ParkerSpaceSystem
 			worldspec.cellLength = SquareMathCalculations.FindSmallestDivisionSideLength(worldspec.mapLength, numberOfSubdivisions);  
 			worldspec.start = startingVector;
 			worldspec.degreeJumpStep = 1.0f;
+			worldspec.seed = seed;
+			worldspec.subdivisions = numberOfSubdivisions;
 			worldspec.invalidSpawnPoints = new List<Vector2>();
 
 			for(float degree = 0; degree < 360; degree+= worldspec.degreeJumpStep)
@@ -150,7 +168,9 @@ namespace ParkerSpaceSystem
 						writer.WriteAttributeString("start-x", obj.start.x.ToString());
 						writer.WriteAttributeString("start-y",obj.start.y.ToString());
 						writer.WriteAttributeString("degreeJump", obj.degreeJumpStep.ToString());
+						writer.WriteAttributeString("subdivisions", obj.subdivisions.ToString());
 						writer.WriteAttributeString("numOfCells", obj.totalNumberOfCells.ToString());
+						writer.WriteAttributeString("Seed", obj.seed.ToString());
 						writer.WriteEndElement();
 						writer.WriteWhitespace("\n");
 
@@ -179,7 +199,9 @@ namespace ParkerSpaceSystem
 				writer.WriteAttributeString("start-x", worldspec.start.x.ToString());
 				writer.WriteAttributeString("start-y",worldspec.start.y.ToString());
 				writer.WriteAttributeString("degreeJump", worldspec.degreeJumpStep.ToString());
+				writer.WriteAttributeString("subdivisions", worldspec.subdivisions.ToString());
 				writer.WriteAttributeString("numOfCells", worldspec.totalNumberOfCells.ToString());
+				writer.WriteAttributeString("Seed", worldspec.seed.ToString());
 				writer.WriteEndElement();
 				writer.WriteWhitespace("\n");
 				writer.WriteEndElement();
@@ -205,7 +227,9 @@ namespace ParkerSpaceSystem
 				writer.WriteAttributeString("start-x", worldspec.start.x.ToString());
 				writer.WriteAttributeString("start-y",worldspec.start.y.ToString());
 				writer.WriteAttributeString("degreeJump", worldspec.degreeJumpStep.ToString());
+				writer.WriteAttributeString("subdivisions", worldspec.subdivisions.ToString());
 				writer.WriteAttributeString("numOfCells", worldspec.totalNumberOfCells.ToString());
+				writer.WriteAttributeString("Seed", worldspec.seed.ToString());
 				writer.WriteEndElement();
 				writer.WriteWhitespace("\n");
 				writer.WriteEndElement();
@@ -232,7 +256,7 @@ namespace ParkerSpaceSystem
 					switch(reader.Name)
 					{
 						case "WorldSpec":
-							if(reader.AttributeCount == 8)
+							if(reader.AttributeCount == 10)
 							{
 								WorldSpecs tempSpec = new WorldSpecs();
 								tempSpec.spaceName = reader.GetAttribute(0);	
@@ -241,7 +265,9 @@ namespace ParkerSpaceSystem
 								tempSpec.cellLength = float.Parse(reader.GetAttribute(3));
 								tempSpec.start = new Vector2(float.Parse(reader.GetAttribute(4)),float.Parse(reader.GetAttribute(5)));
 								tempSpec.degreeJumpStep = float.Parse(reader.GetAttribute(6));
-								tempSpec.totalNumberOfCells = int.Parse(reader.GetAttribute(7));
+								tempSpec.subdivisions = int.Parse(reader.GetAttribute(7));
+								tempSpec.totalNumberOfCells = int.Parse(reader.GetAttribute(8));
+								tempSpec.seed = int.Parse(reader.GetAttribute(9));
 								existingSpecs.Add(tempSpec);
 							}
 							else
@@ -289,6 +315,7 @@ namespace ParkerSpaceSystem
 					worldspec.totalNumberOfCells++;
 				}
 			}
+			worldDoneLoading(ActionType.load);
 		}
 	}
 }
