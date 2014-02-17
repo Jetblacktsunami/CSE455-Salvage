@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
 			}
 			else
 			{
-				WorldGenerator.Instance.GenerateSpace(256 , 6 ,Vector2.zero, WorldName ,seed );
+				WorldGenerator.Instance.GenerateSpace(256 , 10 ,Vector2.zero, WorldName ,seed );
 				WorldName = "";
 				seed = 0;
 			}

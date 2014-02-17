@@ -103,7 +103,7 @@ public class WorldGenerator : MonoBehaviour
 	/// </summary>
 	public void GenerateSpace( int mapLength , int numberOfSubdivisions, Vector2 startingVector, string SpaceName, int seed)
 	{
-		//worldspec = new WorldSpecs ();
+		worldspec = default(WorldSpecs);
 		worldspec.spaceName = SpaceName;
 		worldspec.spaceArea = mapLength * mapLength;
 		worldspec.mapLength = mapLength;
@@ -124,11 +124,6 @@ public class WorldGenerator : MonoBehaviour
 			//worldspec.invalidSpawnPoints.Add(new Vector2( r1 * Mathf.Cos(degree), r1 * Mathf.Sin(degree)));
 		}
 
-		for(int i = 0, j = 1 ; i < worldspec.invalidSpawnPoints.Count; i++)
-		{
-			Debug.DrawLine( worldspec.invalidSpawnPoints[i], worldspec.invalidSpawnPoints[j], Color.green,2000);
-			j = (j + 1) % worldspec.invalidSpawnPoints.Count;
-		}
 		CreateCells (worldspec);
 		SaveSpace();
 	}
@@ -175,9 +170,6 @@ public class WorldGenerator : MonoBehaviour
 					writer.WriteAttributeString("Seed", obj.seed.ToString());
 					writer.WriteEndElement();
 					writer.WriteWhitespace("\n");
-
-
-
 				}
 				writer.WriteEndElement();
 				writer.WriteEndDocument();
