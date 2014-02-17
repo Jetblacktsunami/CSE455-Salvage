@@ -164,12 +164,12 @@ public class WorldCell : MonoBehaviour
 
 		Random.seed = details.seed;
 		float maxDistance = details.mapLength / 2.0f;
-		float[] perlinValue = new float[(int)details.cellLength * (int)details.cellLength];
+		float halfCellLength = Mathf.Ceil(details.cellLength/2.0f);
+		float[] perlinValue = new float[((int)halfCellLength * 2) * ((int)halfCellLength * 2)];
 
-		Vector2 startingPos = new Vector2( 0 - (details.cellLength /2.0f), 0 - (details.cellLength /2.0f));
-		Vector2 endPos = new Vector2( 0 + (details.cellLength /2.0f), 0 + (details.cellLength /2.0f));
-		Vector2[,] asteroidPosition = new Vector2[(int)details.cellLength,(int)details.cellLength];
-
+		Vector2 startingPos = new Vector2( -halfCellLength, -halfCellLength);
+		Vector2 endPos = new Vector2( halfCellLength, halfCellLength);
+		Vector2[,] asteroidPosition = new Vector2[(int)halfCellLength * 2,(int)halfCellLength * 2];
 
 		for(int i = (int)startingPos.x; i < endPos.x ; i++)
 		{
@@ -213,7 +213,6 @@ public class WorldCell : MonoBehaviour
 						}
 					}
 
-					Debug.Log("checking");
 					if( details.invalidSpawnPoints == null || !details.invalidSpawnPoints.Contains(new Vector2(i,j)))
 					{
 						float xCoord = ((i + transform.position.x) + details.mapLength /2) / (float)details.mapLength * 25.6f;
@@ -222,8 +221,13 @@ public class WorldCell : MonoBehaviour
 
 						if(scale < 0.4f && scale > 0.045f)
 						{
-							asteroidPosition[i + ((int)details.cellLength/2 ),j + ((int)details.cellLength/2 )].Set(i + transform.position.x, j + transform.position.y);
-							perlinValue[(i + ((int)details.cellLength/2))* (int)details.cellLength + (j+ ((int)details.cellLength/2))] = scale;
+							Debug.Log("Cell Length" +  halfCellLength);
+							int x,y;
+							x = i + ((int)halfCellLength);
+							y = j + ((int)halfCellLength);
+							Debug.Log("x position : " + x.ToString() + "y : " + y.ToString() );
+							asteroidPosition[i + ((int)halfCellLength),j + ((int)halfCellLength )].Set(i + transform.position.x, j + transform.position.y);
+							perlinValue[(i + ((int)halfCellLength)) * (int)(halfCellLength * 2) + (j+ ((int)halfCellLength))] = scale;
 						}
 					}
 				}
@@ -351,22 +355,4 @@ public class WorldCell : MonoBehaviour
 			children.Remove(self);
 		}
 	}
-	/****************************************
-	public void OnTriggerEnter(Collider other)
-	{
-		if(other.gameObject.name == "Player")
-		{
-			Activate();
-		}
-	}
-
-	public void OnTriggerExit(Collider other)
-	{
-		if(other.gameObject.name == "Player")
-		{
-			Deactivate();
-		}
-	}
-	*******************************************/
-
 }

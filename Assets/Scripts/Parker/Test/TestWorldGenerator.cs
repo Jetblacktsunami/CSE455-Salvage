@@ -8,8 +8,10 @@ public class TestWorldGenerator : MonoBehaviour
 	void Start () 
 	{
 		//WorldGenerator.Instance.GenerateSpace(128, 8, new Vector2(0.0f,0.0f),"TEST Space", 200);
-		List<WorldGenerator.WorldSpecs> worlds = WorldGenerator.GetCreatedWorlds();
-		GameManager.savedLevel = worlds [0];
+		//List<WorldGenerator.WorldSpecs> worlds = WorldGenerator.GetCreatedWorlds();
+		//GameManager.savedLevel = worlds [1];
+		GameManager.WorldName = "Parker";
+		GameManager.seed = 29;
 		Application.LoadLevel ("InGame");
 		//WorldGenerator.Instance.GenerateSpace (worlds [0]);
 	}
