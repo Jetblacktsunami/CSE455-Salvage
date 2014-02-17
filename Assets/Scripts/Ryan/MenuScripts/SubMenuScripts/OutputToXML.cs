@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+using System.Collections.Generic;
 
 public class OutputToXML : MonoBehaviour 
 {
@@ -10,6 +12,8 @@ public class OutputToXML : MonoBehaviour
 	void Start()
 	{
 		inputValue = gameObject.GetComponent<UIInput> ();
+		List<WorldGenerator.WorldSpecs> worlds = WorldGenerator.GetCreatedWorlds();
+		GameManager.savedLevel = worlds [0];
 	}
 
 	void OnEnable()
@@ -23,6 +27,16 @@ public class OutputToXML : MonoBehaviour
 
 	void send()
 	{
+		/*
+		if(inputTypeValue.ToString() == "Name")
+		{
+			GameManager.WorldName = inputValue.value;
+		}
+		else
+		{
+			GameManager.seed = Convert.ToInt32(inputValue.value);
+		}
+		*/
 		Debug.Log(inputTypeValue + " " + inputValue.value);
 	}
 	
