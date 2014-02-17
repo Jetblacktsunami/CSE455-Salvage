@@ -62,24 +62,22 @@ public class GameManager : MonoBehaviour
 		 	if(savedLevel.spaceArea > 0)  
 			{
 				WorldGenerator.Instance.GenerateSpace(savedLevel);
-				savedLevel = default(WorldGenerator.WorldSpecs);
 			}
 			else
 			{
 				WorldGenerator.Instance.GenerateSpace(256 , 10 ,Vector2.zero, WorldName ,seed );
-				WorldName = "";
-				seed = 0;
 			}
 		}
 		else if(Application.loadedLevelName == "MainMenu")
 		{
-
+			savedLevel = default(WorldGenerator.WorldSpecs);
+			WorldName = "";
+			seed = 0;
 		}
 	}
 
 	void OnEnable()
 	{
-
 		WorldGenerator.worldDoneLoading += OnWorldLoadDone;
 	}
 
