@@ -1,4 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Root>
 	<WorldSpec name="TEST Space" area="16384" spaceLength="128" cellLength="16" start-x="0" start-y="0" degreeJump="1" subdivisions="8" numOfCells="64" Seed="200" />
-	<WorldSpec name="" area="65536" spaceLength="256" cellLength="42.66667" start-x="0" start-y="0" degreeJump="1" subdivisions="6" numOfCells="36" Seed="0" />
+	<WorldSpec name="Parker" area="65536" spaceLength="256" cellLength="25.6" start-x="0" start-y="0" degreeJump="1" subdivisions="10" numOfCells="100" Seed="29" />
+	<WorldSpec name="Parkera" area="65536" spaceLength="256" cellLength="25.6" start-x="0" start-y="0" degreeJump="1" subdivisions="10" numOfCells="100" Seed="53" />
+	<WorldSpec name="Ryan" area="65536" spaceLength="256" cellLength="25.6" start-x="0" start-y="0" degreeJump="1" subdivisions="10" numOfCells="100" Seed="11" />
 </Root>
