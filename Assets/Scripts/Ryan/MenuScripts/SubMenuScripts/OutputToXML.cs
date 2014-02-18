@@ -12,8 +12,6 @@ public class OutputToXML : MonoBehaviour
 	void Start()
 	{
 		inputValue = gameObject.GetComponent<UIInput> ();
-		List<WorldGenerator.WorldSpecs> worlds = WorldGenerator.GetCreatedWorlds();
-		GameManager.savedLevel = worlds [0];
 	}
 
 	void OnEnable()
@@ -37,6 +35,8 @@ public class OutputToXML : MonoBehaviour
 			GameManager.seed = Convert.ToInt32(inputValue.value);
 		}
 		*/
+		List<WorldGenerator.WorldSpecs> worlds = WorldGenerator.GetCreatedWorlds();
+		GameManager.savedLevel = worlds [0];
 		Debug.Log(inputTypeValue + " " + inputValue.value);
 	}
 	

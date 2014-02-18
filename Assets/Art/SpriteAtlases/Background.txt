@@ -1,0 +1,36 @@
+{"frames": {
+
+"MainMenu_Background_Blue.png":
+{
+	"frame": {"x":2,"y":1018,"w":1014,"h":1014},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1014,"h":1014},
+	"sourceSize": {"w":1014,"h":1014}
+},
+"Static_Sky_Update.png":
+{
+	"frame": {"x":2,"y":2,"w":1014,"h":1014},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1014,"h":1014},
+	"sourceSize": {"w":1014,"h":1014}
+},
+"stars.png":
+{
+	"frame": {"x":1018,"y":2,"w":1014,"h":684},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":177,"w":1014,"h":684},
+	"sourceSize": {"w":1014,"h":1014}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "Background.png",
+	"format": "RGBA8888",
+	"size": {"w":2048,"h":2048},
+	"scale": "0.99",
+	"smartupdate": "$TexturePacker:SmartUpdate:e40b5637178bc243c92ae6e46baca24a:1373dad1aa4657a337a79d05d209ac4a:644c93155aa8019bdbed7b6e31c0849d$"
+}
+}
