@@ -1,371 +1,147 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Root>
-	<AsteroidPosition>-32 , 16</AsteroidPosition>
-		<PerlinValue>0.520944</PerlinValue>
-	<AsteroidPosition>-32 , 17</AsteroidPosition>
-		<PerlinValue>0.6514645</PerlinValue>
-	<AsteroidPosition>-32 , 18</AsteroidPosition>
-		<PerlinValue>0.7396921</PerlinValue>
-	<AsteroidPosition>-32 , 19</AsteroidPosition>
-		<PerlinValue>0.7574806</PerlinValue>
-	<AsteroidPosition>-32 , 20</AsteroidPosition>
-		<PerlinValue>0.7477859</PerlinValue>
-	<AsteroidPosition>-32 , 21</AsteroidPosition>
-		<PerlinValue>0.7778072</PerlinValue>
-	<AsteroidPosition>-32 , 22</AsteroidPosition>
-		<PerlinValue>0.805349</PerlinValue>
-	<AsteroidPosition>-32 , 23</AsteroidPosition>
-		<PerlinValue>0.7573646</PerlinValue>
-	<AsteroidPosition>-32 , 24</AsteroidPosition>
-		<PerlinValue>0.6698182</PerlinValue>
-	<AsteroidPosition>-32 , 25</AsteroidPosition>
-		<PerlinValue>0.6218338</PerlinValue>
-	<AsteroidPosition>-32 , 26</AsteroidPosition>
-		<PerlinValue>0.6493756</PerlinValue>
-	<AsteroidPosition>-32 , 27</AsteroidPosition>
-		<PerlinValue>0.7163461</PerlinValue>
-	<AsteroidPosition>-32 , 28</AsteroidPosition>
-		<PerlinValue>0.786585</PerlinValue>
-	<AsteroidPosition>-32 , 29</AsteroidPosition>
-		<PerlinValue>0.7547097</PerlinValue>
-	<AsteroidPosition>-32 , 30</AsteroidPosition>
-		<PerlinValue>0.6143941</PerlinValue>
-	<AsteroidPosition>-32 , 31</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-31 , 16</AsteroidPosition>
-		<PerlinValue>0.4096022</PerlinValue>
-	<AsteroidPosition>-31 , 17</AsteroidPosition>
-		<PerlinValue>0.569388</PerlinValue>
-	<AsteroidPosition>-31 , 18</AsteroidPosition>
-		<PerlinValue>0.7574803</PerlinValue>
-	<AsteroidPosition>-31 , 19</AsteroidPosition>
-		<PerlinValue>0.8565753</PerlinValue>
-	<AsteroidPosition>-31 , 20</AsteroidPosition>
-		<PerlinValue>0.8341139</PerlinValue>
-	<AsteroidPosition>-31 , 21</AsteroidPosition>
-		<PerlinValue>0.7778072</PerlinValue>
-	<AsteroidPosition>-31 , 22</AsteroidPosition>
-		<PerlinValue>0.7321632</PerlinValue>
-	<AsteroidPosition>-31 , 23</AsteroidPosition>
-		<PerlinValue>0.6990392</PerlinValue>
-	<AsteroidPosition>-31 , 24</AsteroidPosition>
-		<PerlinValue>0.6724727</PerlinValue>
-	<AsteroidPosition>-31 , 25</AsteroidPosition>
-		<PerlinValue>0.6393482</PerlinValue>
-	<AsteroidPosition>-31 , 26</AsteroidPosition>
-		<PerlinValue>0.5937047</PerlinValue>
-	<AsteroidPosition>-31 , 27</AsteroidPosition>
-		<PerlinValue>0.5711221</PerlinValue>
-	<AsteroidPosition>-31 , 28</AsteroidPosition>
-		<PerlinValue>0.6141474</PerlinValue>
-	<AsteroidPosition>-31 , 29</AsteroidPosition>
-		<PerlinValue>0.643252</PerlinValue>
-	<AsteroidPosition>-31 , 30</AsteroidPosition>
-		<PerlinValue>0.5883537</PerlinValue>
-	<AsteroidPosition>-31 , 31</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-30 , 17</AsteroidPosition>
-		<PerlinValue>0.5388616</PerlinValue>
-	<AsteroidPosition>-30 , 18</AsteroidPosition>
-		<PerlinValue>0.7477853</PerlinValue>
-	<AsteroidPosition>-30 , 19</AsteroidPosition>
-		<PerlinValue>0.8341141</PerlinValue>
-	<AsteroidPosition>-30 , 20</AsteroidPosition>
-		<PerlinValue>0.7524278</PerlinValue>
-	<AsteroidPosition>-30 , 21</AsteroidPosition>
-		<PerlinValue>0.6235682</PerlinValue>
-	<AsteroidPosition>-30 , 22</AsteroidPosition>
-		<PerlinValue>0.5315016</PerlinValue>
-	<AsteroidPosition>-30 , 23</AsteroidPosition>
-		<PerlinValue>0.5340152</PerlinValue>
-	<AsteroidPosition>-30 , 24</AsteroidPosition>
-		<PerlinValue>0.5860708</PerlinValue>
-	<AsteroidPosition>-30 , 25</AsteroidPosition>
-		<PerlinValue>0.5885839</PerlinValue>
-	<AsteroidPosition>-30 , 26</AsteroidPosition>
-		<PerlinValue>0.4965178</PerlinValue>
-	<AsteroidPosition>-30 , 27</AsteroidPosition>
-		<PerlinValue>0.4136197</PerlinValue>
-	<AsteroidPosition>-30 , 28</AsteroidPosition>
-		<PerlinValue>0.4522547</PerlinValue>
-	<AsteroidPosition>-30 , 29</AsteroidPosition>
-		<PerlinValue>0.5457399</PerlinValue>
-	<AsteroidPosition>-30 , 30</AsteroidPosition>
-		<PerlinValue>0.5665076</PerlinValue>
-	<AsteroidPosition>-30 , 31</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-29 , 16</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-29 , 17</AsteroidPosition>
-		<PerlinValue>0.6235691</PerlinValue>
-	<AsteroidPosition>-29 , 18</AsteroidPosition>
-		<PerlinValue>0.7778069</PerlinValue>
-	<AsteroidPosition>-29 , 19</AsteroidPosition>
-		<PerlinValue>0.7778069</PerlinValue>
-	<AsteroidPosition>-29 , 20</AsteroidPosition>
-		<PerlinValue>0.6235675</PerlinValue>
-	<AsteroidPosition>-29 , 21</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-29 , 23</AsteroidPosition>
-		<PerlinValue>0.409602</PerlinValue>
-	<AsteroidPosition>-29 , 24</AsteroidPosition>
-		<PerlinValue>0.5209442</PerlinValue>
-	<AsteroidPosition>-29 , 25</AsteroidPosition>
-		<PerlinValue>0.5610785</PerlinValue>
-	<AsteroidPosition>-29 , 26</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-29 , 28</AsteroidPosition>
-		<PerlinValue>0.409602</PerlinValue>
-	<AsteroidPosition>-29 , 29</AsteroidPosition>
-		<PerlinValue>0.5209442</PerlinValue>
-	<AsteroidPosition>-29 , 30</AsteroidPosition>
-		<PerlinValue>0.5610785</PerlinValue>
-	<AsteroidPosition>-29 , 31</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-28 , 16</AsteroidPosition>
-		<PerlinValue>0.5923238</PerlinValue>
-	<AsteroidPosition>-28 , 17</AsteroidPosition>
-		<PerlinValue>0.7359021</PerlinValue>
-	<AsteroidPosition>-28 , 18</AsteroidPosition>
-		<PerlinValue>0.8241959</PerlinValue>
-	<AsteroidPosition>-28 , 19</AsteroidPosition>
-		<PerlinValue>0.731418</PerlinValue>
-	<AsteroidPosition>-28 , 20</AsteroidPosition>
-		<PerlinValue>0.5112341</PerlinValue>
-	<AsteroidPosition>-28 , 24</AsteroidPosition>
-		<PerlinValue>0.4486235</PerlinValue>
-	<AsteroidPosition>-28 , 25</AsteroidPosition>
-		<PerlinValue>0.5169259</PerlinValue>
-	<AsteroidPosition>-28 , 26</AsteroidPosition>
-		<PerlinValue>0.4340282</PerlinValue>
-	<AsteroidPosition>-28 , 29</AsteroidPosition>
-		<PerlinValue>0.4971381</PerlinValue>
-	<AsteroidPosition>-28 , 30</AsteroidPosition>
-		<PerlinValue>0.5316433</PerlinValue>
-	<AsteroidPosition>-28 , 31</AsteroidPosition>
-		<PerlinValue>0.4340282</PerlinValue>
-	<AsteroidPosition>-27 , 16</AsteroidPosition>
-		<PerlinValue>0.6493756</PerlinValue>
-	<AsteroidPosition>-27 , 17</AsteroidPosition>
-		<PerlinValue>0.7863449</PerlinValue>
-	<AsteroidPosition>-27 , 18</AsteroidPosition>
-		<PerlinValue>0.8450266</PerlinValue>
-	<AsteroidPosition>-27 , 19</AsteroidPosition>
-		<PerlinValue>0.7105872</PerlinValue>
-	<AsteroidPosition>-27 , 20</AsteroidPosition>
-		<PerlinValue>0.4607912</PerlinValue>
-	<AsteroidPosition>-27 , 29</AsteroidPosition>
-		<PerlinValue>0.4332819</PerlinValue>
-	<AsteroidPosition>-27 , 30</AsteroidPosition>
-		<PerlinValue>0.4425652</PerlinValue>
-	<AsteroidPosition>-26 , 16</AsteroidPosition>
-		<PerlinValue>0.5937047</PerlinValue>
-	<AsteroidPosition>-26 , 17</AsteroidPosition>
-		<PerlinValue>0.737123</PerlinValue>
-	<AsteroidPosition>-26 , 18</AsteroidPosition>
-		<PerlinValue>0.8247001</PerlinValue>
-	<AsteroidPosition>-26 , 19</AsteroidPosition>
-		<PerlinValue>0.7309139</PerlinValue>
-	<AsteroidPosition>-26 , 20</AsteroidPosition>
-		<PerlinValue>0.5100133</PerlinValue>
-	<AsteroidPosition>-26 , 29</AsteroidPosition>
-		<PerlinValue>0.4245038</PerlinValue>
-	<AsteroidPosition>-25 , 16</AsteroidPosition>
-		<PerlinValue>0.4965178</PerlinValue>
-	<AsteroidPosition>-25 , 17</AsteroidPosition>
-		<PerlinValue>0.6511944</PerlinValue>
-	<AsteroidPosition>-25 , 18</AsteroidPosition>
-		<PerlinValue>0.7892151</PerlinValue>
-	<AsteroidPosition>-25 , 19</AsteroidPosition>
-		<PerlinValue>0.7663988</PerlinValue>
-	<AsteroidPosition>-25 , 20</AsteroidPosition>
-		<PerlinValue>0.5959421</PerlinValue>
-	<AsteroidPosition>-25 , 21</AsteroidPosition>
-		<PerlinValue>0.4340284</PerlinValue>
-	<AsteroidPosition>-25 , 28</AsteroidPosition>
-		<PerlinValue>0.4559908</PerlinValue>
-	<AsteroidPosition>-25 , 29</AsteroidPosition>
-		<PerlinValue>0.5148864</PerlinValue>
-	<AsteroidPosition>-25 , 30</AsteroidPosition>
-		<PerlinValue>0.4634629</PerlinValue>
-	<AsteroidPosition>-24 , 16</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-24 , 17</AsteroidPosition>
-		<PerlinValue>0.6235691</PerlinValue>
-	<AsteroidPosition>-24 , 18</AsteroidPosition>
-		<PerlinValue>0.7778069</PerlinValue>
-	<AsteroidPosition>-24 , 19</AsteroidPosition>
-		<PerlinValue>0.7778069</PerlinValue>
-	<AsteroidPosition>-24 , 20</AsteroidPosition>
-		<PerlinValue>0.6235675</PerlinValue>
-	<AsteroidPosition>-24 , 21</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-24 , 25</AsteroidPosition>
-		<PerlinValue>0.4340286</PerlinValue>
-	<AsteroidPosition>-24 , 26</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-24 , 27</AsteroidPosition>
-		<PerlinValue>0.4965181</PerlinValue>
-	<AsteroidPosition>-24 , 28</AsteroidPosition>
-		<PerlinValue>0.5937045</PerlinValue>
-	<AsteroidPosition>-24 , 29</AsteroidPosition>
-		<PerlinValue>0.6493756</PerlinValue>
-	<AsteroidPosition>-24 , 30</AsteroidPosition>
-		<PerlinValue>0.592323</PerlinValue>
-	<AsteroidPosition>-24 , 31</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-23 , 16</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-23 , 17</AsteroidPosition>
-		<PerlinValue>0.6070418</PerlinValue>
-	<AsteroidPosition>-23 , 18</AsteroidPosition>
-		<PerlinValue>0.7515214</PerlinValue>
-	<AsteroidPosition>-23 , 19</AsteroidPosition>
-		<PerlinValue>0.7629294</PerlinValue>
-	<AsteroidPosition>-23 , 20</AsteroidPosition>
-		<PerlinValue>0.6346657</PerlinValue>
-	<AsteroidPosition>-23 , 21</AsteroidPosition>
-		<PerlinValue>0.4965178</PerlinValue>
-	<AsteroidPosition>-23 , 24</AsteroidPosition>
-		<PerlinValue>0.4590203</PerlinValue>
-	<AsteroidPosition>-23 , 25</AsteroidPosition>
-		<PerlinValue>0.5665081</PerlinValue>
-	<AsteroidPosition>-23 , 26</AsteroidPosition>
-		<PerlinValue>0.5923235</PerlinValue>
-	<AsteroidPosition>-23 , 27</AsteroidPosition>
-		<PerlinValue>0.6125904</PerlinValue>
-	<AsteroidPosition>-23 , 28</AsteroidPosition>
-		<PerlinValue>0.6952143</PerlinValue>
-	<AsteroidPosition>-23 , 29</AsteroidPosition>
-		<PerlinValue>0.7476609</PerlinValue>
-	<AsteroidPosition>-23 , 30</AsteroidPosition>
-		<PerlinValue>0.7028463</PerlinValue>
-	<AsteroidPosition>-23 , 31</AsteroidPosition>
-		<PerlinValue>0.5923235</PerlinValue>
-	<AsteroidPosition>-22 , 16</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-22 , 17</AsteroidPosition>
-		<PerlinValue>0.5305086</PerlinValue>
-	<AsteroidPosition>-22 , 18</AsteroidPosition>
-		<PerlinValue>0.6201541</PerlinValue>
-	<AsteroidPosition>-22 , 19</AsteroidPosition>
-		<PerlinValue>0.6670473</PerlinValue>
-	<AsteroidPosition>-22 , 20</AsteroidPosition>
-		<PerlinValue>0.6440624</PerlinValue>
-	<AsteroidPosition>-22 , 21</AsteroidPosition>
-		<PerlinValue>0.5937049</PerlinValue>
-	<AsteroidPosition>-22 , 22</AsteroidPosition>
-		<PerlinValue>0.5604593</PerlinValue>
-	<AsteroidPosition>-22 , 23</AsteroidPosition>
-		<PerlinValue>0.5849272</PerlinValue>
-	<AsteroidPosition>-22 , 24</AsteroidPosition>
-		<PerlinValue>0.6432526</PerlinValue>
-	<AsteroidPosition>-22 , 25</AsteroidPosition>
-		<PerlinValue>0.675074</PerlinValue>
-	<AsteroidPosition>-22 , 26</AsteroidPosition>
-		<PerlinValue>0.6493756</PerlinValue>
-	<AsteroidPosition>-22 , 27</AsteroidPosition>
-		<PerlinValue>0.6204525</PerlinValue>
-	<AsteroidPosition>-22 , 28</AsteroidPosition>
-		<PerlinValue>0.6378265</PerlinValue>
-	<AsteroidPosition>-22 , 29</AsteroidPosition>
-		<PerlinValue>0.6758254</PerlinValue>
-	<AsteroidPosition>-22 , 30</AsteroidPosition>
-		<PerlinValue>0.6858455</PerlinValue>
-	<AsteroidPosition>-22 , 31</AsteroidPosition>
-		<PerlinValue>0.6493756</PerlinValue>
-	<AsteroidPosition>-21 , 16</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-21 , 17</AsteroidPosition>
-		<PerlinValue>0.4181392</PerlinValue>
-	<AsteroidPosition>-21 , 18</AsteroidPosition>
-		<PerlinValue>0.4096017</PerlinValue>
-	<AsteroidPosition>-21 , 19</AsteroidPosition>
-		<PerlinValue>0.4768214</PerlinValue>
-	<AsteroidPosition>-21 , 20</AsteroidPosition>
-		<PerlinValue>0.5809159</PerlinValue>
-	<AsteroidPosition>-21 , 21</AsteroidPosition>
-		<PerlinValue>0.6493756</PerlinValue>
-	<AsteroidPosition>-21 , 22</AsteroidPosition>
-		<PerlinValue>0.7138667</PerlinValue>
-	<AsteroidPosition>-21 , 23</AsteroidPosition>
-		<PerlinValue>0.7865853</PerlinValue>
-	<AsteroidPosition>-21 , 24</AsteroidPosition>
-		<PerlinValue>0.7839308</PerlinValue>
-	<AsteroidPosition>-21 , 25</AsteroidPosition>
-		<PerlinValue>0.6950562</PerlinValue>
-	<AsteroidPosition>-21 , 26</AsteroidPosition>
-		<PerlinValue>0.5937045</PerlinValue>
-	<AsteroidPosition>-21 , 27</AsteroidPosition>
-		<PerlinValue>0.4955762</PerlinValue>
-	<AsteroidPosition>-21 , 28</AsteroidPosition>
-		<PerlinValue>0.4211503</PerlinValue>
-	<AsteroidPosition>-21 , 29</AsteroidPosition>
-		<PerlinValue>0.4388226</PerlinValue>
-	<AsteroidPosition>-21 , 30</AsteroidPosition>
-		<PerlinValue>0.5259897</PerlinValue>
-	<AsteroidPosition>-21 , 31</AsteroidPosition>
-		<PerlinValue>0.5937045</PerlinValue>
-	<AsteroidPosition>-20 , 16</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-20 , 20</AsteroidPosition>
-		<PerlinValue>0.4450072</PerlinValue>
-	<AsteroidPosition>-20 , 21</AsteroidPosition>
-		<PerlinValue>0.5923235</PerlinValue>
-	<AsteroidPosition>-20 , 22</AsteroidPosition>
-		<PerlinValue>0.7285433</PerlinValue>
-	<AsteroidPosition>-20 , 23</AsteroidPosition>
-		<PerlinValue>0.8456798</PerlinValue>
-	<AsteroidPosition>-20 , 24</AsteroidPosition>
-		<PerlinValue>0.8139235</PerlinValue>
-	<AsteroidPosition>-20 , 25</AsteroidPosition>
-		<PerlinValue>0.6493831</PerlinValue>
-	<AsteroidPosition>-20 , 26</AsteroidPosition>
-		<PerlinValue>0.4965178</PerlinValue>
-	<AsteroidPosition>-20 , 31</AsteroidPosition>
-		<PerlinValue>0.4965178</PerlinValue>
-	<AsteroidPosition>-19 , 16</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-19 , 21</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-19 , 22</AsteroidPosition>
-		<PerlinValue>0.6235691</PerlinValue>
-	<AsteroidPosition>-19 , 23</AsteroidPosition>
-		<PerlinValue>0.7778069</PerlinValue>
-	<AsteroidPosition>-19 , 24</AsteroidPosition>
-		<PerlinValue>0.7778069</PerlinValue>
-	<AsteroidPosition>-19 , 25</AsteroidPosition>
-		<PerlinValue>0.6235675</PerlinValue>
-	<AsteroidPosition>-19 , 26</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-19 , 31</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-18 , 16</AsteroidPosition>
-		<PerlinValue>0.4965178</PerlinValue>
-	<AsteroidPosition>-18 , 22</AsteroidPosition>
-		<PerlinValue>0.4855405</PerlinValue>
-	<AsteroidPosition>-18 , 23</AsteroidPosition>
-		<PerlinValue>0.6548834</PerlinValue>
-	<AsteroidPosition>-18 , 24</AsteroidPosition>
-		<PerlinValue>0.7012723</PerlinValue>
-	<AsteroidPosition>-18 , 25</AsteroidPosition>
-		<PerlinValue>0.597872</PerlinValue>
-	<AsteroidPosition>-18 , 26</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-18 , 31</AsteroidPosition>
-		<PerlinValue>0.4340284</PerlinValue>
-	<AsteroidPosition>-17 , 16</AsteroidPosition>
-		<PerlinValue>0.5937049</PerlinValue>
-	<AsteroidPosition>-17 , 17</AsteroidPosition>
-		<PerlinValue>0.517806</PerlinValue>
-	<AsteroidPosition>-17 , 23</AsteroidPosition>
-		<PerlinValue>0.4537237</PerlinValue>
-	<AsteroidPosition>-17 , 24</AsteroidPosition>
-		<PerlinValue>0.5209435</PerlinValue>
-	<AsteroidPosition>-17 , 25</AsteroidPosition>
-		<PerlinValue>0.5124061</PerlinValue>
-	<AsteroidPosition>-17 , 26</AsteroidPosition>
-		<PerlinValue>0.4652731</PerlinValue>
-	<AsteroidPosition>-17 , 27</AsteroidPosition>
-		<PerlinValue>0.4000375</PerlinValue>
+	<AsteroidPosition x ="-30.85849" y ="16.0982" />
+		<PerlinValue>0.3694673</PerlinValue>
+	<AsteroidPosition x ="-27.62041" y ="19.59661" />
+		<PerlinValue>0.3694672</PerlinValue>
+	<AsteroidPosition x ="-29.21585" y ="24.6862" />
+		<PerlinValue>0.3694672</PerlinValue>
+	<AsteroidPosition x ="-28.17701" y ="21.12072" />
+		<PerlinValue>0.3382224</PerlinValue>
+	<AsteroidPosition x ="-28.31742" y ="22.56414" />
+		<PerlinValue>0.2461559</PerlinValue>
+	<AsteroidPosition x ="-27.02857" y ="22.30974" />
+		<PerlinValue>0.305525</PerlinValue>
+	<AsteroidPosition x ="-27.342" y ="27.72824" />
+		<PerlinValue>0.3455811</PerlinValue>
+	<AsteroidPosition x ="-28.98781" y ="27.31532" />
+		<PerlinValue>0.3890203</PerlinValue>
+	<AsteroidPosition x ="-28.19348" y ="22.00982" />
+		<PerlinValue>0.2811706</PerlinValue>
+	<AsteroidPosition x ="-27.5749" y ="20.0907" />
+		<PerlinValue>0.1786707</PerlinValue>
+	<AsteroidPosition x ="-27.83162" y ="25.16943" />
+		<PerlinValue>0.2024023</PerlinValue>
+	<AsteroidPosition x ="-25.2681" y ="22.13088" />
+		<PerlinValue>0.3163989</PerlinValue>
+	<AsteroidPosition x ="-25.52349" y ="27.42693" />
+		<PerlinValue>0.3890918</PerlinValue>
+	<AsteroidPosition x ="-25.81057" y ="25.07425" />
+		<PerlinValue>0.3368415</PerlinValue>
+	<AsteroidPosition x ="-27.04636" y ="26.66838" />
+		<PerlinValue>0.2813666</PerlinValue>
+	<AsteroidPosition x ="-28.17074" y ="26.41242" />
+		<PerlinValue>0.3396119</PerlinValue>
+	<AsteroidPosition x ="-26.10168" y ="33.3407" />
+		<PerlinValue>0.3368415</PerlinValue>
+	<AsteroidPosition x ="-27.17489" y ="22.10808" />
+		<PerlinValue>0.3368415</PerlinValue>
+	<AsteroidPosition x ="-26.71378" y ="23.49818" />
+		<PerlinValue>0.2164845</PerlinValue>
+	<AsteroidPosition x ="-26.90755" y ="24.15533" />
+		<PerlinValue>0.1758361</PerlinValue>
+	<AsteroidPosition x ="-26.10667" y ="23.27336" />
+		<PerlinValue>0.2288529</PerlinValue>
+	<AsteroidPosition x ="-25.43003" y ="25.86956" />
+		<PerlinValue>0.2934813</PerlinValue>
+	<AsteroidPosition x ="-28.38737" y ="26.99856" />
+		<PerlinValue>0.2811706</PerlinValue>
+	<AsteroidPosition x ="-24.7461" y ="28.3628" />
+		<PerlinValue>0.2720846</PerlinValue>
+	<AsteroidPosition x ="-23.06563" y ="25.90557" />
+		<PerlinValue>0.3511605</PerlinValue>
+	<AsteroidPosition x ="-27.29505" y ="30.33903" />
+		<PerlinValue>0.3983023</PerlinValue>
+	<AsteroidPosition x ="-25.36748" y ="29.349" />
+		<PerlinValue>0.2811706</PerlinValue>
+	<AsteroidPosition x ="-22.85141" y ="24.06903" />
+		<PerlinValue>0.303238</PerlinValue>
+	<AsteroidPosition x ="-23.03567" y ="22.7687" />
+		<PerlinValue>0.2269521</PerlinValue>
+	<AsteroidPosition x ="-26.64482" y ="24.63049" />
+		<PerlinValue>0.2508669</PerlinValue>
+	<AsteroidPosition x ="-25.26418" y ="23.8789" />
+		<PerlinValue>0.3198858</PerlinValue>
+	<AsteroidPosition x ="-22.53681" y ="26.29038" />
+		<PerlinValue>0.3382226</PerlinValue>
+	<AsteroidPosition x ="-24.81648" y ="27.58961" />
+		<PerlinValue>0.3621089</PerlinValue>
+	<AsteroidPosition x ="-24.54244" y ="32.8527" />
+		<PerlinValue>0.3382226</PerlinValue>
+	<AsteroidPosition x ="-22.23652" y ="23.70895" />
+		<PerlinValue>0.3382221</PerlinValue>
+	<AsteroidPosition x ="-22.42824" y ="22.02899" />
+		<PerlinValue>0.2811706</PerlinValue>
+	<AsteroidPosition x ="-24.89661" y ="23.72181" />
+		<PerlinValue>0.3368417</PerlinValue>
+	<AsteroidPosition x ="-22.79452" y ="21.84774" />
+		<PerlinValue>0.3915432</PerlinValue>
+	<AsteroidPosition x ="-22.10278" y ="23.28761" />
+		<PerlinValue>0.3715929</PerlinValue>
+	<AsteroidPosition x ="-20.60441" y ="16.49808" />
+		<PerlinValue>0.3326728</PerlinValue>
+	<AsteroidPosition x ="-17.99173" y ="17.80573" />
+		<PerlinValue>0.2292738</PerlinValue>
+	<AsteroidPosition x ="-18.71079" y ="20.25052" />
+		<PerlinValue>0.2756627</PerlinValue>
+	<AsteroidPosition x ="-19.98108" y ="25.98566" />
+		<PerlinValue>0.3491999</PerlinValue>
+	<AsteroidPosition x ="-19.19931" y ="26.51804" />
+		<PerlinValue>0.2095245</PerlinValue>
+	<AsteroidPosition x ="-18.52929" y ="28.64674" />
+		<PerlinValue>0.2127489</PerlinValue>
+	<AsteroidPosition x ="-20.16215" y ="28.24991" />
+		<PerlinValue>0.3547505</PerlinValue>
+	<AsteroidPosition x ="-19.74306" y ="15.94511" />
+		<PerlinValue>0.3069771</PerlinValue>
+	<AsteroidPosition x ="-17.01772" y ="17.993" />
+		<PerlinValue>0.1527392</PerlinValue>
+	<AsteroidPosition x ="-19.17412" y ="21.19126" />
+		<PerlinValue>0.1527392</PerlinValue>
+	<AsteroidPosition x ="-17.88255" y ="20.26047" />
+		<PerlinValue>0.3069787</PerlinValue>
+	<AsteroidPosition x ="-19.80848" y ="26.69164" />
+		<PerlinValue>0.3069771</PerlinValue>
+	<AsteroidPosition x ="-20.67969" y ="27.45389" />
+		<PerlinValue>0.1527392</PerlinValue>
+	<AsteroidPosition x ="-17.85925" y ="29.80497" />
+		<PerlinValue>0.1527392</PerlinValue>
+	<AsteroidPosition x ="-18.32693" y ="29.20348" />
+		<PerlinValue>0.3069787</PerlinValue>
+	<AsteroidPosition x ="-20.09894" y ="17.09015" />
+		<PerlinValue>0.3473902</PerlinValue>
+	<AsteroidPosition x ="-17.48198" y ="17.40257" />
+		<PerlinValue>0.1699386</PerlinValue>
+	<AsteroidPosition x ="-16.41043" y ="20.18633" />
+		<PerlinValue>0.1121417</PerlinValue>
+	<AsteroidPosition x ="-18.07777" y ="18.95521" />
+		<PerlinValue>0.2074334</PerlinValue>
+	<AsteroidPosition x ="-18.60928" y ="22.66043" />
+		<PerlinValue>0.3382226</PerlinValue>
+	<AsteroidPosition x ="-18.09721" y ="25.85025" />
+		<PerlinValue>0.3235043</PerlinValue>
+	<AsteroidPosition x ="-18.32778" y ="28.7787" />
+		<PerlinValue>0.1790248</PerlinValue>
+	<AsteroidPosition x ="-18.0733" y ="31.07972" />
+		<PerlinValue>0.1676167</PerlinValue>
+	<AsteroidPosition x ="-19.07872" y ="31.11473" />
+		<PerlinValue>0.2958804</PerlinValue>
+	<AsteroidPosition x ="-15.99949" y ="18.41869" />
+		<PerlinValue>0.3803825</PerlinValue>
+	<AsteroidPosition x ="-16.13488" y ="19.28769" />
+		<PerlinValue>0.2662695</PerlinValue>
+	<AsteroidPosition x ="-16.27159" y ="19.93084" />
+		<PerlinValue>0.2414762</PerlinValue>
+	<AsteroidPosition x ="-18.57911" y ="21.00857" />
+		<PerlinValue>0.2811706</PerlinValue>
+	<AsteroidPosition x ="-16.61482" y ="21.26691" />
+		<PerlinValue>0.3496307</PerlinValue>
+	<AsteroidPosition x ="-17.1906" y ="26.60881" />
+		<PerlinValue>0.310392</PerlinValue>
+	<AsteroidPosition x ="-17.94378" y ="30.05713" />
+		<PerlinValue>0.2634988</PerlinValue>
+	<AsteroidPosition x ="-19.8034" y ="30.85445" />
+		<PerlinValue>0.2864838</PerlinValue>
+	<AsteroidPosition x ="-16.73792" y ="32.08492" />
+		<PerlinValue>0.3368413</PerlinValue>
 </Root>
