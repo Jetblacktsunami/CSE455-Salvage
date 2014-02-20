@@ -120,14 +120,22 @@ public class WorldGenerator : MonoBehaviour
 		if(planets.Count > 0)
 		{
 			worldspec.planetPositions = new Vector2[planets.Count];
-			for(int i = 0; i < planets.Count; i++)
+			float jumpStep = ((float)worldspec.mapLength / 2.0f) / planets.Count;
+			float jump = 0f;
+			for(int i = 0 ; i < planets.Count; i++, jump += jumpStep)
 			{
 
-				// r =  % total distance 
-				float r = (((float)worldspec.mapLength/2.0f) * ((float)planets.Count /  ((float)planets.Count + i)));
+				// r =  distance + previous distance
+				float r = jump;
 				int theta = UnityEngine.Random.Range(1 + (90 * i) ,90 + (90 * i));
-					
-				worldspec.planetPositions[i].Set( Mathf.Cos(theta) * r, Mathf.Sin(theta) * r);
+				Vector2 tempPos = new Vector2(Mathf.Cos(theta) * r, Mathf.Sin(theta) * r);
+
+
+				float offsetFromCenter = (tempPos.x % worldspec.cellLength / 2.0f);
+				tempPos.x = tempPos.x - (tempPos.x % worldspec.cellLength / 2.0f);
+				tempPos.y = tempPos.y - (tempPos.y % worldspec.cellLength / 2.0f);
+
+				worldspec.planetPositions[i] = tempPos;
 			}
 
 		}
@@ -351,7 +359,7 @@ public class WorldGenerator : MonoBehaviour
 			GameObject planet = GameObject.Instantiate(WorldGenerator.Instance.planets[i]) as GameObject;
 			planet.transform.position = worldspec.planetPositions[i];
 			planet.transform.parent = parent.transform;
-			planet.transform.localScale.Set(worldspec.cellLength,worldspec.cellLength,1.0f);
+			planet.transform.localScale = new Vector3(worldspec.cellLength * 0.1f,worldspec.cellLength * 0.1f,1.0f);
 		}
 	}
 
