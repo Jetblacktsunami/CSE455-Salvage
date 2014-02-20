@@ -90,5 +90,7 @@ public class GameManager : MonoBehaviour
 	{
 		playerObject = GameObject.Instantiate((Resources.Load("Player"))) as GameObject;
 		playerObject.SendMessage("Load",SendMessageOptions.DontRequireReceiver);
+		Camera.main.transform.parent = playerObject.transform;
+
 	}
 }

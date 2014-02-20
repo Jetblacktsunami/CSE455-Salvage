@@ -1,6 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Root>
-	<WorldSpec name="TEST Space" area="16384" spaceLength="128" cellLength="16" start-x="0" start-y="0" degreeJump="1" subdivisions="8" numOfCells="64" Seed="200" />
-	<WorldSpec name="Parker" area="65536" spaceLength="256" cellLength="25.6" start-x="0" start-y="0" degreeJump="1" subdivisions="10" numOfCells="100" Seed="29" />
-	<WorldSpec name="Parkera" area="65536" spaceLength="256" cellLength="25.6" start-x="0" start-y="0" degreeJump="1" subdivisions="10" numOfCells="100" Seed="53" />
-	<WorldSpec name="Ryan" area="65536" spaceLength="256" cellLength="25.6" start-x="0" start-y="0" degreeJump="1" subdivisions="10" numOfCells="100" Seed="11" />
+	<WorldSpec name="test" area="65536" spaceLength="256" cellLength="25.6" start-x="0" start-y="0" degreeJump="1" subdivisions="10" numOfCells="100" Seed="1234" pPos-x0="-26.85029" pPos-y0="-17.40868" pPos-x1="0" pPos-y1="0" pPos-x2="-35.12266" pPos-y2="7.899309" pPos-x3="0" pPos-y3="0" pPos-x4="-25.13532" pPos-y4="-33.64841" pPos-x5="0" pPos-y5="0" pPos-x6="-45.07775" pPos-y6="23.85364" pPos-x7="0" pPos-y7="0" />
+	<WorldSpec name="Parker" area="65536" spaceLength="256" cellLength="25.6" start-x="0" start-y="0" degreeJump="1" subdivisions="10" numOfCells="100" Seed="124" pPos-x0="-18.92383" pPos-y0="25.80482" pPos-x1="3.657085" pPos-y1="35.81377" pPos-x2="-25.13532" pPos-y2="-33.64841" pPos-x3="-23.25306" pPos-y3="-45.39048" pPos-x4="-63.79703" pPos-y4="-5.09303" pPos-x5="-77.75414" pPos-y5="34.34085" pPos-x6="91.10988" pPos-y6="-89.90545" pPos-x7="110.6306" pPos-y7="230.8611" />
 </Root>

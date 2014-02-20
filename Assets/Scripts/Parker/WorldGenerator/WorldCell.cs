@@ -31,6 +31,7 @@ public class WorldCell : MonoBehaviour
 	private bool startRan = false; //has the start function ran this game for this cell
 	public bool deactivateNow = false;
 	public bool activateNow = false;
+	public bool hasPlanet = false;
 	#pragma warning disable 0414
 	private float distanceFromCenter = 0.0f; //this is going to be used to add varience in the spawned asteriods
 	#pragma warning restore
@@ -159,109 +160,120 @@ public class WorldCell : MonoBehaviour
 		{
 			Directory.CreateDirectory(directory);
 		}
-
-		WorldGenerator.WorldSpecs details = WorldGenerator.worldspec;
-
-		Random.seed = details.seed;
-		float maxDistance = details.mapLength / 2.0f;
-		float halfCellLength = Mathf.Ceil(details.cellLength/2.0f);
-		float[] perlinValue = new float[((int)halfCellLength * 2) * ((int)halfCellLength * 2)];
-
-		Vector2 startingPos = new Vector2( -halfCellLength, -halfCellLength);
-		Vector2 endPos = new Vector2( halfCellLength, halfCellLength);
-		Vector2[,] asteroidPosition = new Vector2[(int)halfCellLength * 2,(int)halfCellLength * 2];
-
-		for(int i = (int)startingPos.x; i < endPos.x ; i++)
+		if(!hasPlanet)
 		{
-			for(int j = (int)startingPos.y; j < endPos.y ; j++)
-			{				
-				float distance = Mathf.Sqrt( Mathf.Pow(i + transform.position.x,2) + Mathf.Pow(j + transform.position.y ,2));
-				if(distance < maxDistance && distance > maxDistance / 10.0)
-				{
-					float degree;
-					if( j != 0)
+			WorldGenerator.WorldSpecs details = WorldGenerator.worldspec;
+
+			Random.seed = details.seed;
+			float maxDistance = details.mapLength / 2.0f;
+			float halfCellLength = Mathf.Ceil(details.cellLength/2.0f);
+			float[] perlinValue = new float[((int)halfCellLength * 2) * ((int)halfCellLength * 2)];
+
+			Vector2 startingPos = new Vector2( -halfCellLength, -halfCellLength);
+			Vector2 endPos = new Vector2( halfCellLength, halfCellLength);
+			Vector2[,] asteroidPosition = new Vector2[(int)halfCellLength * 2,(int)halfCellLength * 2];
+
+			for(int i = (int)startingPos.x; i < endPos.x ; i++)
+			{
+				for(int j = (int)startingPos.y; j < endPos.y ; j++)
+				{				
+					float distance = Mathf.Sqrt( Mathf.Pow(i + transform.position.x,2) + Mathf.Pow(j + transform.position.y ,2));
+					if(distance < maxDistance && distance > maxDistance / 10.0)
 					{
-						degree = Mathf.Rad2Deg * Mathf.Atan( i / j);
-						if( i >= 0)
+						float degree;
+						if( j != 0)
 						{
-							if(j < 0)
+							degree = Mathf.Rad2Deg * Mathf.Atan( i / j);
+							if( i >= 0)
 							{
-								degree += 360.0f;
+								if(j < 0)
+								{
+									degree += 360.0f;
+								}
 							}
-						}
-						else if(i < 0)
-						{
-							if(j > 0)
+							else if(i < 0)
 							{
-								degree += 180.0f;
+								if(j > 0)
+								{
+									degree += 180.0f;
+								}
+								else if(j < 0)
+								{
+									degree += 270.0f;
+								}
 							}
-							else if(j < 0)
-							{
-								degree += 270.0f;
-							}
-						}
-					}
-					else
-					{
-						if(i >= 0)
-						{
-							degree = 0;
 						}
 						else
 						{
-							degree = 180;
+							if(i >= 0)
+							{
+								degree = 0;
+							}
+							else
+							{
+								degree = 180;
+							}
 						}
-					}
 
-					if( details.invalidSpawnPoints == null || !details.invalidSpawnPoints.Contains(new Vector2(i,j)))
-					{
-						float xCoord = ((i + transform.position.x) + details.mapLength /2) / (float)details.mapLength * 25.6f;
-						float yCoord = ((j + transform.position.y) + details.mapLength /2) / (float)details.mapLength * 25.6f;						
-						float scale = Mathf.PerlinNoise(xCoord,yCoord);
-
-						if(scale < 0.4f && scale > 0.045f)
+						if( details.invalidSpawnPoints == null || !details.invalidSpawnPoints.Contains(new Vector2(i,j)))
 						{
-							Debug.Log("Cell Length" +  halfCellLength);
-							int x,y;
-							x = i + ((int)halfCellLength);
-							y = j + ((int)halfCellLength);
-							Debug.Log("x position : " + x.ToString() + "y : " + y.ToString() );
-							asteroidPosition[i + ((int)halfCellLength),j + ((int)halfCellLength )].Set(i + transform.position.x, j + transform.position.y);
-							perlinValue[(i + ((int)halfCellLength)) * (int)(halfCellLength * 2) + (j+ ((int)halfCellLength))] = scale;
+							float xCoord = ((i + transform.position.x) + details.mapLength /2) / (float)details.mapLength * 25.6f;
+							float yCoord = ((j + transform.position.y) + details.mapLength /2) / (float)details.mapLength * 25.6f;						
+							float scale = Mathf.PerlinNoise(xCoord,yCoord);
+
+							if(scale < 0.4f && scale > 0.045f)
+							{
+	//							int x,y;
+	//							x = i + ((int)halfCellLength);
+	//							y = j + ((int)halfCellLength);
+								asteroidPosition[i + ((int)halfCellLength),j + ((int)halfCellLength )].Set(i + transform.position.x, j + transform.position.y);
+								perlinValue[(i + ((int)halfCellLength)) * (int)(halfCellLength * 2) + (j+ ((int)halfCellLength))] = scale;
+							}
 						}
 					}
 				}
 			}
-		}
 
 
-		XmlTextWriter writer = new XmlTextWriter (fileName, System.Text.Encoding.UTF8);
+			XmlTextWriter writer = new XmlTextWriter (fileName, System.Text.Encoding.UTF8);
 
-		writer.WriteStartDocument();
-		writer.WriteWhitespace("\n");
-		writer.WriteStartElement("Root");
-		writer.WriteWhitespace("\n");
+			writer.WriteStartDocument();
+			writer.WriteWhitespace("\n");
+			writer.WriteStartElement("Root");
+			writer.WriteWhitespace("\n");
 
-		for(int i = 0,c = 0; i < (int)details.cellLength ; i++)
-		{
-			for(int j = 0; j < (int)details.cellLength; j++, c++)
+			for(int i = 0,c = 0; i < (int)details.cellLength ; i++)
 			{
-				if(!Vector2.Equals(asteroidPosition[i,j],Vector2.zero))
+				for(int j = 0; j < (int)details.cellLength; j++, c++)
 				{
-					writer.WriteWhitespace("\t");
-					writer.WriteStartElement("AsteroidPosition");
-					writer.WriteAttributeString("x ",asteroidPosition[i,j].x.ToString());
-					writer.WriteAttributeString("y ",asteroidPosition[i,j].y.ToString());
-					writer.WriteEndElement();
-					writer.WriteWhitespace("\n\t\t");
-					writer.WriteElementString("PerlinValue", perlinValue[c].ToString());
-					writer.WriteWhitespace("\n");
+					if(!Vector2.Equals(asteroidPosition[i,j],Vector2.zero))
+					{
+						writer.WriteWhitespace("\t");
+						writer.WriteStartElement("AsteroidPosition");
+						writer.WriteAttributeString("x ",asteroidPosition[i,j].x.ToString());
+						writer.WriteAttributeString("y ",asteroidPosition[i,j].y.ToString());
+						writer.WriteEndElement();
+						writer.WriteWhitespace("\n\t\t");
+						writer.WriteElementString("PerlinValue", perlinValue[c].ToString());
+						writer.WriteWhitespace("\n");
+					}
 				}
 			}
-		}
 
-		writer.WriteEndDocument();
-		writer.Close ();
+			writer.WriteEndDocument();
+			writer.Close ();
+		}
+		else
+		{
+			XmlTextWriter writer = new XmlTextWriter (fileName, System.Text.Encoding.UTF8);
+			
+			writer.WriteStartDocument();
+			writer.WriteWhitespace("\n");
+			writer.WriteStartElement("Root");
+			writer.WriteWhitespace("\n");
+			writer.WriteEndDocument();
+			writer.Close ();
+		}
 	}
 
 	//saves the current objects in the cell as well as their positions
