@@ -25,6 +25,7 @@ public class WorldGenerator : MonoBehaviour
 	public static string directory;// = Application.dataPath + "/SaveData/";
 
 	public List<GameObject> planets = new List<GameObject> ();
+	public GameObject sun;
 
 	/// <summary>
 	/// Gets or sets the instance.
@@ -120,16 +121,16 @@ public class WorldGenerator : MonoBehaviour
 		if(planets.Count > 0)
 		{
 			worldspec.planetPositions = new Vector2[planets.Count];
-			float jumpStep = ((float)worldspec.mapLength / 2.0f) / planets.Count;
+			float jumpStep = ((float)worldspec.mapLength) / (float)planets.Count;
 			float jump = 0f;
 			for(int i = 0 ; i < planets.Count; i++, jump += jumpStep)
 			{
-
 				// r =  distance + previous distance
-				float r = jump;
-				int theta = UnityEngine.Random.Range(1 + (90 * i) ,90 + (90 * i));
-				Vector2 tempPos = new Vector2(Mathf.Cos(theta) * r, Mathf.Sin(theta) * r);
-
+reroll:			float r = jump;
+				float theta = UnityEngine.Random.Range( 1f, 89f);
+				Vector2 tempPos = new Vector2(-(float)mapLength/2.0f, -(float)worldspec.mapLength/2.0f);
+				tempPos.x = tempPos.x + (Mathf.Abs(Mathf.Cos(theta) * r));
+				tempPos.y = tempPos.x + (Mathf.Abs(Mathf.Sin(theta) * r));
 
 				float offsetFromCenter = (tempPos.x % (worldspec.cellLength));
 				if(offsetFromCenter != (worldspec.cellLength/2.0f))
@@ -142,7 +143,11 @@ public class WorldGenerator : MonoBehaviour
 				{
 					tempPos.y = (tempPos.y - (offsetFromCenter)) + (worldspec.cellLength/2.0f);
 				}
-
+				if(isPlanetInRange(tempPos) || Vector2.Distance(Vector2.zero,tempPos) <= worldspec.cellLength)
+				{
+					Debug.Log("had to reroll");
+					goto reroll;
+				}
 				worldspec.planetPositions[i] = tempPos;
 			}
 
@@ -361,6 +366,7 @@ public class WorldGenerator : MonoBehaviour
 	{
 		int count = WorldGenerator.Instance.planets.Count;
 		GameObject parent = new GameObject ("Planets");
+		parent.transform.position = Vector3.zero;
 
 		for(int i = 0; i < count; i++)
 		{
@@ -369,6 +375,11 @@ public class WorldGenerator : MonoBehaviour
 			planet.transform.parent = parent.transform;
 			planet.transform.localScale = new Vector3(worldspec.cellLength * 0.1f,worldspec.cellLength * 0.1f,1.0f);
 		}
+
+		GameObject sun = GameObject.Instantiate (WorldGenerator.Instance.sun) as GameObject;
+		sun.transform.position = Vector3.zero;
+		sun.transform.parent = parent.transform;
+		sun.transform.localScale = new Vector3(worldspec.cellLength * 0.1f,worldspec.cellLength * 0.1f,1.0f);
 	}
 
 	/// <summary>
@@ -413,9 +424,8 @@ public class WorldGenerator : MonoBehaviour
 	{
 		foreach(Vector2 position in worldspec.planetPositions)
 		{
-			if(Vector2.Distance(currentPosition,position) <= worldspec.cellLength)
+			if(Vector2.Distance(currentPosition,position) < (worldspec.cellLength /2.0f))
 			{
-				Debug.Log("True homegirl");
 				return true;
 			}
 		}
