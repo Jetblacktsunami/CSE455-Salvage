@@ -1,3 +1,5 @@
+//Description: Used for maintaining and saving/loading player stats
+
 using UnityEngine;
 using System.IO;
 using System.Xml;
@@ -7,28 +9,31 @@ using System.Collections.Generic;
 
 public class PlayerInformation : MonoBehaviour 
 {
-	private string deviceID;
+	private string deviceID;					//ID of device for verifying save files
 
-	private string ship;
-	private int maxHealth;
-	private int currentHealth;
-	private int maxShields;
-	private int currentShields;
-	private int shieldRechargeDelay;
-	private int shieldRechargeRate;
-	private float maxFuel;
-	private float currentFuel;
-	private float fuelConsumptionRate;
-	private float acceleration;
-	private float speed;
-	private float maxSpeed;
-	private float thrusterDelay;
-	private float rotationSpeed;
-	
-	private string weapon;
-	private int weaponDamage;
-	private float weaponFireRate;
-	
+	//Ship stats
+	private string ship;						//Name of ship currently selected
+	private int maxHealth;						//Max health value of player
+	private int currentHealth;					//Current health value of player
+	private int maxShields;						//Max shields value of player
+	private int currentShields;					//Current shields value of player
+	private int shieldRechargeDelay;			//Delay before shields recharge
+	private int shieldRechargeRate;				//How quickly the shields refill
+	private float maxFuel;						//Maximum amount of fuel of player
+	private float currentFuel;					//Current fuel level of player
+	private float fuelConsumptionRate;			//How quickly the fuel gauge decreases
+	private float speed;						//Current speed of the player
+	private float maxSpeed;						//Max possible speed of player
+	private float acceleration;					//Acceleration of player towards max speed
+	private float thrusterDelay;				//Delay between input and movement
+	private float rotationSpeed;				//Turning speed of the player
+
+	//Weapon stats
+	private string weapon;						//Name of currently selected weapon
+	private int weaponDamage;					//Damage dealt by current weapon
+	private float weaponFireRate;				//How fast the weapon fires
+
+	//Selection of save file location based on environment
 #if UNITY_EDITOR || UNITY_PC 	
 	private string savePath = "Assets/Resources/Player Data/Info.xml";
 #endif
@@ -246,6 +251,7 @@ public class PlayerInformation : MonoBehaviour
 	}
 
 	//Other functions
+	//Takes away health from player when hit
 	public void applyDamage(int damage)
 	{
 		if(currentShields > 0)
@@ -262,7 +268,8 @@ public class PlayerInformation : MonoBehaviour
 			currentHealth -= damage;
 		}
 	}
-	
+
+	//Accelerates the ship towards max speed
 	public void accelerate()
 	{
 		if(speed != maxSpeed)
@@ -276,6 +283,7 @@ public class PlayerInformation : MonoBehaviour
 		currentFuel -= fuelConsumptionRate;
 	}
 
+	//Used for saving the player information to a file
 	public void SaveData()
 	{
 		Debug.Log("Saving...");
@@ -332,6 +340,7 @@ public class PlayerInformation : MonoBehaviour
 		XMLFileManager.EncryptFile(savePath);
 	}
 
+	//Used for loading saved player information
 	public void LoadData()
 	{
 		Debug.Log("Loading...");

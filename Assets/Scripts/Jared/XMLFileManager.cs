@@ -1,3 +1,5 @@
+//Description: Responsible for encrypting and decrypting the save file
+
 using UnityEngine;
 using System;
 using System.IO;
@@ -9,6 +11,7 @@ using System.Security.Cryptography;
 [ExecuteInEditMode]
 public class XMLFileManager : MonoBehaviour 
 {
+	//Encrypts the save file to prevent modification
 	public static void EncryptFile (string path)
 	{
 		if(!File.Exists(path))
@@ -36,7 +39,8 @@ public class XMLFileManager : MonoBehaviour
 
 		xmlFile.Save(path);
 	}
-	
+
+	//Decrypts the save file for loading purposes
 	public static void DecryptFile (string path)
 	{
 		if(!File.Exists(path))
