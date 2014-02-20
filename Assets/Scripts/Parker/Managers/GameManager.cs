@@ -90,7 +90,9 @@ public class GameManager : MonoBehaviour
 	{
 		playerObject = GameObject.Instantiate((Resources.Load("Player"))) as GameObject;
 		playerObject.SendMessage("Load",SendMessageOptions.DontRequireReceiver);
-		Camera.main.transform.parent = playerObject.transform;
+		playerObject.transform.localScale = new Vector3(0.5f,0.5f,1.0f);
+		Camera.main.gameObject.AddComponent<FollowTarget>().target = playerObject;
+		Camera.main.orthographicSize = 15;
 
 	}
 }

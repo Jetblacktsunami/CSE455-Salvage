@@ -42,17 +42,17 @@ public class WorldCell : MonoBehaviour
 	{
 		float distance = Vector3.Distance(gameObject.transform.position, GameManager.Instance.playerObject.transform.position);
 		float cellSize = gameObject.transform.localScale.x;
-		if(distance <= cellSize + 2.0f && status != CellStatus.active)
+		if(distance <= (cellSize * 2) + 2.0f && status != CellStatus.active)
 		{
 			Activate();
 			status = CellStatus.active;
 		}
-		else if(distance > cellSize + 2.0f && status != CellStatus.standby && status != CellStatus.init)
+		else if(distance > (cellSize * 2)+ 2.0f && status != CellStatus.standby && status != CellStatus.init)
 		{
 			Deactivate();
 			status = CellStatus.standby;
 		}
-		if(distance > cellSize * 4 && status != CellStatus.init) 
+		if(distance > (cellSize * 4) && status != CellStatus.init) 
 		{
 			GarbageCollect();
 			status = CellStatus.init;

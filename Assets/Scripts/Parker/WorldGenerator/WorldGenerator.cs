@@ -122,8 +122,10 @@ public class WorldGenerator : MonoBehaviour
 			worldspec.planetPositions = new Vector2[planets.Count];
 			for(int i = 0; i < planets.Count; i++)
 			{
-				float r = (worldspec.mapLength/2.0f) / (planets.Count - i);
-				int theta = UnityEngine.Random.Range(0 + (90 * i) ,90 + (90 * 1));
+
+				// r =  % total distance 
+				float r = (((float)worldspec.mapLength/2.0f) * ((float)planets.Count /  ((float)planets.Count + i)));
+				int theta = UnityEngine.Random.Range(1 + (90 * i) ,90 + (90 * i));
 					
 				worldspec.planetPositions[i].Set( Mathf.Cos(theta) * r, Mathf.Sin(theta) * r);
 			}
