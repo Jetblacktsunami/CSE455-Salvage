@@ -131,9 +131,17 @@ public class WorldGenerator : MonoBehaviour
 				Vector2 tempPos = new Vector2(Mathf.Cos(theta) * r, Mathf.Sin(theta) * r);
 
 
-				float offsetFromCenter = (tempPos.x % worldspec.cellLength / 2.0f);
-				tempPos.x = tempPos.x - (tempPos.x % worldspec.cellLength / 2.0f);
-				tempPos.y = tempPos.y - (tempPos.y % worldspec.cellLength / 2.0f);
+				float offsetFromCenter = (tempPos.x % (worldspec.cellLength));
+				if(offsetFromCenter != (worldspec.cellLength/2.0f))
+				{
+					tempPos.x = (tempPos.x - (offsetFromCenter)) + (worldspec.cellLength/2.0f);
+				}
+
+				offsetFromCenter = (tempPos.y % (worldspec.cellLength));
+				if(offsetFromCenter != (worldspec.cellLength/2.0f))
+				{
+					tempPos.y = (tempPos.y - (offsetFromCenter)) + (worldspec.cellLength/2.0f);
+				}
 
 				worldspec.planetPositions[i] = tempPos;
 			}
