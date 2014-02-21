@@ -24,7 +24,8 @@ public class WorldGenerator : MonoBehaviour
 	public static Action<ActionType> worldDoneLoading;
 	public static string directory;// = Application.dataPath + "/SaveData/";
 
-	public List<GameObject> Planets = new List<GameObject> ();
+	public List<GameObject> planets = new List<GameObject> ();
+	public GameObject sun;
 
 	/// <summary>
 	/// Gets or sets the instance.
@@ -84,6 +85,7 @@ public class WorldGenerator : MonoBehaviour
 		public float degreeJumpStep;
 		public int seed;
 		public int subdivisions;
+		public Vector2[] planetPositions;
 		public List<Vector2> invalidSpawnPoints;
 	}
 
@@ -94,7 +96,9 @@ public class WorldGenerator : MonoBehaviour
 	public void GenerateSpace( WorldSpecs details)
 	{
 		worldspec = details;
-		CreateCells (details);
+		CreateCells (worldspec);
+		SpawnPlanets ();
+
 	}
 
 	/// <summary>
@@ -113,18 +117,52 @@ public class WorldGenerator : MonoBehaviour
 		worldspec.seed = seed;
 		worldspec.subdivisions = numberOfSubdivisions;
 		worldspec.invalidSpawnPoints = new List<Vector2>();
+		worldspec.totalNumberOfCells = numberOfSubdivisions * numberOfSubdivisions;
+
+		if(planets.Count > 0)
+		{
+			worldspec.planetPositions = new Vector2[planets.Count];
+			float jumpStep = ((float)worldspec.mapLength) / (float)planets.Count;
+			float jump = 0f;
+			for(int i = 0 ; i < planets.Count; i++, jump += jumpStep)
+			{
+				// r =  distance + previous distance
+reroll:			float r = jump;
+				float theta = UnityEngine.Random.Range( 1f, 89f);
+				Vector2 tempPos = new Vector2(-(float)mapLength/2.0f, -(float)worldspec.mapLength/2.0f);
+				tempPos.x = tempPos.x + (Mathf.Abs(Mathf.Cos(theta) * r));
+				tempPos.y = tempPos.x + (Mathf.Abs(Mathf.Sin(theta) * r));
+
+				float offsetFromCenter = (tempPos.x % (worldspec.cellLength));
+				if(offsetFromCenter != (worldspec.cellLength/2.0f))
+				{
+					tempPos.x = (tempPos.x - (offsetFromCenter)) + (worldspec.cellLength/2.0f);
+				}
+
+				offsetFromCenter = (tempPos.y % (worldspec.cellLength));
+				if(offsetFromCenter != (worldspec.cellLength/2.0f))
+				{
+					tempPos.y = (tempPos.y - (offsetFromCenter)) + (worldspec.cellLength/2.0f);
+				}
+				if(isPlanetInRange(tempPos) || Vector2.Distance(Vector2.zero,tempPos) <= worldspec.cellLength)
+				{
+					Debug.Log("had to reroll");
+					goto reroll;
+				}
+				worldspec.planetPositions[i] = tempPos;
+			}
+
+		}
 
 		for(float degree = 0; degree < 360; degree+= worldspec.degreeJumpStep)
 		{
 			float r0 = 5 * Mathf.Cos( 9 * degree) + (worldspec.mapLength * 0.20f); //degree / 4; //3*Mathf.Cos(6 * degree) + 15.0f;
-			//float r1 =  Mathf.Cos(16 * degree ) + (degree / 5.0f);
-			
-			//sohcahtoa	
 			worldspec.invalidSpawnPoints.Add(new Vector2( r0 * Mathf.Cos(degree), r0 * Mathf.Sin(degree)));
-			//worldspec.invalidSpawnPoints.Add(new Vector2( r1 * Mathf.Cos(degree), r1 * Mathf.Sin(degree)));
 		}
 
+		SpawnPlanets ();
 		CreateCells (worldspec);
+
 		SaveSpace();
 	}
 
@@ -168,6 +206,14 @@ public class WorldGenerator : MonoBehaviour
 					writer.WriteAttributeString("subdivisions", obj.subdivisions.ToString());
 					writer.WriteAttributeString("numOfCells", obj.totalNumberOfCells.ToString());
 					writer.WriteAttributeString("Seed", obj.seed.ToString());
+					if(obj.planetPositions.Length > 0)
+					{
+						for(int i = 0; i < obj.planetPositions.Length; i++)
+						{
+							writer.WriteAttributeString("pPos-x" + i,obj.planetPositions[i].x.ToString());
+							writer.WriteAttributeString("pPos-y" + i,obj.planetPositions[i].y.ToString());
+						}
+					}
 					writer.WriteEndElement();
 					writer.WriteWhitespace("\n");
 				}
@@ -196,6 +242,14 @@ public class WorldGenerator : MonoBehaviour
 			writer.WriteAttributeString("subdivisions", worldspec.subdivisions.ToString());
 			writer.WriteAttributeString("numOfCells", worldspec.totalNumberOfCells.ToString());
 			writer.WriteAttributeString("Seed", worldspec.seed.ToString());
+			if(worldspec.planetPositions.Length > 0)
+			{
+				for(int i = 0; i < worldspec.planetPositions.Length; i++)
+				{
+					writer.WriteAttributeString("pPos-x" + i,worldspec.planetPositions[i].x.ToString());
+					writer.WriteAttributeString("pPos-y" + i,worldspec.planetPositions[i].y.ToString());
+				}
+			}
 			writer.WriteEndElement();
 			writer.WriteWhitespace("\n");
 			writer.WriteEndElement();
@@ -224,6 +278,14 @@ public class WorldGenerator : MonoBehaviour
 			writer.WriteAttributeString("subdivisions", worldspec.subdivisions.ToString());
 			writer.WriteAttributeString("numOfCells", worldspec.totalNumberOfCells.ToString());
 			writer.WriteAttributeString("Seed", worldspec.seed.ToString());
+			if(worldspec.planetPositions.Length > 0)
+			{
+				for(int i = 0; i < worldspec.planetPositions.Length; i++)
+				{
+					writer.WriteAttributeString("pPos-x" + i,worldspec.planetPositions[i].x.ToString());
+					writer.WriteAttributeString("pPos-y" + i,worldspec.planetPositions[i].y.ToString());
+				}
+			}
 			writer.WriteEndElement();
 			writer.WriteWhitespace("\n");
 			writer.WriteEndElement();
@@ -240,48 +302,85 @@ public class WorldGenerator : MonoBehaviour
 	/// <returns>The created worlds.</returns>
 	public static List<WorldSpecs> GetCreatedWorlds()
 	{
-		List<WorldSpecs> existingSpecs = new List<WorldSpecs>();
-		XmlTextReader reader = new XmlTextReader(directory + "CreatedWorlds.xml");
-		
-		while(reader.Read())
+		if(File.Exists(directory + "CreatedWorlds.xml"))
 		{
-			if(reader.IsStartElement() && reader.NodeType == XmlNodeType.Element)
+			List<WorldSpecs> existingSpecs = new List<WorldSpecs> ();
+			XmlTextReader reader = new XmlTextReader(directory + "CreatedWorlds.xml");
+			
+			while(reader.Read())
 			{
-				switch(reader.Name)
+				if(reader.IsStartElement() && reader.NodeType == XmlNodeType.Element)
 				{
-					case "WorldSpec":
-						if(reader.AttributeCount == 10)
-						{
-							WorldSpecs tempSpec = new WorldSpecs();
-							tempSpec.spaceName = reader.GetAttribute(0);	
-							tempSpec.spaceArea = int.Parse(reader.GetAttribute(1));
-							tempSpec.mapLength = int.Parse(reader.GetAttribute(2));
-							tempSpec.cellLength = float.Parse(reader.GetAttribute(3));
-							tempSpec.start = new Vector2(float.Parse(reader.GetAttribute(4)),float.Parse(reader.GetAttribute(5)));
-							tempSpec.degreeJumpStep = float.Parse(reader.GetAttribute(6));
-							tempSpec.subdivisions = int.Parse(reader.GetAttribute(7));
-							tempSpec.totalNumberOfCells = int.Parse(reader.GetAttribute(8));
-							tempSpec.seed = int.Parse(reader.GetAttribute(9));
-							existingSpecs.Add(tempSpec);
-						}
-						else
-						{
-							Debug.Log("Data is missing from 1 of the worlds. Not Saving it anymore");
-						}
-						break;
-					case "Root":
-						Debug.Log("Root found");
-						break;
-					default:
-						Debug.Log(reader.Name + " : possible invalid data in save file ignoring, please review file");
-						break;
+					switch(reader.Name)
+					{
+						case "WorldSpec":
+							if(reader.AttributeCount >= 10)
+							{
+								WorldSpecs tempSpec = new WorldSpecs();
+								tempSpec.spaceName = reader.GetAttribute(0);	
+								tempSpec.spaceArea = int.Parse(reader.GetAttribute(1));
+								tempSpec.mapLength = int.Parse(reader.GetAttribute(2));
+								tempSpec.cellLength = float.Parse(reader.GetAttribute(3));
+								tempSpec.start = new Vector2(float.Parse(reader.GetAttribute(4)),float.Parse(reader.GetAttribute(5)));
+								tempSpec.degreeJumpStep = float.Parse(reader.GetAttribute(6));
+								tempSpec.subdivisions = int.Parse(reader.GetAttribute(7));
+								tempSpec.totalNumberOfCells = int.Parse(reader.GetAttribute(8));
+								tempSpec.seed = int.Parse(reader.GetAttribute(9));
+								tempSpec.planetPositions = new Vector2[(reader.AttributeCount - 10) / 2];
+								if(reader.AttributeCount > 11)
+								{
+									int maxPosition = (reader.AttributeCount - 10)/2;
+									for(int i = 0; i < maxPosition;) 
+									{
+										tempSpec.planetPositions[i].Set(float.Parse(reader.GetAttribute(i+10)), float.Parse(reader.GetAttribute(i+11)));
+									 	i += 2;
+									}
+								}
+								existingSpecs.Add(tempSpec);
+							}
+							else
+							{
+								Debug.Log("Data is missing from 1 of the worlds. Not Saving it anymore");
+							}
+							break;
+						case "Root":
+							Debug.Log("Root found");
+							break;
+						default:
+							Debug.Log(reader.Name + " : possible invalid data in save file ignoring, please review file");
+							break;
+					}
 				}
 			}
+
+			reader.Close();
+			return existingSpecs;
+		}
+		else 
+		{
+			return new List<WorldSpecs>(1);
+		}
+	}
+
+
+	private static void SpawnPlanets()
+	{
+		int count = WorldGenerator.Instance.planets.Count;
+		GameObject parent = new GameObject ("Planets");
+		parent.transform.position = Vector3.zero;
+
+		for(int i = 0; i < count; i++)
+		{
+			GameObject planet = GameObject.Instantiate(WorldGenerator.Instance.planets[i]) as GameObject;
+			planet.transform.position = worldspec.planetPositions[i];
+			planet.transform.parent = parent.transform;
+			planet.transform.localScale = new Vector3(worldspec.cellLength * 0.1f,worldspec.cellLength * 0.1f,1.0f);
 		}
 
-		reader.Close();
-
-		return existingSpecs;
+		GameObject sun = GameObject.Instantiate (WorldGenerator.Instance.sun) as GameObject;
+		sun.transform.position = Vector3.zero;
+		sun.transform.parent = parent.transform;
+		sun.transform.localScale = new Vector3(worldspec.cellLength * 0.1f,worldspec.cellLength * 0.1f,1.0f);
 	}
 
 	/// <summary>
@@ -304,15 +403,34 @@ public class WorldGenerator : MonoBehaviour
 				cell.transform.parent = parent.transform;
 				cell.transform.localScale = new Vector3(details.cellLength ,details.cellLength,1.0f);
 				cell.transform.position = new Vector2(startPoint.x + i + (details.cellLength/2.0f) , startPoint.y + j + (details.cellLength / 2.0f) );
-				cell.AddComponent<WorldCell>();
+				if(isPlanetInRange(cell.transform.position))
+				{
+					cell.AddComponent<WorldCell>().hasPlanet = true;
+				}
+				else
+				{
+					cell.AddComponent<WorldCell>();
+				}
 				cell.AddComponent<BoxCollider2D>().isTrigger = true;
-				worldspec.totalNumberOfCells++;
 			}
 		}
 		if(worldDoneLoading != null)
 		{
 			worldDoneLoading(ActionType.load);
 		}
+	}
+
+	private static bool isPlanetInRange(Vector2 currentPosition)
+	{
+		foreach(Vector2 position in worldspec.planetPositions)
+		{
+			if(Vector2.Distance(currentPosition,position) < (worldspec.cellLength /2.0f))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
 
