@@ -1,3 +1,5 @@
+//Description: Used for storing and loading ship stats to player info
+
 using UnityEngine;
 using System.Collections;
 
