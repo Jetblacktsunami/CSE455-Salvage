@@ -283,27 +283,31 @@ public class WorldCell : MonoBehaviour
 		{
 			Directory.CreateDirectory(directory);
 		}
-		XmlTextWriter writer = new XmlTextWriter (fileName, System.Text.Encoding.UTF8);
-
-		writer.WriteStartDocument();
-		writer.WriteWhitespace("\n");
-		writer.WriteStartElement("Root");
-		writer.WriteWhitespace("\n");
-
-		foreach(Asteroid child in children)
+		if(File.Exists(fileName))
 		{
-			writer.WriteWhitespace("\t");
-			writer.WriteStartElement("AsteroidPosition");
-			writer.WriteAttributeString("x ",child.transform.position.x.ToString());
-			writer.WriteAttributeString("y ",child.transform.position.y.ToString());
-			writer.WriteEndElement();
-			writer.WriteWhitespace("\n\t\t");
-			writer.WriteElementString("PerlinValue", child.perlinValue.ToString());
-			writer.WriteWhitespace("\n");
-		}
+			XmlTextWriter writer = new XmlTextWriter (fileName, System.Text.Encoding.UTF8);
 
-		writer.WriteEndDocument ();
-		writer.Close ();
+			writer.WriteStartDocument();
+			writer.WriteWhitespace("\n");
+			writer.WriteStartElement("Root");
+			writer.WriteWhitespace("\n");
+
+			foreach(Asteroid child in children)
+			{
+				writer.WriteWhitespace("\t");
+				writer.WriteStartElement("AsteroidPosition");
+				writer.WriteAttributeString("x ",child.transform.position.x.ToString());
+				writer.WriteAttributeString("y ",child.transform.position.y.ToString());
+				writer.WriteEndElement();
+				writer.WriteWhitespace("\n\t\t");
+				writer.WriteElementString("PerlinValue", child.perlinValue.ToString());
+				writer.WriteWhitespace("\n");
+			}
+
+			writer.WriteEndDocument ();
+			writer.Close ();
+		}
+		GameManager.Instance.AddToSavePercentage();
 	}
 
 	//loads all the objects in the cell

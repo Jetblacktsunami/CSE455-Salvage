@@ -117,6 +117,7 @@ public class WorldGenerator : MonoBehaviour
 		worldspec.seed = seed;
 		worldspec.subdivisions = numberOfSubdivisions;
 		worldspec.invalidSpawnPoints = new List<Vector2>();
+		worldspec.totalNumberOfCells = numberOfSubdivisions * numberOfSubdivisions;
 
 		if(planets.Count > 0)
 		{
@@ -411,7 +412,6 @@ reroll:			float r = jump;
 					cell.AddComponent<WorldCell>();
 				}
 				cell.AddComponent<BoxCollider2D>().isTrigger = true;
-				worldspec.totalNumberOfCells++;
 			}
 		}
 		if(worldDoneLoading != null)
