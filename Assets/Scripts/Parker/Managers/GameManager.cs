@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 	public static int seed;
 
 	public GameObject playerObject;
+	public float SavePercentage = 0f;
 	public enum FunctionCallType{ load, save, exit };
 
 	private static GameManager instance;
@@ -67,6 +68,7 @@ public class GameManager : MonoBehaviour
 			{
 				WorldGenerator.Instance.GenerateSpace(256 , 10 ,Vector2.zero, WorldName ,seed );
 			}
+			SavePercentage = 0.0f;
 		}
 		else if(Application.loadedLevelName == "MainMenu")
 		{
@@ -76,19 +78,38 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	void OnEnable()
+	private void OnEnable()
 	{
 		WorldGenerator.worldDoneLoading += OnWorldLoadDone;
 	}
 
-	void OnDisable()
+	private void OnDisable()
 	{
 		WorldGenerator.worldDoneLoading -= OnWorldLoadDone;
 	}
 
-	void OnWorldLoadDone(WorldGenerator.ActionType action)
+
+	/// <summary>
+	/// TODO: Add player to the counter
+	/// </summary>
+	public void AddToSavePercentage()
+	{
+		Debug.Log (SavePercentage);
+		Debug.Log (WorldGenerator.worldspec.totalNumberOfCells);
+		SavePercentage += (100f / (WorldGenerator.worldspec.totalNumberOfCells));
+		if(SavePercentage >= 100f)
+		{
+			ReturnToMenu.OnSaveDone();
+		}
+	}
+
+	private void OnWorldLoadDone(WorldGenerator.ActionType action)
 	{
 		playerObject = GameObject.Instantiate((Resources.Load("Player"))) as GameObject;
 		playerObject.SendMessage("Load",SendMessageOptions.DontRequireReceiver);
+		playerObject.transform.localScale = new Vector3(0.5f,0.5f,1.0f);
+		Camera.main.gameObject.AddComponent<FollowTarget>().target = playerObject;
+		Camera.main.orthographicSize = 15;
+
 	}
 }
