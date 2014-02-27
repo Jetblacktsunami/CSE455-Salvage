@@ -1092,6 +1092,12 @@ public class UICamera : MonoBehaviour
 			Highlight(mHover, true);
 		}
 
+		if (Time.timeScale <= 0.25f)
+		{
+			if (!Raycast(Input.mousePosition, out lastHit)) hoveredObject = fallThrough;
+			if (hoveredObject == null) hoveredObject = genericEventHandler;
+			for (int i = 0; i < 3; ++i) mMouse[i].current = hoveredObject;
+		}
 		// Update the last value
 		mMouse[0].last = mMouse[0].current;
 		for (int i = 1; i < 3; ++i) mMouse[i].last = mMouse[0].last;
