@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ShootingManager : MonoBehaviour 
 {
-	public enum ammoType{none, standard, beam}
+	public enum ammoType{none, standard, beam, chaser}
 	public ammoType ammo = ammoType.none;
 	public GameObject[] allbullets;
 	public PlayerInformation Instance;
@@ -12,6 +12,11 @@ public class ShootingManager : MonoBehaviour
 	private BulletInfo bulInfo;
 	private float fireTimer;
 	private float resetTime;
+
+	//this is specific to the beam weapon
+	private bool hasSpawned = false;
+	private GameObject spawnedObject;
+	private BulletInfo spawnedBulInfo;
 
 	public void ChangeAmmoType(ammoType aType)
 	{
@@ -44,8 +49,26 @@ public class ShootingManager : MonoBehaviour
 		{
 			if(currentBullets)
 			{
-				bulInfo.travelAngle = Joystick.RightStick.GetAngle();
-				GameObject.Instantiate(currentBullets, transform.position, Quaternion.identity);
+				if(ammo != ammoType.beam)
+				{
+					bulInfo.travelAngle = Joystick.RightStick.GetAngle();
+					GameObject.Instantiate(currentBullets, transform.position, Quaternion.identity);
+				}
+				else if(ammo == ammoType.beam)
+				{
+					if(!hasSpawned)
+					{
+						bulInfo.travelAngle = Joystick.RightStick.GetAngle();
+						spawnedObject = GameObject.Instantiate(currentBullets, transform.position, Quaternion.identity) as GameObject;
+						spawnedBulInfo = spawnedObject.GetComponent<BulletInfo>();
+						hasSpawned = true;
+					}
+					else
+					{
+						spawnedObject.transform.rotation = Quaternion.AngleAxis(Joystick.RightStick.GetAngle(), new Vector3(0f,0f,1.0f));
+						spawnedBulInfo.travelAngle = Joystick.RightStick.GetAngle();
+					}
+				}
 			}
 			else if(!currentBullets)
 			{
@@ -54,8 +77,11 @@ public class ShootingManager : MonoBehaviour
 			}
 			fireTimer = resetTime;
 		}
-
-
+		else if(Joystick.RightStick.GetMagnitude() < 0.5f && hasSpawned)
+		{
+			Destroy(spawnedObject);
+			hasSpawned = false;
+		}
 
 	}
 }
