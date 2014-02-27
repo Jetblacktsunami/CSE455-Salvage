@@ -70,5 +70,12 @@ public class SubMenuAlpha : MonoBehaviour
 	void SwitchAlphaBack()
 	{
 		panel.alpha = 0.0f;
+		if(childPanels.Length > 0)
+		{
+			foreach(UIPanel obj in childPanels)
+			{
+				obj.alpha = panel.alpha;
+			}
+		}
 	}
 }
