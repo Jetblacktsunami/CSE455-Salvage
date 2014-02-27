@@ -50,6 +50,7 @@ public class Joystick : MonoBehaviour
 		Vector2 position = gameObject.transform.position - gameObject.transform.parent.position;
 		float theta = Mathf.Atan (position.y / position.x) * Mathf.Rad2Deg;
 
+		//return theta;
 		if(position.x < 0)
 		{
 			if(position.y >= 0.0f)
