@@ -12,7 +12,7 @@ public class PlayerInformation : MonoBehaviour
 	private string deviceID;					//ID of device for verifying save files
 
 	//Ship stats
-	private string ship;						//Name of ship currently selected
+	private string ship = "Ship 1";				//Name of ship currently selected
 	private int maxHealth;						//Max health value of player
 	private int currentHealth;					//Current health value of player
 	private int maxShields;						//Max shields value of player
@@ -29,8 +29,10 @@ public class PlayerInformation : MonoBehaviour
 	private float rotationSpeed;				//Turning speed of the player
 
 	//Weapon stats
-	private string weapon;						//Name of currently selected weapon
+	private string weapon = "Weapon 1";			//Name of currently selected weapon
 	private int weaponDamage;					//Damage dealt by current weapon
+	private int maxAmmo;						//Maximum ammo the weapon holds
+	private int currentAmmo;					//Current amount of ammo held
 	private float weaponFireRate;				//How fast the weapon fires
 
 	//Selection of save file location based on environment
@@ -55,7 +57,7 @@ public class PlayerInformation : MonoBehaviour
 	}
 
 	void Awake()
-	{		
+	{
 		DontDestroyOnLoad(gameObject);
 		
 		if(File.Exists(savePath))
@@ -63,7 +65,8 @@ public class PlayerInformation : MonoBehaviour
 			LoadData();
 		}
 		else
-		{			
+		{
+			Initialize();
 			SaveData();
 		}
 	}
@@ -152,6 +155,16 @@ public class PlayerInformation : MonoBehaviour
 	public int getWeaponDamage()
 	{
 		return weaponDamage;
+	}
+
+	public int getMaxAmmo()
+	{
+		return maxAmmo;
+	}
+
+	public int getCurrentAmmo()
+	{
+		return currentAmmo;
 	}
 	
 	public float getWeaponFireRate()
@@ -244,6 +257,16 @@ public class PlayerInformation : MonoBehaviour
 	{
 		weaponDamage = newDamage;
 	}
+
+	public void setMaxAmmo(int newMax)
+	{
+		maxAmmo = newMax;
+	}
+	
+	public void setCurrentAmmo(int newCurrent)
+	{
+		currentAmmo = newCurrent;
+	}
 	
 	public void setWeaponFireRate(float newRate)
 	{
@@ -282,6 +305,15 @@ public class PlayerInformation : MonoBehaviour
 		}
 		currentFuel -= fuelConsumptionRate;
 	}
+
+	//Initialize values for new save
+	public void Initialize()
+	{
+		ship = "Ship 1";
+		weapon = "Weapon 1";
+
+	}
+
 
 	//Used for saving the player information to a file
 	public void SaveData()
@@ -332,6 +364,10 @@ public class PlayerInformation : MonoBehaviour
 		writer.WriteElementString("weapon", weapon);
 		writer.WriteWhitespace("\n\t");
 		writer.WriteElementString("weaponDamage", weaponDamage.ToString());
+		writer.WriteWhitespace("\n\t");
+		writer.WriteElementString("maxAmmo", maxAmmo.ToString());
+		writer.WriteWhitespace("\n\t");
+		writer.WriteElementString("currentAmmo", currentAmmo.ToString());
 		writer.WriteWhitespace("\n\t");
 		writer.WriteElementString("weaponFireRate", weaponFireRate.ToString());
 		writer.WriteEndElement();
@@ -414,6 +450,12 @@ public class PlayerInformation : MonoBehaviour
 						break;
 					case "weaponDamage":
 						weaponDamage = int.Parse(reader.ReadElementString());
+						break;
+					case "maxAmmo":
+						maxAmmo = int.Parse(reader.ReadElementString());
+						break;
+					case "currentAmmo":
+						currentAmmo = int.Parse(reader.ReadElementString());
 						break;
 					case "weaponFireRate":
 						weaponFireRate = float.Parse(reader.ReadElementString());
