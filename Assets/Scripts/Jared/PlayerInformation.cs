@@ -38,15 +38,7 @@ public class PlayerInformation : MonoBehaviour
 	private static PlayerInformation instance;
 
 	//Selection of save file location based on environment
-#if UNITY_EDITOR || UNITY_PC 	
-	private string savePath = "Assets/Resources/Player Data/Info.xml";
-#endif
-	
-#if UNITY_IPHONE || UNITY_ANDROID
-#if !UNITY_EDITOR
-	private string savePath = Application.persistentDataPath + "/Info.xml";
-#endif	
-#endif
+	private string savePath;
 
 	public static PlayerInformation Instance
 	{
@@ -71,19 +63,6 @@ public class PlayerInformation : MonoBehaviour
 			UnityEngine.AndroidJNI.AttachCurrentThread();
 		}
 #endif
-		if(!instance)
-		{
-			instance = this;
-		}
-		else
-		{
-			Destroy(this);
-		}
-		DontDestroyOnLoad(this.gameObject);
-	}
-
-	void Awake()
-	{
 		if(File.Exists(savePath))
 		{
 			LoadData();
@@ -92,6 +71,20 @@ public class PlayerInformation : MonoBehaviour
 		{
 			Initialize();
 			SaveData();
+		}
+	}
+
+	void Awake()
+	{
+		savePath = WorldGenerator.directory + "/" + WorldGenerator.worldspec.spaceName + "/" + "PlayerInformation.xml";
+
+		if(!instance)
+		{
+			instance = this;
+		}
+		else
+		{
+			Destroy(this);
 		}
 	}
 
@@ -333,10 +326,7 @@ public class PlayerInformation : MonoBehaviour
 	//Initialize values for new save
 	public void Initialize()
 	{
-		ship = "Ship 1";
-		weapon = "Weapon 1";
-		ShipInfo.Instance.getShipInfo();
-		WeaponInfo.Instance.getWeaponInfo();
+		ShootingManager.Instance.ChangeAmmoType (ShootingManager.ammoType.standard);
 	}
 
 
@@ -344,6 +334,10 @@ public class PlayerInformation : MonoBehaviour
 	public void SaveData()
 	{
 		Debug.Log("Saving...");
+		if(!Directory.Exists(WorldGenerator.directory + "/" + WorldGenerator.worldspec.spaceName + "/"))
+		{
+			Directory.CreateDirectory(WorldGenerator.directory + "/" + WorldGenerator.worldspec.spaceName + "/");
+		}
 		if(File.Exists(savePath))
 		{
 			File.Delete(savePath);

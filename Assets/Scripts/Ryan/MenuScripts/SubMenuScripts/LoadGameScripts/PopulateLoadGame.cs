@@ -7,6 +7,7 @@ public class PopulateLoadGame : MonoBehaviour
 	public Object loadlabel;
 	public GameObject window;
 	public List <WorldGenerator.WorldSpecs> worldinfo;
+	public UIScrollView scrollView;
 	private LoadData Ldata;
 
 	void Start () 
@@ -18,6 +19,7 @@ public class PopulateLoadGame : MonoBehaviour
 			{
 				GameObject newLoad = (GameObject)Instantiate (loadlabel);
 				//Ldata = newLoad.GetComponent<LoadData>();
+				newLoad.GetComponentInChildren<BoxCollider>().gameObject.AddComponent<UIDragScrollView>().scrollView = scrollView;
 				Ldata = newLoad.GetComponentInChildren<LoadData>();
 				Ldata.LoadLabel.text = "Name: " + worldinfo[i].spaceName + "    Seed: " + worldinfo[i].seed;
 				//Ldata.LoadName = worldinfo[i].spaceName;
