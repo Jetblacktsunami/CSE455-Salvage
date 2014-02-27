@@ -686,7 +686,7 @@ public class UIInput : MonoBehaviour
 
 			if (isEmpty)
 			{
-				processed = selected ? (needsTextCursor ? "|" : "") : mDefaultText;
+				processed = selected ? (needsTextCursor ? "I" : "") : mDefaultText;
 				RestoreLabelPivot();
 			}
 			else
@@ -706,7 +706,7 @@ public class UIInput : MonoBehaviour
 				{
 					// Append the composition string and the cursor character
 					left += Input.compositionString;
-					if (needsTextCursor) left += "|";
+					if (needsTextCursor) left += "I";
 				}
 				
 				// Append the text from the selection onwards

@@ -6,7 +6,6 @@ public class ShootingManager : MonoBehaviour
 	public enum ammoType{none, standard, beam, chaser}
 	public ammoType ammo = ammoType.none;
 	public GameObject[] allbullets;
-	public PlayerInformation Instance;
 
 	private GameObject currentBullets;
 	private BulletInfo bulInfo;
@@ -17,6 +16,20 @@ public class ShootingManager : MonoBehaviour
 	private bool hasSpawned = false;
 	private GameObject spawnedObject;
 	private BulletInfo spawnedBulInfo;
+
+	private static ShootingManager instance;
+
+	public static ShootingManager Instance
+	{
+		get
+		{
+			if(!instance)
+			{
+				instance = PlayerInformation.Instance.gameObject.AddComponent<ShootingManager>();
+			}
+			return instance;
+		}
+	}
 
 	public void ChangeAmmoType(ammoType aType)
 	{
@@ -32,9 +45,16 @@ public class ShootingManager : MonoBehaviour
 		}
 	}
 
-	void Start()
+	void Awake()
 	{
-		ChangeAmmoType(ammoType.standard);
+		if(!instance || instance == this)
+		{
+			instance = this;
+		}
+		else 
+		{
+			Destroy(this);
+		}
 	}
 
 	// Update is called once per frame
