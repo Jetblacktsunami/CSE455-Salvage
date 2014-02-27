@@ -35,6 +35,8 @@ public class PlayerInformation : MonoBehaviour
 	private int currentAmmo;					//Current amount of ammo held
 	private float weaponFireRate;				//How fast the weapon fires
 
+	private static PlayerInformation instance;
+
 	//Selection of save file location based on environment
 #if UNITY_EDITOR || UNITY_PC 	
 	private string savePath = "Assets/Resources/Player Data/Info.xml";
@@ -46,6 +48,21 @@ public class PlayerInformation : MonoBehaviour
 #endif	
 #endif
 
+	public static PlayerInformation Instance
+	{
+		get
+		{
+			if(instance)
+			{
+				return instance;
+			}
+			else 
+			{
+				return new GameObject().AddComponent<PlayerInformation>();
+			}
+		}
+	}
+
 	void Start()
 	{
 #if UNITY_ANDROID
@@ -54,12 +71,19 @@ public class PlayerInformation : MonoBehaviour
 			UnityEngine.AndroidJNI.AttachCurrentThread();
 		}
 #endif
+		if(!instance)
+		{
+			instance = this;
+		}
+		else
+		{
+			Destroy(this);
+		}
+		DontDestroyOnLoad(this.gameObject);
 	}
 
 	void Awake()
 	{
-		DontDestroyOnLoad(gameObject);
-		
 		if(File.Exists(savePath))
 		{
 			LoadData();
@@ -311,7 +335,8 @@ public class PlayerInformation : MonoBehaviour
 	{
 		ship = "Ship 1";
 		weapon = "Weapon 1";
-
+		ShipInfo.Instance.getShipInfo();
+		WeaponInfo.Instance.getWeaponInfo();
 	}
 
 
@@ -470,6 +495,7 @@ public class PlayerInformation : MonoBehaviour
 
 		if(deviceID != SystemInfo.deviceUniqueIdentifier)
 		{
+			Initialize();
 			SaveData();
 			Debug.Log("Invalid ID for Loading");
 		}

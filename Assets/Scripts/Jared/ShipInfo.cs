@@ -6,31 +6,55 @@ using System.Collections;
 public class ShipInfo : MonoBehaviour
 {
 	public string shipName;
-	private PlayerInformation pInfo;
 
-	void Awake()
+	private static ShipInfo instance;
+
+	public static ShipInfo Instance
 	{
-		pInfo = GameObject.Find("Player").GetComponent<PlayerInformation>();
+		get
+		{
+			if(instance)
+			{
+				return instance;
+			}
+			else 
+			{
+				return new GameObject().AddComponent<ShipInfo>();
+			}
+		}
 	}
 
-	void getShipInfo()
+	void Start()
 	{
-		shipName = pInfo.getShip();
+		if(!instance)
+		{
+			instance = this;
+		}
+		else
+		{
+			Destroy(this);
+		}
+		DontDestroyOnLoad(this.gameObject);
+	}
+
+	public void getShipInfo()
+	{
+		shipName = PlayerInformation.Instance.getShip();
 		switch(shipName)	//Based on the ship currently selected, change stats
 		{
 			case "Ship 1":	//Write ship stats to player info
-				pInfo.setSpeed(1f);
-				pInfo.setRotationSpeed(1f);
-				pInfo.setMaxHealth(5);
-				pInfo.setCurrentHealth(5);
-				pInfo.setMaxShields(5);
-				pInfo.setCurrentShields(5);
-				pInfo.setShieldRechargeDelay(5);
-				pInfo.setShieldRechargeRate(1);
-				pInfo.setMaxFuel(500f);
-				pInfo.setCurrentFuel(500f);
-				pInfo.setFuelConsumptionRate(1f);
-			Debug.Log("ship successfully loaded");
+				PlayerInformation.Instance.setSpeed(1f);
+				PlayerInformation.Instance.setRotationSpeed(1f);
+				PlayerInformation.Instance.setMaxHealth(5);
+				PlayerInformation.Instance.setCurrentHealth(5);
+				PlayerInformation.Instance.setMaxShields(5);
+				PlayerInformation.Instance.setCurrentShields(5);
+				PlayerInformation.Instance.setShieldRechargeDelay(5);
+				PlayerInformation.Instance.setShieldRechargeRate(1);
+				PlayerInformation.Instance.setMaxFuel(500f);
+				PlayerInformation.Instance.setCurrentFuel(500f);
+				PlayerInformation.Instance.setFuelConsumptionRate(1f);
+				Debug.Log("ship successfully loaded");
 				break;
 		}
 	}

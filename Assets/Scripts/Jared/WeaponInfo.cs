@@ -6,24 +6,48 @@ using System.Collections;
 public class WeaponInfo : MonoBehaviour
 {
 	public string weaponName;
-	private PlayerInformation pInfo;
 
-	void Awake()
+	private static WeaponInfo instance;
+
+	public static WeaponInfo Instance
 	{
-		pInfo = GameObject.Find("Player").GetComponent<PlayerInformation>();
+		get
+		{
+			if(instance)
+			{
+				return instance;
+			}
+			else 
+			{
+				return new GameObject().AddComponent<WeaponInfo>();
+			}
+		}
 	}
-	
-	void getWeaponInfo()
+
+	void Start()
 	{
-		weaponName = pInfo.getWeapon();
+		if(!instance)
+		{
+			instance = this;
+		}
+		else
+		{
+			Destroy(this);
+		}
+		DontDestroyOnLoad(this.gameObject);
+	}
+
+	public void getWeaponInfo()
+	{
+		weaponName = PlayerInformation.Instance.getWeapon();
 		switch(weaponName)		//Based on the weapon currently selected, change stats
 		{
 			case "Weapon 1":	//Write weapon stats to player info
-				pInfo.setWeaponDamage(1);
-				pInfo.setWeaponFireRate(0.33f);
-				pInfo.setMaxAmmo(100);
-				pInfo.setCurrentAmmo(100);
-			Debug.Log("weapon successfully loaded");
+				PlayerInformation.Instance.setWeaponDamage(1);
+				PlayerInformation.Instance.setWeaponFireRate(0.33f);
+				PlayerInformation.Instance.setMaxAmmo(100);
+				PlayerInformation.Instance.setCurrentAmmo(100);
+				Debug.Log("weapon successfully loaded");
 				break;
 		}
 	}
