@@ -3,9 +3,7 @@
 using UnityEngine;
 using System.Collections;
 
-// Put this on a rigidbody object and instantly
-// have 2D spaceship controls like OverWhelmed Arena
-// that you can tweak to your heart's content.
+
 
 [RequireComponent (typeof (Rigidbody))]
 public class ShipControls : MonoBehaviour
