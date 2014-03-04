@@ -1,11 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Parker/WorldGenerator/WorldGenerator.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Aaron\AudioController.cs">
     <Files>
-      <File FileName="Assets/Scripts/Parker/Managers/GameManager.cs" Line="95" Column="1" />
-      <File FileName="Assets/Scripts/Parker/WorldGenerator/WorldCell.cs" Line="35" Column="1" />
-      <File FileName="Assets/Scripts/Parker/Objects/FollowTarget.cs" Line="8" Column="13" />
-      <File FileName="Assets/Scripts/Parker/WorldGenerator/WorldGenerator.cs" Line="127" Column="48" />
+      <File FileName="Assets\Scripts\Aaron\AudioController.cs" Line="128" Column="1" />
+      <File FileName="Assets\Scripts\Aaron\AudioController.cs" Line="19" Column="73" />
+      <File FileName="Assets\Scripts\Jared\PlayerInformation.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Jared\ShipInfo.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Jared\WeaponInfo.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
