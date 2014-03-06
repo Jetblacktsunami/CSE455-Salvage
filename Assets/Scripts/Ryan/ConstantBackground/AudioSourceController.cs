@@ -8,7 +8,7 @@ public class AudioSourceController : MonoBehaviour
 	private float defaultVol = 1.0f;
 
 	// Use this for initialization
-	void Start () 
+	void Awake () 
 	{
 		//volume = gameObject.GetComponent<AudioSource> ();
 		if (!PlayerPrefs.HasKey ("MasterVol")) 
@@ -26,6 +26,9 @@ public class AudioSourceController : MonoBehaviour
 			PlayerPrefs.SetFloat("MusicVol", defaultVol);
 			PlayerPrefs.Save();
 		}
+
+		volumes.Set(PlayerPrefs.GetFloat ("MasterVol"), PlayerPrefs.GetFloat ("MusicVol"), PlayerPrefs.GetFloat ("FXVol"));
+		audio.volume = PlayerPrefs.GetFloat ("MasterVol") * PlayerPrefs.GetFloat ("MusicVol");
 	}
 	
 	// Update is called once per frame

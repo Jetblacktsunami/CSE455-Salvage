@@ -327,13 +327,15 @@ reroll:			float r = jump;
 								tempSpec.totalNumberOfCells = int.Parse(reader.GetAttribute(8));
 								tempSpec.seed = int.Parse(reader.GetAttribute(9));
 								tempSpec.planetPositions = new Vector2[(reader.AttributeCount - 10) / 2];
+								Debug.Log("Planet Positions: " + tempSpec.planetPositions.Length);
 								if(reader.AttributeCount > 11)
 								{
-									int maxPosition = (reader.AttributeCount - 10)/2;
-									for(int i = 0; i < maxPosition;) 
+									float maxPosition = (reader.AttributeCount - 10)/2.0f;
+									int maxP = Mathf.CeilToInt(maxPosition);
+									for(int i = 0, j = 0; i < maxP; j++) 
 									{
-										tempSpec.planetPositions[i].Set(float.Parse(reader.GetAttribute(i+10)), float.Parse(reader.GetAttribute(i+11)));
-									 	i += 2;
+										tempSpec.planetPositions[j].Set(float.Parse(reader.GetAttribute(i+10)), float.Parse(reader.GetAttribute(i+11)));
+									 	i+=2;
 									}
 								}
 								existingSpecs.Add(tempSpec);
