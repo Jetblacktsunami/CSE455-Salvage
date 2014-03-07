@@ -102,6 +102,5 @@ public class ShootingManager : MonoBehaviour
 			Destroy(spawnedObject);
 			hasSpawned = false;
 		}
-
 	}
 }

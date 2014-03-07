@@ -40,22 +40,20 @@ public class WorldCell : MonoBehaviour
 
 	public void Update()
 	{
-		float distance = Vector3.Distance(gameObject.transform.position, GameManager.Instance.playerObject.transform.position);
-		float cellSize = gameObject.transform.localScale.x;
-		if(distance <= (cellSize * 2) + 2.0f && status != CellStatus.active)
+		if(GameManager.Instance.playerObject)
 		{
-			Activate();
-			status = CellStatus.active;
-		}
-		else if(distance > (cellSize * 2)+ 2.0f && status != CellStatus.standby && status != CellStatus.init)
-		{
-			Deactivate();
-			status = CellStatus.standby;
-		}
-		if(distance > (cellSize * 4) && status != CellStatus.init) 
-		{
-			GarbageCollect();
-			status = CellStatus.init;
+			float distance = Vector3.Distance(gameObject.transform.position, GameManager.Instance.playerObject.transform.position);
+			float cellSize = gameObject.transform.localScale.x;
+			if(distance <= (cellSize * 2) + 2.0f && status != CellStatus.active)
+			{
+				Activate();
+				status = CellStatus.active;
+			}
+			else if(distance > (cellSize * 2)+ 2.0f && status != CellStatus.standby && status != CellStatus.init)
+			{
+				Deactivate();
+				status = CellStatus.standby;
+			}
 		}
 	}
 	//first function that runs upon startup of object
@@ -87,7 +85,6 @@ public class WorldCell : MonoBehaviour
 	//activate the cell so that it spawns all necessary objects.
 	public void Activate()
 	{
-		Debug.Log ("Activating");
 		Start();
 
 		if (Directory.Exists(directory) && File.Exists(fileName)) 
@@ -105,7 +102,7 @@ public class WorldCell : MonoBehaviour
 	//turns the object off
 	public void Deactivate()
 	{
-		Save ();
+		AutoSave ();
 		if(gameObject.transform.childCount > 0)
 		{
 			for(int i = 0;  i < gameObject.transform.childCount; i++)
@@ -155,6 +152,7 @@ public class WorldCell : MonoBehaviour
 	//if this is the first time being activated the cell will call this to spawn the asteroids
 	public void GenerateXMLData ()
 	{
+		Start ();
 		Debug.Log ("Generating xml");
 		if(!Directory.Exists(directory))
 		{
@@ -221,7 +219,7 @@ public class WorldCell : MonoBehaviour
 							float yCoord = ((j + transform.position.y) + details.mapLength /2) / (float)details.mapLength * 25.6f;						
 							float scale = Mathf.PerlinNoise(xCoord,yCoord);
 
-							if(scale < 0.4f && scale > 0.045f)
+							if(scale > 0.95f || scale < 0.1f || (scale > 0.45f && scale < 0.5f))
 							{
 	//							int x,y;
 	//							x = i + ((int)halfCellLength);
@@ -308,6 +306,38 @@ public class WorldCell : MonoBehaviour
 			writer.Close ();
 		}
 		GameManager.Instance.AddToSavePercentage();
+	}
+
+	public void AutoSave()
+	{
+		if(!Directory.Exists(directory))
+		{
+			Directory.CreateDirectory(directory);
+		}
+		if(File.Exists(fileName))
+		{
+			XmlTextWriter writer = new XmlTextWriter (fileName, System.Text.Encoding.UTF8);
+			
+			writer.WriteStartDocument();
+			writer.WriteWhitespace("\n");
+			writer.WriteStartElement("Root");
+			writer.WriteWhitespace("\n");
+			
+			foreach(Asteroid child in children)
+			{
+				writer.WriteWhitespace("\t");
+				writer.WriteStartElement("AsteroidPosition");
+				writer.WriteAttributeString("x ",child.transform.position.x.ToString());
+				writer.WriteAttributeString("y ",child.transform.position.y.ToString());
+				writer.WriteEndElement();
+				writer.WriteWhitespace("\n\t\t");
+				writer.WriteElementString("PerlinValue", child.perlinValue.ToString());
+				writer.WriteWhitespace("\n");
+			}
+			
+			writer.WriteEndDocument ();
+			writer.Close ();
+		}
 	}
 
 	//loads all the objects in the cell

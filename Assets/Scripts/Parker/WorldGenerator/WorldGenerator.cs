@@ -22,7 +22,7 @@ public class WorldGenerator : MonoBehaviour
 	public static WorldSpecs worldspec = new WorldSpecs();
 	public enum ActionType{ load, saved, nothing };
 	public static Action<ActionType> worldDoneLoading;
-	public static string directory;// = Application.dataPath + "/SaveData/";
+	public static string directory;
 
 	public List<GameObject> planets = new List<GameObject> ();
 	public GameObject sun;
@@ -146,7 +146,6 @@ reroll:			float r = jump;
 				}
 				if(isPlanetInRange(tempPos) || Vector2.Distance(Vector2.zero,tempPos) <= worldspec.cellLength)
 				{
-					Debug.Log("had to reroll");
 					goto reroll;
 				}
 				worldspec.planetPositions[i] = tempPos;
@@ -327,7 +326,6 @@ reroll:			float r = jump;
 								tempSpec.totalNumberOfCells = int.Parse(reader.GetAttribute(8));
 								tempSpec.seed = int.Parse(reader.GetAttribute(9));
 								tempSpec.planetPositions = new Vector2[(reader.AttributeCount - 10) / 2];
-								Debug.Log("Planet Positions: " + tempSpec.planetPositions.Length);
 								if(reader.AttributeCount > 11)
 								{
 									float maxPosition = (reader.AttributeCount - 10)/2.0f;
@@ -346,7 +344,6 @@ reroll:			float r = jump;
 							}
 							break;
 						case "Root":
-							Debug.Log("Root found");
 							break;
 						default:
 							Debug.Log(reader.Name + " : possible invalid data in save file ignoring, please review file");
@@ -411,7 +408,7 @@ reroll:			float r = jump;
 				}
 				else
 				{
-					cell.AddComponent<WorldCell>();
+					cell.AddComponent<WorldCell>().GenerateXMLData();
 				}
 				cell.AddComponent<BoxCollider2D>().isTrigger = true;
 			}
@@ -431,7 +428,6 @@ reroll:			float r = jump;
 				return true;
 			}
 		}
-
 		return false;
 	}
 }

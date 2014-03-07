@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class MovementManager : MonoBehaviour {
-	private GameObject player;
+
 	private static MovementManager instance;
 	
 	public static MovementManager Instance
@@ -27,7 +27,6 @@ public class MovementManager : MonoBehaviour {
 		{
 			Destroy(this);
 		}
-		player = transform.parent.gameObject;
 	}
 
 	void Update ()
@@ -40,10 +39,13 @@ public class MovementManager : MonoBehaviour {
 
 	void Move()
 	{
-		Vector3 newPosition = player.transform.position;
-		newPosition.x += Joystick.LeftStick.GetMagnitude() * PlayerInformation.Instance.getSpeed() * (Mathf.Cos(Joystick.LeftStick.GetAngle() * Mathf.Rad2Deg) * Joystick.LeftStick.GetMagnitude()) * Time.deltaTime;
-		newPosition.y += Joystick.LeftStick.GetMagnitude() * PlayerInformation.Instance.getSpeed() * (Mathf.Sin(Joystick.LeftStick.GetAngle() * Mathf.Rad2Deg) * Joystick.LeftStick.GetMagnitude()) * Time.deltaTime;
-		player.transform.position = newPosition;
-		player.transform.rotation = Quaternion.AngleAxis(Joystick.LeftStick.GetAngle(), new Vector3(0f,0f,1.0f));
+		float mag = Joystick.LeftStick.GetMagnitude ();
+		float angle = Joystick.LeftStick.GetAngle ();
+
+		Vector3 newPosition = transform.position;
+		newPosition.x += mag * PlayerInformation.Instance.getSpeed() * Time.deltaTime * Mathf.Cos(angle * Mathf.Deg2Rad);
+		newPosition.y += mag * PlayerInformation.Instance.getSpeed() * Time.deltaTime * Mathf.Sin(angle * Mathf.Deg2Rad);
+		transform.position = newPosition;
+		transform.rotation = Quaternion.AngleAxis(angle + 180f, new Vector3(0f,0f,1.0f));
 	}
 }
