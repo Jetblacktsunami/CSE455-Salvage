@@ -402,16 +402,18 @@ reroll:			float r = jump;
 				cell.transform.parent = parent.transform;
 				cell.transform.localScale = new Vector3(details.cellLength ,details.cellLength,1.0f);
 				cell.transform.position = new Vector2(startPoint.x + i + (details.cellLength/2.0f) , startPoint.y + j + (details.cellLength / 2.0f) );
+				WorldCell temp = cell.AddComponent<WorldCell>();
 				if(isPlanetInRange(cell.transform.position))
 				{
-					cell.AddComponent<WorldCell>().hasPlanet = true;
+					temp.hasPlanet = true;
 				}
 				else
 				{
-					cell.AddComponent<WorldCell>().GenerateXMLData();
+					ObjectPool.Pool.AddCell(temp);
 				}
 				cell.AddComponent<BoxCollider2D>().isTrigger = true;
 			}
+			ObjectPool.Pool.LinkCells();
 		}
 		if(worldDoneLoading != null)
 		{
