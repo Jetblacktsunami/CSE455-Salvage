@@ -402,6 +402,7 @@ reroll:			float r = jump;
 				cell.transform.parent = parent.transform;
 				cell.transform.localScale = new Vector3(details.cellLength ,details.cellLength,1.0f);
 				cell.transform.position = new Vector2(startPoint.x + i + (details.cellLength/2.0f) , startPoint.y + j + (details.cellLength / 2.0f) );
+				cell.layer = 11;
 				WorldCell temp = cell.AddComponent<WorldCell>();
 				if(isPlanetInRange(cell.transform.position))
 				{

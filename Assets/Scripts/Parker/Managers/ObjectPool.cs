@@ -238,11 +238,9 @@ public class ObjectPool : MonoBehaviour
 			});
 			pooledObjects.Add(usedPooledObjects[index]);
 			usedPooledObjects.RemoveAt(index);
-			Debug.Log("Marked");
 		}
 		else if(totalPooledObjects < maxPoolAmount)
 		{
-			Debug.Log("Added");
 			pooledObjects.Add(gameObj);
 			totalPooledObjects++;
 		}

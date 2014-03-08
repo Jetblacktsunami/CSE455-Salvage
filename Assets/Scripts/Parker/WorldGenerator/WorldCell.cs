@@ -48,19 +48,16 @@ public class WorldCell : MonoBehaviour
 	{
 		if(GameManager.Instance.playerObject)
 		{
-			Debug.Log(GameManager.Instance.playerObject.transform.position.ToString());
 			float distance = Vector3.Distance(gameObject.transform.position, GameManager.Instance.playerObject.transform.position);
 			float cellSize = gameObject.transform.localScale.x;
 			if(distance <= (cellSize * 2) && status != CellStatus.active)
 			{
-				ObjectPool.Pool.ActiveCells.Add(this);
 				Activate();
 				status = CellStatus.active;
 			}
 			else if(distance > (cellSize * 2) && status != CellStatus.standby)
 			{
 				Deactivate();
-				ObjectPool.Pool.ActiveCells.Remove(this);
 				status = CellStatus.standby;
 			}
 		}
@@ -93,7 +90,6 @@ public class WorldCell : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D other)
 	{
-		Debug.Log("Other: " + other.name);
 		if(other.tag == "Player")
 		{
 			foreach(WorldCell obj in neighbors)
