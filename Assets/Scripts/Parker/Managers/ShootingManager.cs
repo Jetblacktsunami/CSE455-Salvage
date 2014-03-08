@@ -65,6 +65,21 @@ public class ShootingManager : MonoBehaviour
 			fireTimer -= Time.deltaTime;
 		}
 
+
+
+		if (Joystick.LeftStick.GetMagnitude () >= 0.1f) 
+		{
+			Debug.Log ("Joystick left");
+			float mag = Joystick.LeftStick.GetMagnitude();
+			float ang = Joystick.LeftStick.GetAngle();
+			Debug.Log (Mathf.Cos(ang * Mathf.Deg2Rad));
+			Vector3 newPosition = PlayerInformation.Instance.transform.position;
+			newPosition.x += mag * PlayerInformation.Instance.getSpeed() * Mathf.Cos(ang * Mathf.Deg2Rad) * Time.deltaTime;
+			newPosition.y += mag * PlayerInformation.Instance.getSpeed() * Mathf.Sin(ang * Mathf.Deg2Rad) * Time.deltaTime;
+			PlayerInformation.Instance.transform.position = newPosition;
+			PlayerInformation.Instance.transform.rotation = Quaternion.AngleAxis(Joystick.LeftStick.GetAngle()+180f, new Vector3(0f,0f,1.0f));
+		}
+
 		if(Joystick.RightStick.GetMagnitude() >= 0.5f && fireTimer <= 0)
 		{
 			if(currentBullets)
