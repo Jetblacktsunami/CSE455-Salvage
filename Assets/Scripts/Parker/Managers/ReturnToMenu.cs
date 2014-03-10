@@ -5,7 +5,9 @@ public class ReturnToMenu : MonoBehaviour
 {
 	void OnClick()
 	{
+		LoadingBar.Instance.Acivate();
 		GameManager.Instance.Save ();
+		this.enabled = false;
 	}
 
 	public static void OnSaveDone()

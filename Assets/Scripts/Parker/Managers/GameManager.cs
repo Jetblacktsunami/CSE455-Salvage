@@ -99,6 +99,7 @@ public class GameManager : MonoBehaviour
 	public void AddToSavePercentage()
 	{
 		SavePercentage += (100f / (WorldGenerator.worldspec.totalNumberOfCells));
+		LoadingBar.Instance.UpdateBar();
 		if(SavePercentage >= 100f)
 		{
 			ReturnToMenu.OnSaveDone();
