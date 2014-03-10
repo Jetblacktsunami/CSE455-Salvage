@@ -52,13 +52,13 @@ public class WorldCell : MonoBehaviour
 			float cellSize = gameObject.transform.localScale.x;
 			if(distance <= (cellSize * 2) && status != CellStatus.active)
 			{
-				Activate();
 				status = CellStatus.active;
+				Activate();
 			}
 			else if(distance > (cellSize * 2) && status != CellStatus.standby)
 			{
-				Deactivate();
 				status = CellStatus.standby;
+				Deactivate();
 			}
 		}
 	}
@@ -102,6 +102,7 @@ public class WorldCell : MonoBehaviour
 	//activate the cell so that it spawns all necessary objects.
 	public void Activate()
 	{
+		ObjectPool.Pool.ActiveCells.Add(this);
 		if(!startRan)
 		{
 			Start();
@@ -120,6 +121,8 @@ public class WorldCell : MonoBehaviour
 	//turns the object off
 	public void Deactivate()
 	{
+		ObjectPool.Pool.ActiveCells.Remove (this);
+
 		AutoSave ();
 		foreach(GameObject obj in children)
 		{
@@ -280,7 +283,7 @@ public class WorldCell : MonoBehaviour
 		{
 			Directory.CreateDirectory(directory);
 		}
-		if(File.Exists(fileName))
+		if(File.Exists(fileName) && positions.Count > 0)
 		{
 			XmlTextWriter writer = new XmlTextWriter (fileName, System.Text.Encoding.UTF8);
 
@@ -313,7 +316,7 @@ public class WorldCell : MonoBehaviour
 		{
 			Directory.CreateDirectory(directory);
 		}
-		if(File.Exists(fileName))
+		if(File.Exists(fileName) && positions.Count > 0)
 		{
 			XmlTextWriter writer = new XmlTextWriter (fileName, System.Text.Encoding.UTF8);
 			
@@ -369,6 +372,7 @@ public class WorldCell : MonoBehaviour
 		}
 		children.Clear ();
 		Vector2 indexes = ObjectPool.Pool.Redirect(positions, perlin, this);
+		
 		if(indexes.x >= 0)
 		{
 			for(int i = (int)indexes.x, j = (int)indexes.y; i < positions.Count && j < perlin.Count; i++,j++)
@@ -377,6 +381,8 @@ public class WorldCell : MonoBehaviour
 				asteroidOBJ.transform.position = (Vector3)(positions[i] + new Vector2(Random.Range(-1.0f, 1.0f),Random.Range(-1.0f, 1.0f)));
 				asteroidOBJ.transform.parent = parent.transform;
 				Asteroid temp =	asteroidOBJ.AddComponent<Asteroid>();
+				temp.assignedPosition = positions[i];
+				temp.parentCell = this;
 				temp.perlinValue = perlin[j];
 				temp.Change();
 				children.Add(asteroidOBJ);
@@ -388,11 +394,14 @@ public class WorldCell : MonoBehaviour
 		}
 	}
 
-	public void RemoveAsteroid(Asteroid self)
+	public void RemoveAsteroidPosition(Vector2 position)
 	{
-		if(positions.Contains((Vector2)self.transform.position))
+		if(positions.Count > 0)
 		{
-			positions.Remove((Vector2)self.transform.position);
+			if(positions.Contains(position))
+			{
+				positions.Remove(position);
+			}
 		}
 	}
 }

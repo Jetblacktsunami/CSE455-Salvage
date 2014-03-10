@@ -9,6 +9,7 @@ public class Asteroid : MonoBehaviour
 	public float perlinValue = 1.0f;
 	public float durability = 100.0f;
 	public WorldCell parentCell;
+	public Vector2 assignedPosition = new Vector2(0,0);
 
 	public void Change()
 	{
@@ -17,7 +18,7 @@ public class Asteroid : MonoBehaviour
 	
 	public void DestroySelf()
 	{
-		parentCell.RemoveAsteroid (this);
+		parentCell.RemoveAsteroidPosition(assignedPosition);
 		ObjectPool.Pool.Unregister (this.gameObject);
 		Destroy (gameObject);
 	}

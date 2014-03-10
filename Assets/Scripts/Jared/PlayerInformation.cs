@@ -489,4 +489,9 @@ public class PlayerInformation : MonoBehaviour
 
 		XMLFileManager.EncryptFile(savePath);
 	}
+
+	public static void Wipe()
+	{
+		PlayerInformation.instance = null;
+	}
 }

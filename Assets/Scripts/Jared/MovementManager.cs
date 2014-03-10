@@ -41,11 +41,16 @@ public class MovementManager : MonoBehaviour {
 	{
 		float mag = Joystick.LeftStick.GetMagnitude ();
 		float angle = Joystick.LeftStick.GetAngle ();
-
+		Debug.Log ("Mag : " + mag + "Angle: " + angle);
 		Vector3 newPosition = transform.position;
 		newPosition.x += mag * PlayerInformation.Instance.getSpeed() * Time.deltaTime * Mathf.Cos(angle * Mathf.Deg2Rad);
 		newPosition.y += mag * PlayerInformation.Instance.getSpeed() * Time.deltaTime * Mathf.Sin(angle * Mathf.Deg2Rad);
 		transform.position = newPosition;
 		transform.rotation = Quaternion.AngleAxis(angle + 180f, new Vector3(0f,0f,1.0f));
+	}
+
+	public static void Wipe()
+	{
+		MovementManager.instance = null;
 	}
 }

@@ -252,25 +252,34 @@ public class ObjectPool : MonoBehaviour
 		{
 			for(int i = ActiveCells.Count - 1; i >= 0; i--)
 			{
-				ActiveCells[i].CheckPlayer();
+				if(ActiveCells[i] != cell)
+				{
+					ActiveCells[i].CheckPlayer();
+				}
 			}
 		}
-		for(int i = 0, j = 0; i < positions.Count && j < perlinValues.Count; i++, j++)
+		if(pooledObjects.Count > 0)
 		{
-			if(i >= pooledObjects.Count)
+			for(int i = 0, j = 0; i < positions.Count && j < perlinValues.Count; i++, j++)
 			{
-				pooledObjects.RemoveRange(0, i);
-				return new Vector2(i,j);
+				if(i >= pooledObjects.Count)
+				{
+					pooledObjects.RemoveRange(0, i);
+					return new Vector2(i,j);
+				}
+
+				pooledObjects[i].gameObject.transform.position = new Vector3(positions[i].x, positions[i].y, Random.Range(-1, 2));
+				pooledObjects[i].gameObject.transform.localScale = new Vector3(perlinValues[j]/10.0f ,perlinValues[j]/10.0f, 1.0f);
+				pooledObjects[i].gameObject.transform.parent = cell.parent.transform;
+				Asteroid pooledAsteroid = pooledObjects[i].GetComponent<Asteroid>();
+				pooledAsteroid.assignedPosition = positions[i];
+				pooledAsteroid.parentCell = cell;
+
+				cell.children.Add(pooledObjects[i].gameObject);
+				usedPooledObjects.Add(pooledObjects[i].gameObject);
 			}
-
-			pooledObjects[i].gameObject.transform.position = new Vector3(positions[i].x, positions[i].y, Random.Range(-1, 2));
-			pooledObjects[i].gameObject.transform.localScale = new Vector3(perlinValues[j]/10.0f ,perlinValues[j]/10.0f, 1.0f);
-			pooledObjects[i].gameObject.transform.parent = cell.parent.transform;
-			cell.children.Add(pooledObjects[i].gameObject);
-			usedPooledObjects.Add(pooledObjects[i].gameObject);
+			pooledObjects.RemoveRange(0, positions.Count);
 		}
-
-		pooledObjects.RemoveRange(0, positions.Count);
 		return new Vector2(-1, -1);
 	}
 	

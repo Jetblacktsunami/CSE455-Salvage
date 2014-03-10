@@ -76,9 +76,13 @@ public class GameManager : MonoBehaviour
 		}
 		else if(Application.loadedLevelName == "MainMenu")
 		{
+			PlayerInformation.Wipe();
+			ShootingManager.Wipe();
+			MovementManager.Wipe();
 			savedLevel = default(WorldGenerator.WorldSpecs);
 			WorldName = "";
 			seed = 0;
+			Time.timeScale = 1f;
 		}
 	}
 

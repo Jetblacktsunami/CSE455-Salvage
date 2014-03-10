@@ -44,7 +44,7 @@ public class LoadingBar : MonoBehaviour
 			slider.value = 0f;
 			foreach(UISprite obj in sprites)
 			{
-				obj.alpha = 1f;
+				obj.alpha = 0f;
 			}
 		}
 		else if(Application.loadedLevelName == "MainMenu")

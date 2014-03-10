@@ -103,4 +103,9 @@ public class ShootingManager : MonoBehaviour
 			hasSpawned = false;
 		}
 	}
+
+	public static void Wipe()
+	{
+		ShootingManager.instance = null;
+	}
 }
