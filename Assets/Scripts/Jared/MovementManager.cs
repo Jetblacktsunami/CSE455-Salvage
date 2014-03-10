@@ -41,7 +41,6 @@ public class MovementManager : MonoBehaviour {
 	{
 		float mag = Joystick.LeftStick.GetMagnitude ();
 		float angle = Joystick.LeftStick.GetAngle ();
-		Debug.Log ("Mag : " + mag + "Angle: " + angle);
 		Vector3 newPosition = transform.position;
 		newPosition.x += mag * PlayerInformation.Instance.getSpeed() * Time.deltaTime * Mathf.Cos(angle * Mathf.Deg2Rad);
 		newPosition.y += mag * PlayerInformation.Instance.getSpeed() * Time.deltaTime * Mathf.Sin(angle * Mathf.Deg2Rad);

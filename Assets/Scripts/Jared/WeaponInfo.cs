@@ -47,7 +47,6 @@ public class WeaponInfo : MonoBehaviour
 				PlayerInformation.Instance.setWeaponFireRate(0.33f);
 				PlayerInformation.Instance.setMaxAmmo(100);
 				PlayerInformation.Instance.setCurrentAmmo(100);
-				Debug.Log("weapon successfully loaded");
 				break;
 		}
 	}

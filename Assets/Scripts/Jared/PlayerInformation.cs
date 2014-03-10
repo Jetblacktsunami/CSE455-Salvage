@@ -391,7 +391,6 @@ public class PlayerInformation : MonoBehaviour
 	//Used for loading saved player information
 	public void LoadData()
 	{
-		Debug.Log("Loading...");
 		if(!File.Exists(savePath))
 		{
 			return;
@@ -409,7 +408,6 @@ public class PlayerInformation : MonoBehaviour
 				switch(reader.Name)
 				{
 					case "deviceID":
-						Debug.Log(deviceID + "\n we found the id");
 						deviceID = reader.ReadElementString();
 						break;
 					case "ship":
@@ -484,7 +482,6 @@ public class PlayerInformation : MonoBehaviour
 		{
 			Initialize();
 			SaveData();
-			Debug.Log("Invalid ID for Loading");
 		}
 
 		XMLFileManager.EncryptFile(savePath);

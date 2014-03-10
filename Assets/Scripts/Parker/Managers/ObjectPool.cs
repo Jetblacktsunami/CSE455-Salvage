@@ -279,8 +279,9 @@ public class ObjectPool : MonoBehaviour
 				usedPooledObjects.Add(pooledObjects[i].gameObject);
 			}
 			pooledObjects.RemoveRange(0, positions.Count);
+			return new Vector2 (-1, -1);
 		}
-		return new Vector2(-1, -1);
+		return new Vector2(0, 0);
 	}
 	
 	private void OnLevelWasLoaded()
@@ -299,4 +300,28 @@ public class ObjectPool : MonoBehaviour
 		totalPooledObjects = 0;
 	}
 
+	public void OnEnable()
+	{
+		GameManager.gameManagerCalls += GameManagerEventHandler;
+	}
+	
+	//Called when disabled
+	public void OnDisable()
+	{
+		GameManager.gameManagerCalls -= GameManagerEventHandler;
+	}
+
+	public void GameManagerEventHandler(GameManager.FunctionCallType type)
+	{
+		if(ActiveCells.Count > 0)
+		{
+			foreach(WorldCell cell in ActiveCells)
+			{
+				if(type == GameManager.FunctionCallType.save)
+				{
+					cell.Save();
+				}
+			}
+		}
+	}
 }

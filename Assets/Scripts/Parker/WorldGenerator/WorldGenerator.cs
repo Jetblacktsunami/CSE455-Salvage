@@ -275,8 +275,8 @@ reroll:			float r = jump;
 			{
 				for(int i = 0; i < worldspec.planetPositions.Length; i++)
 				{
-					writer.WriteAttributeString("pPos-x" + i,worldspec.planetPositions[i].x.ToString());
-					writer.WriteAttributeString("pPos-y" + i,worldspec.planetPositions[i].y.ToString());
+					writer.WriteAttributeString("pPos-x" + i, worldspec.planetPositions[i].x.ToString());
+					writer.WriteAttributeString("pPos-y" + i, worldspec.planetPositions[i].y.ToString());
 				}
 			}
 			writer.WriteEndElement();
@@ -324,10 +324,10 @@ reroll:			float r = jump;
 								{
 									float maxPosition = (reader.AttributeCount - 10)/2.0f;
 									int maxP = Mathf.CeilToInt(maxPosition);
-									for(int i = 0, j = 0; i < maxP; j++) 
+									for(int i = 0, j = 0; j < maxP; j++) 
 									{
 										tempSpec.planetPositions[j].Set(float.Parse(reader.GetAttribute(i+10)), float.Parse(reader.GetAttribute(i+11)));
-									 	i+=2;
+									 	i+= 2;
 									}
 								}
 								existingSpecs.Add(tempSpec);
@@ -407,6 +407,7 @@ reroll:			float r = jump;
 					ObjectPool.Pool.AddCell(temp);
 				}
 				cell.AddComponent<BoxCollider2D>().isTrigger = true;
+				cell.gameObject.isStatic = true;
 			}
 			ObjectPool.Pool.LinkCells();
 		}

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
 	public static string WorldName;
 	public static int seed;
+	public static bool saving;
 
 	public GameObject playerPrefab;
 	public float SavePercentage = 0f;
@@ -80,6 +81,7 @@ public class GameManager : MonoBehaviour
 			ShootingManager.Wipe();
 			MovementManager.Wipe();
 			savedLevel = default(WorldGenerator.WorldSpecs);
+			saving = false;
 			WorldName = "";
 			seed = 0;
 			Time.timeScale = 1f;
@@ -102,7 +104,7 @@ public class GameManager : MonoBehaviour
 	/// </summary>
 	public void AddToSavePercentage()
 	{
-		SavePercentage += (100f / (WorldGenerator.worldspec.totalNumberOfCells));
+		SavePercentage += (100f / (ObjectPool.Pool.ActiveCells.Count));
 		LoadingBar.Instance.UpdateBar();
 		if(SavePercentage >= 100f)
 		{

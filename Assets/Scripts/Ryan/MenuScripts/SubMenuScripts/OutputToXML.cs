@@ -28,7 +28,7 @@ public class OutputToXML : MonoBehaviour
 
 		if(inputTypeValue.ToString() == "Name")
 		{
-			inputValue.value.Trim();
+			inputValue.value = inputValue.value.Trim();
 			GameManager.WorldName = inputValue.value;
 		}
 		else
@@ -41,10 +41,6 @@ public class OutputToXML : MonoBehaviour
 			}
 			GameManager.seed = seedCheck;
 		}
-
-		//List<WorldGenerator.WorldSpecs> worlds = WorldGenerator.GetCreatedWorlds();
-		//GameManager.savedLevel = worlds [0];
-		Debug.Log(inputTypeValue + " " + inputValue.value);
 	}
 	
 }

@@ -132,30 +132,6 @@ public class WorldCell : MonoBehaviour
 		children.Clear();
 	}
 
-	//Called when object is enabled
-	public void OnEnable()
-	{
-		GameManager.gameManagerCalls += GameManagerEventHandler;
-	}
-
-	//Called when disabled
-	public void OnDisable()
-	{
-		GameManager.gameManagerCalls -= GameManagerEventHandler;
-	}
-
-	public void GameManagerEventHandler(GameManager.FunctionCallType type)
-	{
-		if(type == GameManager.FunctionCallType.save)
-		{
-			Save();
-		}
-		else if(type == GameManager.FunctionCallType.load)
-		{
-			Load();
-		}
-	}
-
 	//if this is the first time being activated the cell will call this to spawn the asteroids
 	public void GenerateXMLData ()
 	{
@@ -163,6 +139,7 @@ public class WorldCell : MonoBehaviour
 		{
 			Directory.CreateDirectory(directory);
 		}
+
 		if(!hasPlanet)
 		{
 			WorldGenerator.WorldSpecs details = WorldGenerator.worldspec;
@@ -234,33 +211,26 @@ public class WorldCell : MonoBehaviour
 				}
 			}
 
-
 			XmlTextWriter writer = new XmlTextWriter (fileName, System.Text.Encoding.UTF8);
-
+			
 			writer.WriteStartDocument();
 			writer.WriteWhitespace("\n");
 			writer.WriteStartElement("Root");
 			writer.WriteWhitespace("\n");
-
-			for(int i = 0,c = 0; i < (int)details.cellLength ; i++)
+			
+			for(int i = positions.Count, j = perlin.Count; i < positions.Count && j < perlin.Count; i++, j++)
 			{
-				for(int j = 0; j < (int)details.cellLength; j++, c++)
-				{
-					if(!Vector2.Equals(asteroidPosition[i,j],Vector2.zero))
-					{
-						writer.WriteWhitespace("\t");
-						writer.WriteStartElement("AsteroidPosition");
-						writer.WriteAttributeString("x ",asteroidPosition[i,j].x.ToString());
-						writer.WriteAttributeString("y ",asteroidPosition[i,j].y.ToString());
-						writer.WriteEndElement();
-						writer.WriteWhitespace("\n\t\t");
-						writer.WriteElementString("PerlinValue", perlinValue[c].ToString());
-						writer.WriteWhitespace("\n");
-					}
-				}
+				writer.WriteWhitespace("\t");
+				writer.WriteStartElement("AsteroidPosition");
+				writer.WriteAttributeString("x ",positions[i].x.ToString());
+				writer.WriteAttributeString("y ",positions[i].y.ToString());
+				writer.WriteEndElement();
+				writer.WriteWhitespace("\n\t\t");
+				writer.WriteElementString("PerlinValue", perlin[j].ToString());
+				writer.WriteWhitespace("\n");
 			}
-
-			writer.WriteEndDocument();
+			
+			writer.WriteEndDocument ();
 			writer.Close ();
 		}
 		else
@@ -270,6 +240,7 @@ public class WorldCell : MonoBehaviour
 			writer.WriteStartDocument();
 			writer.WriteWhitespace("\n");
 			writer.WriteStartElement("Root");
+			writer.WriteEndElement();
 			writer.WriteWhitespace("\n");
 			writer.WriteEndDocument();
 			writer.Close ();
@@ -345,50 +316,54 @@ public class WorldCell : MonoBehaviour
 	//loads all the objects in the cell
 	public void Load()
 	{
-		if(positions.Count <= 0 || perlin.Count <= 0)
+		if(File.Exists(fileName))
 		{
-			positions = new List<Vector2>();
-			perlin = new List<float>();
 
-			XmlTextReader reader = new XmlTextReader(fileName);
-
-			while(reader.Read())
+			if(positions.Count <= 0 || perlin.Count <= 0)
 			{
-				if(reader.IsStartElement() && reader.NodeType == XmlNodeType.Element)
-				{
-					switch(reader.Name)
-					{
-						case "AsteroidPosition" :
-							positions.Add(new Vector2(float.Parse(reader.GetAttribute(0)), float.Parse(reader.GetAttribute(1))));
-							break;
+				positions = new List<Vector2>();
+				perlin = new List<float>();
 
-						case "PerlinValue":
-							perlin.Add( float.Parse(reader.ReadElementString()));
-							break;
+				XmlTextReader reader = new XmlTextReader(fileName);
+
+				while(reader.Read())
+				{
+					if(reader.IsStartElement() && reader.NodeType == XmlNodeType.Element)
+					{
+						switch(reader.Name)
+						{
+							case "AsteroidPosition" :
+								positions.Add(new Vector2(float.Parse(reader.GetAttribute(0)), float.Parse(reader.GetAttribute(1))));
+								break;
+
+							case "PerlinValue":
+								perlin.Add( float.Parse(reader.ReadElementString()));
+								break;
+						}
 					}
 				}
+				reader.Close ();
 			}
-			reader.Close ();
-		}
-		children.Clear ();
-		Vector2 indexes = ObjectPool.Pool.Redirect(positions, perlin, this);
-		
-		if(indexes.x >= 0)
-		{
-			for(int i = (int)indexes.x, j = (int)indexes.y; i < positions.Count && j < perlin.Count; i++,j++)
+			children.Clear ();
+			Vector2 indexes = ObjectPool.Pool.Redirect(positions, perlin, this);
+
+			if(indexes.x >= 0)
 			{
-				GameObject asteroidOBJ = GameObject.Instantiate(Resources.Load("Asteroid/Asteroid")) as GameObject;
-				asteroidOBJ.transform.position = (Vector3)(positions[i] + new Vector2(Random.Range(-1.0f, 1.0f),Random.Range(-1.0f, 1.0f)));
-				asteroidOBJ.transform.parent = parent.transform;
-				Asteroid temp =	asteroidOBJ.AddComponent<Asteroid>();
-				temp.assignedPosition = positions[i];
-				temp.parentCell = this;
-				temp.perlinValue = perlin[j];
-				temp.Change();
-				children.Add(asteroidOBJ);
-				if(ObjectPool.Pool.CanPoolMore())
+				for(int i = (int)indexes.x, j = (int)indexes.y; i < positions.Count && j < perlin.Count; i++,j++)
 				{
-					ObjectPool.Pool.Register(asteroidOBJ);
+					GameObject asteroidOBJ = GameObject.Instantiate(Resources.Load("Asteroid/Asteroid")) as GameObject;
+					asteroidOBJ.transform.position = (Vector3)(positions[i] + new Vector2(Random.Range(-1.0f, 1.0f),Random.Range(-1.0f, 1.0f)));
+					asteroidOBJ.transform.parent = parent.transform;
+					Asteroid temp =	asteroidOBJ.AddComponent<Asteroid>();
+					temp.assignedPosition = positions[i];
+					temp.parentCell = this;
+					temp.perlinValue = perlin[j];
+					temp.Change();
+					children.Add(asteroidOBJ);
+					if(ObjectPool.Pool.CanPoolMore())
+					{
+						ObjectPool.Pool.Register(asteroidOBJ);
+					}
 				}
 			}
 		}
