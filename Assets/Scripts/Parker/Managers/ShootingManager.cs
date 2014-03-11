@@ -117,6 +117,10 @@ public class ShootingManager : MonoBehaviour
 			Destroy(spawnedObject);
 			hasSpawned = false;
 		}
+	}
 
+	public static void Wipe()
+	{
+		ShootingManager.instance = null;
 	}
 }
