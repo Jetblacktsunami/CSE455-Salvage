@@ -28,16 +28,19 @@ public class OutputToXML : MonoBehaviour
 
 		if(inputTypeValue.ToString() == "Name")
 		{
+			inputValue.value = inputValue.value.Trim();
 			GameManager.WorldName = inputValue.value;
 		}
 		else
 		{
-			GameManager.seed = int.Parse(inputValue.value);
+			int seedCheck = 0;
+			int.TryParse(inputValue.value,out seedCheck);
+			if(seedCheck == 0)
+			{
+				seedCheck = 46;
+			}
+			GameManager.seed = seedCheck;
 		}
-
-		//List<WorldGenerator.WorldSpecs> worlds = WorldGenerator.GetCreatedWorlds();
-		//GameManager.savedLevel = worlds [0];
-		Debug.Log(inputTypeValue + " " + inputValue.value);
 	}
 	
 }
