@@ -25,7 +25,6 @@ public class XMLFileManager : MonoBehaviour
 		reader.MoveToContent();
 		if(xmlFile.Root.HasElements)
 		{
-			Debug.Log("encrypting");
 			byte[] keyArray = UTF8Encoding.UTF8.GetBytes ("86759426197648123460789546213421");
 			byte[] toEncryptArray = UTF8Encoding.UTF8.GetBytes (reader.ReadInnerXml());
 			RijndaelManaged rDel = new RijndaelManaged();
