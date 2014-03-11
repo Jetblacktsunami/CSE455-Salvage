@@ -54,7 +54,6 @@ public class ShipInfo : MonoBehaviour
 				PlayerInformation.Instance.setMaxFuel(500f);
 				PlayerInformation.Instance.setCurrentFuel(500f);
 				PlayerInformation.Instance.setFuelConsumptionRate(1f);
-				Debug.Log("ship successfully loaded");
 				break;
 		}
 	}

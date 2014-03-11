@@ -2,12 +2,6 @@
 *  Created By : Gerardo Parker
 * 
 * 
-* 
-* 
-* 
-* 
-* 
-* 
 * ***************************/
 using UnityEngine;
 using System;
@@ -22,7 +16,7 @@ public class WorldGenerator : MonoBehaviour
 	public static WorldSpecs worldspec = new WorldSpecs();
 	public enum ActionType{ load, saved, nothing };
 	public static Action<ActionType> worldDoneLoading;
-	public static string directory;// = Application.dataPath + "/SaveData/";
+	public static string directory;
 
 	public List<GameObject> planets = new List<GameObject> ();
 	public GameObject sun;
@@ -146,7 +140,6 @@ reroll:			float r = jump;
 				}
 				if(isPlanetInRange(tempPos) || Vector2.Distance(Vector2.zero,tempPos) <= worldspec.cellLength)
 				{
-					Debug.Log("had to reroll");
 					goto reroll;
 				}
 				worldspec.planetPositions[i] = tempPos;
@@ -282,8 +275,8 @@ reroll:			float r = jump;
 			{
 				for(int i = 0; i < worldspec.planetPositions.Length; i++)
 				{
-					writer.WriteAttributeString("pPos-x" + i,worldspec.planetPositions[i].x.ToString());
-					writer.WriteAttributeString("pPos-y" + i,worldspec.planetPositions[i].y.ToString());
+					writer.WriteAttributeString("pPos-x" + i, worldspec.planetPositions[i].x.ToString());
+					writer.WriteAttributeString("pPos-y" + i, worldspec.planetPositions[i].y.ToString());
 				}
 			}
 			writer.WriteEndElement();
@@ -329,11 +322,12 @@ reroll:			float r = jump;
 								tempSpec.planetPositions = new Vector2[(reader.AttributeCount - 10) / 2];
 								if(reader.AttributeCount > 11)
 								{
-									int maxPosition = (reader.AttributeCount - 10)/2;
-									for(int i = 0; i < maxPosition;) 
+									float maxPosition = (reader.AttributeCount - 10)/2.0f;
+									int maxP = Mathf.CeilToInt(maxPosition);
+									for(int i = 0, j = 0; j < maxP; j++) 
 									{
-										tempSpec.planetPositions[i].Set(float.Parse(reader.GetAttribute(i+10)), float.Parse(reader.GetAttribute(i+11)));
-									 	i += 2;
+										tempSpec.planetPositions[j].Set(float.Parse(reader.GetAttribute(i+10)), float.Parse(reader.GetAttribute(i+11)));
+									 	i+= 2;
 									}
 								}
 								existingSpecs.Add(tempSpec);
@@ -344,7 +338,6 @@ reroll:			float r = jump;
 							}
 							break;
 						case "Root":
-							Debug.Log("Root found");
 							break;
 						default:
 							Debug.Log(reader.Name + " : possible invalid data in save file ignoring, please review file");
@@ -403,16 +396,20 @@ reroll:			float r = jump;
 				cell.transform.parent = parent.transform;
 				cell.transform.localScale = new Vector3(details.cellLength ,details.cellLength,1.0f);
 				cell.transform.position = new Vector2(startPoint.x + i + (details.cellLength/2.0f) , startPoint.y + j + (details.cellLength / 2.0f) );
+				cell.layer = 11;
+				WorldCell temp = cell.AddComponent<WorldCell>();
 				if(isPlanetInRange(cell.transform.position))
 				{
-					cell.AddComponent<WorldCell>().hasPlanet = true;
+					temp.hasPlanet = true;
 				}
 				else
 				{
-					cell.AddComponent<WorldCell>();
+					ObjectPool.Pool.AddCell(temp);
 				}
 				cell.AddComponent<BoxCollider2D>().isTrigger = true;
+				cell.gameObject.isStatic = true;
 			}
+			ObjectPool.Pool.LinkCells();
 		}
 		if(worldDoneLoading != null)
 		{
@@ -429,7 +426,6 @@ reroll:			float r = jump;
 				return true;
 			}
 		}
-
 		return false;
 	}
 }

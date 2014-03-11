@@ -10,6 +10,7 @@ public class Generate : MonoBehaviour
 	void OnClick () 
 	{
 		generateIsClicked();
+		LoadingBar.Instance.Acivate();
 		Application.LoadLevel ("InGame");
 	}
 }
