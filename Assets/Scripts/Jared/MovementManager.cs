@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MovementManager : MonoBehaviour {
-
+public class MovementManager : MonoBehaviour 
+{
 	private static MovementManager instance;
-	
 	public static MovementManager Instance
 	{
 		get

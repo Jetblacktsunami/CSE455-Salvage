@@ -36,6 +36,7 @@ public class ShootingManager : MonoBehaviour
 		ammo = aType;
 		foreach(GameObject obj in allbullets)
 		{
+			Debug.Log(obj.name);
 			if(obj.name == "ammo_" + ammo.ToString())
 			{
 				currentBullets = obj;
@@ -43,6 +44,7 @@ public class ShootingManager : MonoBehaviour
 				resetTime = fireTimer = bulInfo.fireRate;
 			}
 		}
+		Debug.Log(currentBullets.name);
 	}
 
 	void Awake()
@@ -76,6 +78,7 @@ public class ShootingManager : MonoBehaviour
 				}
 				else if(ammo == ammoType.beam)
 				{
+					float angle = Joystick.RightStick.GetAngle();
 					if(!hasSpawned)
 					{
 						bulInfo.travelAngle = Joystick.RightStick.GetAngle();
@@ -85,7 +88,8 @@ public class ShootingManager : MonoBehaviour
 					}
 					else
 					{
-						spawnedObject.transform.rotation = Quaternion.AngleAxis(Joystick.RightStick.GetAngle(), new Vector3(0f,0f,1.0f));
+						spawnedObject.transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0f,0f,1.0f));
+						//spawnedObject.transform.localPosition = new Vector2( spawnedObject.transform.localScale.x / 2.0f, spawnedObject.transform.localScale.y / 2.0f);
 						spawnedBulInfo.travelAngle = Joystick.RightStick.GetAngle();
 					}
 				}

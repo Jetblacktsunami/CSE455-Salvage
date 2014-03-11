@@ -5,6 +5,8 @@ public class beamRifle : MonoBehaviour
 {
 	private BulletInfo bulInfo;
 	private LayerMask mask = ~(1 << 15);
+	private enum ResizeEvent { standardSize, hitSize, standby } 
+	ResizeEvent resize = ResizeEvent.standby;
 	// Use this for initialization
 	void Start () 
 	{
@@ -20,12 +22,25 @@ public class beamRifle : MonoBehaviour
 			if(hit.collider.tag == "Asteroid")
 			{
 				hit.collider.gameObject.GetComponent<Asteroid>().Damage(bulInfo.damageRate);
+				gameObject.transform.localScale = new Vector3( Vector2.Distance(gameObject.transform.position, hit.collider.gameObject.transform.position) , 3.0f ,1.0f);
+				resize = ResizeEvent.hitSize;
 			}
 			else if(hit.collider.tag == "Enemy")
 			{
 				gameObject.GetComponent<EnemyInfo>().ApplyDamage(bulInfo.damageRate);
+				gameObject.transform.localScale = new Vector3( Vector2.Distance(gameObject.transform.position, hit.collider.gameObject.transform.position) , 3.0f ,1.0f);
+				resize = ResizeEvent.hitSize;
 			}
-			gameObject.transform.localScale = new Vector3( Vector2.Distance(gameObject.transform.position, hit.collider.gameObject.transform.position) , 1.0f ,1.0f);
+		}
+
+		if(resize != ResizeEvent.hitSize && resize != ResizeEvent.standby)
+		{
+			gameObject.transform.localScale = new Vector3( 75f , 3.0f ,1.0f);
+			resize = ResizeEvent.standby;
+		}
+		else if(resize == ResizeEvent.hitSize)
+		{
+			resize = ResizeEvent.standardSize;
 		}
 	}
 }
