@@ -11,6 +11,7 @@ public class LoadData : MonoBehaviour
 	void OnClick()
 	{
 		GameManager.savedLevel = LoadedLevel;
+		LoadingBar.Instance.Acivate();
 		Application.LoadLevel ("InGame");
 	}
 

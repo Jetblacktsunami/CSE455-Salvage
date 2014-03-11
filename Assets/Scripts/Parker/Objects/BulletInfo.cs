@@ -7,6 +7,7 @@ public class BulletInfo : MonoBehaviour
 	public float travelSpeed = 10f;
 	public float travelAngle = 0f;
 	public GameObject target;
+	public float damageRate = 5.0f;
 
 	void Start()
 	{

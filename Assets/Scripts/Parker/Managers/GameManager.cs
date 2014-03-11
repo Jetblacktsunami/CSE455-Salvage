@@ -9,11 +9,14 @@ public class GameManager : MonoBehaviour
 
 	public static string WorldName;
 	public static int seed;
+	public static bool saving;
 
-	public GameObject playerObject;
+	public GameObject playerPrefab;
 	public float SavePercentage = 0f;
 	public enum FunctionCallType{ load, save, exit };
+	[HideInInspector]public GameObject playerObject;
 
+	
 	private static GameManager instance;
 
 
@@ -27,7 +30,8 @@ public class GameManager : MonoBehaviour
 			}
 			else 
 			{
-				return new GameObject().AddComponent<GameManager>();
+				instance = new GameObject().AddComponent<GameManager>();
+				return instance;
 			}
 		}
 	}
@@ -66,15 +70,21 @@ public class GameManager : MonoBehaviour
 			}
 			else
 			{
-				WorldGenerator.Instance.GenerateSpace(256 , 10 ,Vector2.zero, WorldName ,seed );
+				WorldGenerator.Instance.GenerateSpace(1024 , 40 ,Vector2.zero, WorldName ,seed );
 			}
+
 			SavePercentage = 0.0f;
 		}
 		else if(Application.loadedLevelName == "MainMenu")
 		{
+			PlayerInformation.Wipe();
+			ShootingManager.Wipe();
+			MovementManager.Wipe();
 			savedLevel = default(WorldGenerator.WorldSpecs);
+			saving = false;
 			WorldName = "";
 			seed = 0;
+			Time.timeScale = 1f;
 		}
 	}
 
@@ -94,9 +104,8 @@ public class GameManager : MonoBehaviour
 	/// </summary>
 	public void AddToSavePercentage()
 	{
-		Debug.Log (SavePercentage);
-		Debug.Log (WorldGenerator.worldspec.totalNumberOfCells);
-		SavePercentage += (100f / (WorldGenerator.worldspec.totalNumberOfCells));
+		SavePercentage += (100f / (ObjectPool.Pool.ActiveCells.Count));
+		LoadingBar.Instance.UpdateBar();
 		if(SavePercentage >= 100f)
 		{
 			ReturnToMenu.OnSaveDone();
@@ -105,11 +114,11 @@ public class GameManager : MonoBehaviour
 
 	private void OnWorldLoadDone(WorldGenerator.ActionType action)
 	{
-		playerObject = GameObject.Instantiate((Resources.Load("Player"))) as GameObject;
+		playerObject = GameObject.Instantiate(playerPrefab) as GameObject;
 		playerObject.SendMessage("Load",SendMessageOptions.DontRequireReceiver);
 		playerObject.transform.localScale = new Vector3(0.5f,0.5f,1.0f);
+
 		Camera.main.gameObject.AddComponent<FollowTarget>().target = playerObject;
 		Camera.main.orthographicSize = 15;
-
 	}
 }

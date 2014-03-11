@@ -13,20 +13,20 @@ public class PlayerInformation : MonoBehaviour
 
 	//Ship stats
 	private string ship = "Ship 1";				//Name of ship currently selected
-	private int maxHealth;						//Max health value of player
-	private int currentHealth;					//Current health value of player
-	private int maxShields;						//Max shields value of player
-	private int currentShields;					//Current shields value of player
-	private int shieldRechargeDelay;			//Delay before shields recharge
-	private int shieldRechargeRate;				//How quickly the shields refill
-	private float maxFuel;						//Maximum amount of fuel of player
-	private float currentFuel;					//Current fuel level of player
-	private float fuelConsumptionRate;			//How quickly the fuel gauge decreases
-	private float speed;						//Current speed of the player
-	private float maxSpeed;						//Max possible speed of player
-	private float acceleration;					//Acceleration of player towards max speed
-	private float thrusterDelay;				//Delay between input and movement
-	private float rotationSpeed;				//Turning speed of the player
+	private int maxHealth = 100;						//Max health value of player
+	private int currentHealth = 100;					//Current health value of player
+	private int maxShields = 100;						//Max shields value of player
+	private int currentShields = 100;					//Current shields value of player
+	private int shieldRechargeDelay = 2;			//Delay before shields recharge
+	private int shieldRechargeRate = 10;				//How quickly the shields refill
+	private float maxFuel = 100f;						//Maximum amount of fuel of player
+	private float currentFuel = 100f;					//Current fuel level of player
+	private float fuelConsumptionRate = 1f;			//How quickly the fuel gauge decreases
+	private float speed = 10f;						//Current speed of the player
+	private float maxSpeed = 10f;						//Max possible speed of player
+	private float acceleration = 10f;					//Acceleration of player towards max speed
+	private float thrusterDelay = 10f;				//Delay between input and movement
+	private float rotationSpeed = 10f;				//Turning speed of the player
 
 	//Weapon stats
 	private string weapon = "Weapon 1";			//Name of currently selected weapon
@@ -34,6 +34,7 @@ public class PlayerInformation : MonoBehaviour
 	private int maxAmmo;						//Maximum ammo the weapon holds
 	private int currentAmmo;					//Current amount of ammo held
 	private float weaponFireRate;				//How fast the weapon fires
+
 
 	private static PlayerInformation instance;
 
@@ -57,12 +58,6 @@ public class PlayerInformation : MonoBehaviour
 
 	void Start()
 	{
-#if UNITY_ANDROID
-		if(Application.platform ==  RuntimePlatform.Android)
-		{
-			UnityEngine.AndroidJNI.AttachCurrentThread();
-		}
-#endif
 		if(File.Exists(savePath))
 		{
 			LoadData();
@@ -70,7 +65,6 @@ public class PlayerInformation : MonoBehaviour
 		else
 		{
 			Initialize();
-			SaveData();
 		}
 	}
 
@@ -333,7 +327,6 @@ public class PlayerInformation : MonoBehaviour
 	//Used for saving the player information to a file
 	public void SaveData()
 	{
-		Debug.Log("Saving...");
 		if(!Directory.Exists(WorldGenerator.directory + "/" + WorldGenerator.worldspec.spaceName + "/"))
 		{
 			Directory.CreateDirectory(WorldGenerator.directory + "/" + WorldGenerator.worldspec.spaceName + "/");
@@ -398,7 +391,6 @@ public class PlayerInformation : MonoBehaviour
 	//Used for loading saved player information
 	public void LoadData()
 	{
-		Debug.Log("Loading...");
 		if(!File.Exists(savePath))
 		{
 			return;
@@ -416,7 +408,6 @@ public class PlayerInformation : MonoBehaviour
 				switch(reader.Name)
 				{
 					case "deviceID":
-						Debug.Log(deviceID + "\n we found the id");
 						deviceID = reader.ReadElementString();
 						break;
 					case "ship":
@@ -491,9 +482,13 @@ public class PlayerInformation : MonoBehaviour
 		{
 			Initialize();
 			SaveData();
-			Debug.Log("Invalid ID for Loading");
 		}
 
 		XMLFileManager.EncryptFile(savePath);
+	}
+
+	public static void Wipe()
+	{
+		PlayerInformation.instance = null;
 	}
 }
