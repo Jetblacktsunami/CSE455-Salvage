@@ -10,7 +10,6 @@ public class EnemyAI : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		Debug.Log ("something has entered");
 		if (other.tag == "PlayerShip")
 		{
 			Debug.Log("player has entered");
