@@ -272,13 +272,11 @@ public class PlayerInformation : MonoBehaviour
 		}
 		else
 		{
-			SaveData();
+			AutoSave();
 		}
 	}
 
-
-	//Used for saving the player information to a file
-	public void SaveData()
+	public void AutoSave()
 	{
 		if(!Directory.Exists(WorldGenerator.directory + "/" + WorldGenerator.worldspec.spaceName + "/"))
 		{
@@ -288,7 +286,7 @@ public class PlayerInformation : MonoBehaviour
 		{
 			File.Delete(savePath);
 		}
-
+		
 		XmlWriter writer = new XmlTextWriter(savePath, System.Text.Encoding.UTF8);
 		writer.WriteStartDocument();
 		writer.WriteWhitespace("\n");
@@ -331,7 +329,8 @@ public class PlayerInformation : MonoBehaviour
 		writer.WriteElementString("currentMaxAmmo", WeaponManager.Instance.MaxAmmo.ToString());
 		writer.WriteWhitespace("\n\t");
 		writer.WriteElementString("currentAmmo", WeaponManager.Instance.CurrentAmmo.ToString());
-
+		
+		Debug.Log("iterating 1");
 		Dictionary<WeaponManager.ammoType, int>.KeyCollection keys = WeaponManager.Instance.totalMaxAmmo.Keys;
 		for( Dictionary<WeaponManager.ammoType, int>.KeyCollection.Enumerator i = keys.GetEnumerator(); ; )
 		{
@@ -346,7 +345,8 @@ public class PlayerInformation : MonoBehaviour
 				break;
 			}
 		}
-
+		
+		Debug.Log("iterating 2");
 		keys = WeaponManager.Instance.totalCurrentAmmo.Keys;
 		for( Dictionary<WeaponManager.ammoType, int>.KeyCollection.Enumerator i = keys.GetEnumerator(); ; )
 		{
@@ -361,12 +361,18 @@ public class PlayerInformation : MonoBehaviour
 				break;
 			}
 		}
-
+		
 		writer.WriteEndElement();
 		writer.Close();
-
+		
 		XMLFileManager.EncryptFile(savePath);
-		GameManager.Instance.AddToSavePercentage ();
+	}
+
+	//Used for saving the player information to a file
+	public void SaveData()
+	{
+		AutoSave();
+		GameManager.Instance.AddToSavePercentage();
 	}
 
 	//Used for loading saved player information
@@ -468,7 +474,7 @@ public class PlayerInformation : MonoBehaviour
 		if(deviceID != SystemInfo.deviceUniqueIdentifier)
 		{
 			Initialize();
-			SaveData();
+			AutoSave();
 		}
 
 		XMLFileManager.EncryptFile(savePath);
