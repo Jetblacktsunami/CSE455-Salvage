@@ -1,9 +1,9 @@
 //Description: Used for maintaining and saving/loading player stats
 
 using UnityEngine;
+using System;
 using System.IO;
 using System.Xml;
-using System.Xml.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -28,19 +28,11 @@ public class PlayerInformation : MonoBehaviour
 	private float thrusterDelay = 10f;				//Delay between input and movement
 	private float rotationSpeed = 10f;				//Turning speed of the player
 
-	//Weapon stats
-	private string weapon = "Weapon 1";			//Name of currently selected weapon
-	private int weaponDamage;					//Damage dealt by current weapon
-	private int maxAmmo;						//Maximum ammo the weapon holds
-	private int currentAmmo;					//Current amount of ammo held
-	private float weaponFireRate;				//How fast the weapon fires
-
-
-	private static PlayerInformation instance;
 
 	//Selection of save file location based on environment
 	private string savePath;
 
+	private static PlayerInformation instance;
 	public static PlayerInformation Instance
 	{
 		get
@@ -58,14 +50,7 @@ public class PlayerInformation : MonoBehaviour
 
 	void Start()
 	{
-		if(File.Exists(savePath))
-		{
-			LoadData();
-		}
-		else
-		{
-			Initialize();
-		}
+		Initialize();
 	}
 
 	void Awake()
@@ -157,31 +142,6 @@ public class PlayerInformation : MonoBehaviour
 	{
 		return rotationSpeed;
 	}
-	
-	public string getWeapon()
-	{
-		return weapon;
-	}
-	
-	public int getWeaponDamage()
-	{
-		return weaponDamage;
-	}
-
-	public int getMaxAmmo()
-	{
-		return maxAmmo;
-	}
-
-	public int getCurrentAmmo()
-	{
-		return currentAmmo;
-	}
-	
-	public float getWeaponFireRate()
-	{
-		return weaponFireRate;
-	}
 
 	//Mutator functions
 	public void setShip(string newShip)
@@ -192,21 +152,25 @@ public class PlayerInformation : MonoBehaviour
 	public void setMaxHealth(int newMax)
 	{
 		maxHealth = newMax;
+		UpdateUI.Health.UpdateBar (currentHealth, maxHealth);
 	}
 	
 	public void setCurrentHealth(int newCurrent)
 	{
 		currentHealth = newCurrent;
+		UpdateUI.Health.UpdateBar (currentHealth, maxHealth);
 	}
 	
 	public void setMaxShields(int newMax)
 	{
 		maxShields = newMax;
+		UpdateUI.Shield.UpdateBar (currentShields, maxShields);
 	}
 	
 	public void setCurrentShields(int newCurrent)
 	{
 		currentShields = newCurrent;
+		UpdateUI.Shield.UpdateBar (currentShields, maxShields);
 	}
 	
 	public void setShieldRechargeDelay(int newDelay)
@@ -222,11 +186,13 @@ public class PlayerInformation : MonoBehaviour
 	public void setMaxFuel(float newMax)
 	{
 		maxFuel = newMax;
+		UpdateUI.Fuel.UpdateBar (currentFuel, maxFuel);
 	}
 	
 	public void setCurrentFuel(float newCurrent)
 	{
 		currentFuel = newCurrent;
+		UpdateUI.Fuel.UpdateBar (currentFuel, maxFuel);
 	}
 	
 	public void setFuelConsumptionRate(float newRate)
@@ -258,31 +224,7 @@ public class PlayerInformation : MonoBehaviour
 	{
 		rotationSpeed = newSpeed;
 	}
-	
-	public void setWeapon(string newWeapon)
-	{
-		weapon = newWeapon;
-	}
-	
-	public void setWeaponDamage(int newDamage)
-	{
-		weaponDamage = newDamage;
-	}
 
-	public void setMaxAmmo(int newMax)
-	{
-		maxAmmo = newMax;
-	}
-	
-	public void setCurrentAmmo(int newCurrent)
-	{
-		currentAmmo = newCurrent;
-	}
-	
-	public void setWeaponFireRate(float newRate)
-	{
-		weaponFireRate = newRate;
-	}
 
 	//Other functions
 	//Takes away health from player when hit
@@ -290,16 +232,20 @@ public class PlayerInformation : MonoBehaviour
 	{
 		if(currentShields > 0)
 		{
-			currentShields -= damage;
-			if(currentShields < 0)
+			int totalDamage = currentShields - damage;
+			if(totalDamage <= 0)
 			{
-				currentHealth += currentShields;
-				currentShields = 0;
+				setCurrentShields( 0 );
+				setCurrentHealth( currentHealth + totalDamage );
+			}
+			else 
+			{
+				setCurrentShields ( totalDamage );
 			}
 		}
 		else
 		{
-			currentHealth -= damage;
+			setCurrentHealth ( currentHealth - damage);
 		}
 	}
 
@@ -320,7 +266,14 @@ public class PlayerInformation : MonoBehaviour
 	//Initialize values for new save
 	public void Initialize()
 	{
-		ShootingManager.Instance.ChangeAmmoType (ShootingManager.ammoType.standard);
+		if(File.Exists(savePath))
+		{
+			LoadData();
+		}
+		else
+		{
+			SaveData();
+		}
 	}
 
 
@@ -373,32 +326,53 @@ public class PlayerInformation : MonoBehaviour
 		writer.WriteWhitespace("\n\t");
 		writer.WriteElementString("rotationSpeed", rotationSpeed.ToString());
 		writer.WriteWhitespace("\n\t");
-		writer.WriteElementString("weapon", weapon);
+		writer.WriteElementString("currentWeapon", WeaponManager.Instance.ammo.ToString());
 		writer.WriteWhitespace("\n\t");
-		writer.WriteElementString("weaponDamage", weaponDamage.ToString());
+		writer.WriteElementString("currentMaxAmmo", WeaponManager.Instance.MaxAmmo.ToString());
 		writer.WriteWhitespace("\n\t");
-		writer.WriteElementString("maxAmmo", maxAmmo.ToString());
-		writer.WriteWhitespace("\n\t");
-		writer.WriteElementString("currentAmmo", currentAmmo.ToString());
-		writer.WriteWhitespace("\n\t");
-		writer.WriteElementString("weaponFireRate", weaponFireRate.ToString());
+		writer.WriteElementString("currentAmmo", WeaponManager.Instance.CurrentAmmo.ToString());
+
+		Dictionary<WeaponManager.ammoType, int>.KeyCollection keys = WeaponManager.Instance.totalMaxAmmo.Keys;
+		for( Dictionary<WeaponManager.ammoType, int>.KeyCollection.Enumerator i = keys.GetEnumerator(); ; )
+		{
+			if(i.Current == WeaponManager.ammoType.none)
+			{
+				i.MoveNext();
+			}
+			writer.WriteWhitespace("\n\t");
+			writer.WriteElementString( i.Current.ToString() + "_MAX", WeaponManager.Instance.totalMaxAmmo[i.Current].ToString());
+			if(!i.MoveNext())
+			{
+				break;
+			}
+		}
+
+		keys = WeaponManager.Instance.totalCurrentAmmo.Keys;
+		for( Dictionary<WeaponManager.ammoType, int>.KeyCollection.Enumerator i = keys.GetEnumerator(); ; )
+		{
+			if(i.Current == WeaponManager.ammoType.none)
+			{
+				i.MoveNext();
+			}
+			writer.WriteWhitespace("\n\t");
+			writer.WriteElementString( i.Current.ToString() + "_CURRENT", WeaponManager.Instance.totalMaxAmmo[i.Current].ToString());
+			if(!i.MoveNext())
+			{
+				break;
+			}
+		}
+
 		writer.WriteEndElement();
 		writer.Close();
 
 		XMLFileManager.EncryptFile(savePath);
+		GameManager.Instance.AddToSavePercentage ();
 	}
 
 	//Used for loading saved player information
 	public void LoadData()
 	{
-		if(!File.Exists(savePath))
-		{
-			return;
-		}
-		else
-		{
-			XMLFileManager.DecryptFile(savePath);
-		}
+		XMLFileManager.DecryptFile(savePath);
 
 		XmlReader reader = new XmlTextReader(savePath);
 		while(reader.Read())
@@ -455,22 +429,35 @@ public class PlayerInformation : MonoBehaviour
 					case "rotationSpeed":
 						rotationSpeed = float.Parse(reader.ReadElementString());
 						break;
-					case "weapon":
-						weapon = reader.ReadElementString();
+					case "currentWeapon":
+						WeaponManager.Instance.ChangeAmmoType( (WeaponManager.ammoType)Enum.Parse(typeof(WeaponManager.ammoType),reader.ReadElementString()));
 						break;
-					case "weaponDamage":
-						weaponDamage = int.Parse(reader.ReadElementString());
-						break;
-					case "maxAmmo":
-						maxAmmo = int.Parse(reader.ReadElementString());
+					case "currentMaxAmmo":
+						WeaponManager.Instance.MaxAmmo = int.Parse(reader.ReadElementString());
 						break;
 					case "currentAmmo":
-						currentAmmo = int.Parse(reader.ReadElementString());
+						WeaponManager.Instance.CurrentAmmo = int.Parse(reader.ReadElementString());
 						break;
-					case "weaponFireRate":
-						weaponFireRate = float.Parse(reader.ReadElementString());
+					case "beam_MAX":
+						WeaponManager.Instance.totalMaxAmmo[WeaponManager.ammoType.beam] = int.Parse(reader.ReadElementString());
 						break;
+					case "chaser_MAX":
+						WeaponManager.Instance.totalMaxAmmo[WeaponManager.ammoType.chaser] = int.Parse(reader.ReadElementString());
+						break;					
+					case "standard_MAX":
+						WeaponManager.Instance.totalMaxAmmo[WeaponManager.ammoType.standard] = int.Parse(reader.ReadElementString());
+						break;	
+					case "beam_CURRENT":
+						WeaponManager.Instance.totalCurrentAmmo[WeaponManager.ammoType.beam] = int.Parse(reader.ReadElementString());
+						break;
+					case "chaser_CURRENT":
+						WeaponManager.Instance.totalCurrentAmmo[WeaponManager.ammoType.chaser] = int.Parse(reader.ReadElementString());
+						break;					
+					case "standard_CURRENT":
+						WeaponManager.Instance.totalCurrentAmmo[WeaponManager.ammoType.standard] = int.Parse(reader.ReadElementString());
+						break;		
 					default:
+						Debug.Log(reader.Name);
 						break;
 				}
 			}

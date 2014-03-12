@@ -3,10 +3,6 @@ using System.Collections;
 
 public class ShootingManager : MonoBehaviour 
 {
-	public enum ammoType{none, standard, beam, chaser}
-	public ammoType ammo = ammoType.none;
-	public GameObject[] allbullets;
-
 	private GameObject currentBullets;
 	private BulletInfo bulInfo;
 	private float fireTimer;
@@ -18,7 +14,6 @@ public class ShootingManager : MonoBehaviour
 	private BulletInfo spawnedBulInfo;
 
 	private static ShootingManager instance;
-
 	public static ShootingManager Instance
 	{
 		get
@@ -31,20 +26,20 @@ public class ShootingManager : MonoBehaviour
 		}
 	}
 
-	public void ChangeAmmoType(ammoType aType)
+	public void SetCurrentBullets(GameObject bullet)
 	{
-		ammo = aType;
-		foreach(GameObject obj in allbullets)
-		{
-			Debug.Log(obj.name);
-			if(obj.name == "ammo_" + ammo.ToString())
-			{
-				currentBullets = obj;
-				bulInfo = currentBullets.GetComponent<BulletInfo>();
-				resetTime = fireTimer = bulInfo.fireRate;
-			}
-		}
-		Debug.Log(currentBullets.name);
+		currentBullets = bullet;
+	}
+
+	public void SetCurrentBulletInfo(BulletInfo bullet)
+	{
+		bulInfo = bullet;
+		fireTimer = resetTime = bulInfo.fireRate;
+	}
+
+	public void SetCurrentBulletTimer( float timer)
+	{
+		fireTimer = resetTime = timer;
 	}
 
 	void Awake()
@@ -69,14 +64,14 @@ public class ShootingManager : MonoBehaviour
 
 		if(Joystick.RightStick.GetMagnitude() >= 0.5f && fireTimer <= 0)
 		{
-			if(currentBullets)
+			if(currentBullets && WeaponManager.Instance.CurrentAmmo > 0)
 			{
-				if(ammo != ammoType.beam)
+				if(WeaponManager.Instance.ammo != WeaponManager.ammoType.beam)
 				{
 					bulInfo.travelAngle = Joystick.RightStick.GetAngle();
 					GameObject.Instantiate(currentBullets, transform.position, Quaternion.identity);
 				}
-				else if(ammo == ammoType.beam)
+				else if(WeaponManager.Instance.ammo == WeaponManager.ammoType.beam)
 				{
 					float angle = Joystick.RightStick.GetAngle();
 					if(!hasSpawned)
@@ -93,11 +88,8 @@ public class ShootingManager : MonoBehaviour
 						spawnedBulInfo.travelAngle = Joystick.RightStick.GetAngle();
 					}
 				}
-			}
-			else if(!currentBullets)
-			{
-				ChangeAmmoType(ammoType.standard);
-				Debug.Log("Your ammo is empty dawg");
+
+				WeaponManager.Instance.ConsumeAmmo(bulInfo.cost);
 			}
 			fireTimer = resetTime;
 		}

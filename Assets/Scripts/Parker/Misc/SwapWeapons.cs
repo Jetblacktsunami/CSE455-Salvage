@@ -3,10 +3,10 @@ using System.Collections;
 
 public class SwapWeapons : MonoBehaviour 
 {
-	public ShootingManager.ammoType SwitchTo = ShootingManager.ammoType.standard;
+	public WeaponManager.ammoType SwitchTo = WeaponManager.ammoType.standard;
 
 	void OnClick()
 	{
-		ShootingManager.Instance.ChangeAmmoType(SwitchTo);
+		WeaponManager.Instance.ChangeAmmoType(SwitchTo);
 	}
 }
