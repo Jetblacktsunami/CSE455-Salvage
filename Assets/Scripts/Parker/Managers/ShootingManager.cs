@@ -90,8 +90,8 @@ public class ShootingManager : MonoBehaviour
 				}
 
 				WeaponManager.Instance.ConsumeAmmo(bulInfo.cost);
+				fireTimer = resetTime;
 			}
-			fireTimer = resetTime;
 		}
 		else if(Joystick.RightStick.GetMagnitude() < 0.5f && hasSpawned)
 		{

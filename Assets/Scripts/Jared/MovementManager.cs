@@ -30,7 +30,7 @@ public class MovementManager : MonoBehaviour
 
 	void Update ()
 	{
-		if(Joystick.LeftStick.GetMagnitude() >= 0.1)
+		if(Joystick.LeftStick.GetMagnitude() >= 0.1 && PlayerInformation.Instance.getCurrentFuel() > 0)
 		{
 			Move();
 		}
@@ -45,6 +45,8 @@ public class MovementManager : MonoBehaviour
 		newPosition.y += mag * PlayerInformation.Instance.getSpeed() * Time.deltaTime * Mathf.Sin(angle * Mathf.Deg2Rad);
 		transform.position = newPosition;
 		transform.rotation = Quaternion.AngleAxis(angle + 180f, new Vector3(0f,0f,1.0f));
+		PlayerInformation.Instance.ConsumeFuel();
+
 	}
 
 	public static void Wipe()

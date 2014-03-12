@@ -27,8 +27,7 @@ public class PlayerInformation : MonoBehaviour
 	private float acceleration = 10f;					//Acceleration of player towards max speed
 	private float thrusterDelay = 10f;				//Delay between input and movement
 	private float rotationSpeed = 10f;				//Turning speed of the player
-
-
+	private bool bConsumeFuel = false;
 	//Selection of save file location based on environment
 	private string savePath;
 
@@ -102,7 +101,19 @@ public class PlayerInformation : MonoBehaviour
 	{
 		return shieldRechargeRate;
 	}
-	
+
+	public bool CanUseFuel
+	{
+		get
+		{
+			return bConsumeFuel;
+		}
+		set
+		{
+			bConsumeFuel = value;
+		}
+	}
+
 	public float getMaxFuel()
 	{
 		return maxFuel;
@@ -110,11 +121,19 @@ public class PlayerInformation : MonoBehaviour
 	
 	public float getCurrentFuel()
 	{
+		if(bConsumeFuel == false)
+		{
+			return maxFuel;
+		}
 		return currentFuel;
 	}
 	
 	public float getFuelConsumptionRate()
 	{
+		if(bConsumeFuel == false)
+		{
+			return  0f;
+		}
 		return fuelConsumptionRate;
 	}
 	
@@ -225,6 +244,19 @@ public class PlayerInformation : MonoBehaviour
 		rotationSpeed = newSpeed;
 	}
 
+	public void ConsumeFuel()
+	{
+		float tempFuel = getCurrentFuel() - (getFuelConsumptionRate() * Time.deltaTime);
+
+		if(tempFuel <= 0)
+		{
+			setCurrentFuel(0);
+		}
+		else
+		{
+			setCurrentFuel(tempFuel);
+		}
+	}
 
 	//Other functions
 	//Takes away health from player when hit
@@ -296,6 +328,8 @@ public class PlayerInformation : MonoBehaviour
 		writer.WriteWhitespace("\n\t");
 		writer.WriteElementString("ship", ship);
 		writer.WriteWhitespace("\n\t");
+		writer.WriteElementString("playerPosition", transform.position.x.ToString() + "," + transform.position.y.ToString());
+		writer.WriteWhitespace("\n\t");
 		writer.WriteElementString("maxHealth", maxHealth.ToString());
 		writer.WriteWhitespace("\n\t");
 		writer.WriteElementString("currentHealth", currentHealth.ToString());
@@ -330,13 +364,15 @@ public class PlayerInformation : MonoBehaviour
 		writer.WriteWhitespace("\n\t");
 		writer.WriteElementString("currentAmmo", WeaponManager.Instance.CurrentAmmo.ToString());
 		
-		Debug.Log("iterating 1");
-		Dictionary<WeaponManager.ammoType, int>.KeyCollection keys = WeaponManager.Instance.totalMaxAmmo.Keys;
-		for( Dictionary<WeaponManager.ammoType, int>.KeyCollection.Enumerator i = keys.GetEnumerator(); ; )
+		Dictionary<WeaponManager.ammoType, float>.KeyCollection keys = WeaponManager.Instance.totalMaxAmmo.Keys;
+		for( Dictionary<WeaponManager.ammoType, float>.KeyCollection.Enumerator i = keys.GetEnumerator(); ; )
 		{
 			if(i.Current == WeaponManager.ammoType.none)
 			{
-				i.MoveNext();
+				if(!i.MoveNext())
+				{
+					break;
+				}
 			}
 			writer.WriteWhitespace("\n\t");
 			writer.WriteElementString( i.Current.ToString() + "_MAX", WeaponManager.Instance.totalMaxAmmo[i.Current].ToString());
@@ -346,16 +382,18 @@ public class PlayerInformation : MonoBehaviour
 			}
 		}
 		
-		Debug.Log("iterating 2");
 		keys = WeaponManager.Instance.totalCurrentAmmo.Keys;
-		for( Dictionary<WeaponManager.ammoType, int>.KeyCollection.Enumerator i = keys.GetEnumerator(); ; )
+		for( Dictionary<WeaponManager.ammoType, float>.KeyCollection.Enumerator i = keys.GetEnumerator(); ; )
 		{
 			if(i.Current == WeaponManager.ammoType.none)
 			{
-				i.MoveNext();
+				if(!i.MoveNext())
+				{
+					break;
+				}
 			}
 			writer.WriteWhitespace("\n\t");
-			writer.WriteElementString( i.Current.ToString() + "_CURRENT", WeaponManager.Instance.totalMaxAmmo[i.Current].ToString());
+			writer.WriteElementString( i.Current.ToString() + "_CURRENT", WeaponManager.Instance.totalCurrentAmmo[i.Current].ToString());
 			if(!i.MoveNext())
 			{
 				break;
@@ -392,6 +430,10 @@ public class PlayerInformation : MonoBehaviour
 						break;
 					case "ship":
 						ship = reader.ReadElementString();
+						break;
+					case "playerPosition":
+						string[] positions = reader.ReadElementString().Split(',');
+						transform.position = new Vector2(float.Parse(positions[0]), float.Parse(positions[1]) );
 						break;
 					case "maxHealth":
 						maxHealth = int.Parse(reader.ReadElementString());
@@ -436,31 +478,31 @@ public class PlayerInformation : MonoBehaviour
 						rotationSpeed = float.Parse(reader.ReadElementString());
 						break;
 					case "currentWeapon":
-						WeaponManager.Instance.ChangeAmmoType( (WeaponManager.ammoType)Enum.Parse(typeof(WeaponManager.ammoType),reader.ReadElementString()));
+						WeaponManager.Instance.ChangeStartUpAmmoType( (WeaponManager.ammoType)Enum.Parse(typeof(WeaponManager.ammoType),reader.ReadElementString()));
 						break;
 					case "currentMaxAmmo":
-						WeaponManager.Instance.MaxAmmo = int.Parse(reader.ReadElementString());
+						WeaponManager.Instance.MaxAmmo = float.Parse(reader.ReadElementString());
 						break;
 					case "currentAmmo":
-						WeaponManager.Instance.CurrentAmmo = int.Parse(reader.ReadElementString());
+						WeaponManager.Instance.CurrentAmmo = float.Parse(reader.ReadElementString());
 						break;
 					case "beam_MAX":
-						WeaponManager.Instance.totalMaxAmmo[WeaponManager.ammoType.beam] = int.Parse(reader.ReadElementString());
+						WeaponManager.Instance.totalMaxAmmo[WeaponManager.ammoType.beam] = float.Parse(reader.ReadElementString());
 						break;
 					case "chaser_MAX":
-						WeaponManager.Instance.totalMaxAmmo[WeaponManager.ammoType.chaser] = int.Parse(reader.ReadElementString());
+						WeaponManager.Instance.totalMaxAmmo[WeaponManager.ammoType.chaser] = float.Parse(reader.ReadElementString());
 						break;					
 					case "standard_MAX":
-						WeaponManager.Instance.totalMaxAmmo[WeaponManager.ammoType.standard] = int.Parse(reader.ReadElementString());
+						WeaponManager.Instance.totalMaxAmmo[WeaponManager.ammoType.standard] = float.Parse(reader.ReadElementString());
 						break;	
 					case "beam_CURRENT":
-						WeaponManager.Instance.totalCurrentAmmo[WeaponManager.ammoType.beam] = int.Parse(reader.ReadElementString());
+						WeaponManager.Instance.totalCurrentAmmo[WeaponManager.ammoType.beam] = float.Parse(reader.ReadElementString());
 						break;
 					case "chaser_CURRENT":
-						WeaponManager.Instance.totalCurrentAmmo[WeaponManager.ammoType.chaser] = int.Parse(reader.ReadElementString());
+						WeaponManager.Instance.totalCurrentAmmo[WeaponManager.ammoType.chaser] = float.Parse(reader.ReadElementString());
 						break;					
 					case "standard_CURRENT":
-						WeaponManager.Instance.totalCurrentAmmo[WeaponManager.ammoType.standard] = int.Parse(reader.ReadElementString());
+						WeaponManager.Instance.totalCurrentAmmo[WeaponManager.ammoType.standard] = float.Parse(reader.ReadElementString());
 						break;		
 					default:
 						Debug.Log(reader.Name);
