@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ShootingManager : MonoBehaviour 
 {
+	public Transform weaponAnchor;
 	private GameObject currentBullets;
 	private BulletInfo bulInfo;
 	private float fireTimer;
@@ -69,7 +70,8 @@ public class ShootingManager : MonoBehaviour
 				if(WeaponManager.Instance.ammo != WeaponManager.ammoType.beam)
 				{
 					bulInfo.travelAngle = Joystick.RightStick.GetAngle();
-					GameObject.Instantiate(currentBullets, transform.position, Quaternion.identity);
+					GameObject.Instantiate(currentBullets, weaponAnchor.position, Quaternion.identity);
+					WeaponManager.Instance.ConsumeAmmo(bulInfo.cost);
 				}
 				else if(WeaponManager.Instance.ammo == WeaponManager.ammoType.beam)
 				{
@@ -77,19 +79,18 @@ public class ShootingManager : MonoBehaviour
 					if(!hasSpawned)
 					{
 						bulInfo.travelAngle = Joystick.RightStick.GetAngle();
-						spawnedObject = GameObject.Instantiate(currentBullets, transform.position, Quaternion.identity) as GameObject;
+						spawnedObject = GameObject.Instantiate(currentBullets, weaponAnchor.position, Quaternion.identity) as GameObject;
 						spawnedBulInfo = spawnedObject.GetComponent<BulletInfo>();
 						hasSpawned = true;
 					}
 					else
 					{
 						spawnedObject.transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0f,0f,1.0f));
-						//spawnedObject.transform.localPosition = new Vector2( spawnedObject.transform.localScale.x / 2.0f, spawnedObject.transform.localScale.y / 2.0f);
 						spawnedBulInfo.travelAngle = Joystick.RightStick.GetAngle();
 					}
+					WeaponManager.Instance.ConsumeAmmo(bulInfo.cost * Time.deltaTime);
 				}
 
-				WeaponManager.Instance.ConsumeAmmo(bulInfo.cost);
 				fireTimer = resetTime;
 			}
 		}

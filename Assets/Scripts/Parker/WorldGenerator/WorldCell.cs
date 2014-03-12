@@ -218,7 +218,7 @@ public class WorldCell : MonoBehaviour
 			writer.WriteStartElement("Root");
 			writer.WriteWhitespace("\n");
 			
-			for(int i = positions.Count, j = perlin.Count; i < positions.Count && j < perlin.Count; i++, j++)
+			for(int i = 0, j = 0; i < positions.Count && j < perlin.Count; i++, j++)
 			{
 				writer.WriteWhitespace("\t");
 				writer.WriteStartElement("AsteroidPosition");
@@ -263,7 +263,7 @@ public class WorldCell : MonoBehaviour
 			writer.WriteStartElement("Root");
 			writer.WriteWhitespace("\n");
 
-			for(int i = positions.Count, j = perlin.Count; i < positions.Count && j < perlin.Count; i++, j++)
+			for(int i = 0, j = 0; i < positions.Count && j < perlin.Count; i++, j++)
 			{
 				writer.WriteWhitespace("\t");
 				writer.WriteStartElement("AsteroidPosition");
@@ -296,7 +296,7 @@ public class WorldCell : MonoBehaviour
 			writer.WriteStartElement("Root");
 			writer.WriteWhitespace("\n");
 			
-			for(int i = positions.Count, j = perlin.Count; i < positions.Count && j < perlin.Count; i++, j++)
+			for(int i = 0, j = 0; i < positions.Count && j < perlin.Count; i++, j++)
 			{
 				writer.WriteWhitespace("\t");
 				writer.WriteStartElement("AsteroidPosition");

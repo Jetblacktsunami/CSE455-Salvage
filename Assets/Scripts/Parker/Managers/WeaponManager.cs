@@ -125,7 +125,7 @@ public class WeaponManager : MonoBehaviour
 		{
 			if(obj.name == "ammo_" + ammo.ToString())
 			{
-				ShootingManager.Instance.SetCurrentBullets (obj );
+				ShootingManager.Instance.SetCurrentBullets (obj);
 				ShootingManager.Instance.SetCurrentBulletInfo( obj.GetComponent<BulletInfo>());
 				maxAmmo = totalMaxAmmo [ammo];
 				currentAmmo = totalCurrentAmmo[ammo];
