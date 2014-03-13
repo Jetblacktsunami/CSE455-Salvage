@@ -4,7 +4,7 @@ using System.Collections;
 public class beamRifle : MonoBehaviour 
 {
 	private BulletInfo bulInfo;
-	private LayerMask mask = ~(1 << 15);
+	private LayerMask mask = ~(1 << 15 | 1 << 14 | 1 << 11 | 1 << 13);
 	private enum ResizeEvent { standardSize, hitSize, standby } 
 	ResizeEvent resize = ResizeEvent.standardSize;
 	// Use this for initialization
@@ -17,6 +17,7 @@ public class beamRifle : MonoBehaviour
 	void Update () 
 	{
 		RaycastHit2D hit = Physics2D.Raycast (PlayerInformation.Instance.gameObject.transform.position, new Vector2 (Mathf.Cos (bulInfo.travelAngle * Mathf.Deg2Rad), Mathf.Sin (bulInfo.travelAngle * Mathf.Deg2Rad)), 74f , mask, -5, 5);
+		Debug.Log (hit.collider.gameObject.name);
 		if(hit)
 		{
 			if(hit.collider.tag == "Asteroid")
