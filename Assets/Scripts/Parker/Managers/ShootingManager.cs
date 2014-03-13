@@ -3,10 +3,7 @@ using System.Collections;
 
 public class ShootingManager : MonoBehaviour 
 {
-	public enum ammoType{none, standard, beam, chaser}
-	public ammoType ammo = ammoType.none;
-	public GameObject[] allbullets;
-
+	public Transform weaponAnchor;
 	private GameObject currentBullets;
 	private BulletInfo bulInfo;
 	private float fireTimer;
@@ -18,7 +15,6 @@ public class ShootingManager : MonoBehaviour
 	private BulletInfo spawnedBulInfo;
 
 	private static ShootingManager instance;
-
 	public static ShootingManager Instance
 	{
 		get
@@ -31,18 +27,20 @@ public class ShootingManager : MonoBehaviour
 		}
 	}
 
-	public void ChangeAmmoType(ammoType aType)
+	public void SetCurrentBullets(GameObject bullet)
 	{
-		ammo = aType;
-		foreach(GameObject obj in allbullets)
-		{
-			if(obj.name == "ammo_" + ammo.ToString())
-			{
-				currentBullets = obj;
-				bulInfo = currentBullets.GetComponent<BulletInfo>();
-				resetTime = fireTimer = bulInfo.fireRate;
-			}
-		}
+		currentBullets = bullet;
+	}
+
+	public void SetCurrentBulletInfo(BulletInfo bullet)
+	{
+		bulInfo = bullet;
+		fireTimer = resetTime = bulInfo.fireRate;
+	}
+
+	public void SetCurrentBulletTimer( float timer)
+	{
+		fireTimer = resetTime = timer;
 	}
 
 	void Awake()
@@ -67,35 +65,34 @@ public class ShootingManager : MonoBehaviour
 
 		if(Joystick.RightStick.GetMagnitude() >= 0.5f && fireTimer <= 0)
 		{
-			if(currentBullets)
+			if(currentBullets && WeaponManager.Instance.CurrentAmmo > 0)
 			{
-				if(ammo != ammoType.beam)
+				if(WeaponManager.Instance.ammo != WeaponManager.ammoType.beam)
 				{
 					bulInfo.travelAngle = Joystick.RightStick.GetAngle();
-					GameObject.Instantiate(currentBullets, transform.position, Quaternion.identity);
+					GameObject.Instantiate(currentBullets, weaponAnchor.position, Quaternion.identity);
+					WeaponManager.Instance.ConsumeAmmo(bulInfo.cost);
 				}
-				else if(ammo == ammoType.beam)
+				else if(WeaponManager.Instance.ammo == WeaponManager.ammoType.beam)
 				{
+					float angle = Joystick.RightStick.GetAngle();
 					if(!hasSpawned)
 					{
 						bulInfo.travelAngle = Joystick.RightStick.GetAngle();
-						spawnedObject = GameObject.Instantiate(currentBullets, transform.position, Quaternion.identity) as GameObject;
+						spawnedObject = GameObject.Instantiate(currentBullets, weaponAnchor.position, Quaternion.identity) as GameObject;
 						spawnedBulInfo = spawnedObject.GetComponent<BulletInfo>();
 						hasSpawned = true;
 					}
 					else
 					{
-						spawnedObject.transform.rotation = Quaternion.AngleAxis(Joystick.RightStick.GetAngle(), new Vector3(0f,0f,1.0f));
+						spawnedObject.transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0f,0f,1.0f));
 						spawnedBulInfo.travelAngle = Joystick.RightStick.GetAngle();
 					}
+					WeaponManager.Instance.ConsumeAmmo(bulInfo.cost * Time.deltaTime);
 				}
+
+				fireTimer = resetTime;
 			}
-			else if(!currentBullets)
-			{
-				ChangeAmmoType(ammoType.standard);
-				Debug.Log("Your ammo is empty dawg");
-			}
-			fireTimer = resetTime;
 		}
 		else if(Joystick.RightStick.GetMagnitude() < 0.5f && hasSpawned)
 		{

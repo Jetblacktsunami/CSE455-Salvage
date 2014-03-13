@@ -4,8 +4,8 @@ using System.Collections;
 public class EnemyAI : MonoBehaviour {
 
 	public Transform target;
-	public float movespeed;
-	private bool contact;
+	public float movespeed = 10f;
+	private bool contact = false;
 	
 
 	void OnTriggerEnter2D(Collider2D other)

@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
 	public void Save()
 	{
 		gameManagerCalls(FunctionCallType.save);
+		PlayerInformation.Instance.SaveData ();
 	}
 	
 	public void Load()
@@ -104,9 +105,9 @@ public class GameManager : MonoBehaviour
 	/// </summary>
 	public void AddToSavePercentage()
 	{
-		SavePercentage += (100f / (ObjectPool.Pool.ActiveCells.Count));
+		SavePercentage += (100f / (ObjectPool.Pool.ActiveCells.Count + 1));
 		LoadingBar.Instance.UpdateBar();
-		if(SavePercentage >= 100f)
+		if(SavePercentage >= 99.9f)
 		{
 			ReturnToMenu.OnSaveDone();
 		}

@@ -3,6 +3,7 @@ using System.Collections;
 
 public class BulletInfo : MonoBehaviour 
 {
+	public float cost = 1f;
 	public float fireRate = 1f;
 	public float travelSpeed = 10f;
 	public float travelAngle = 0f;

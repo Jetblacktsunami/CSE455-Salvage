@@ -297,6 +297,7 @@ public class ObjectPool : MonoBehaviour
 		pooledObjects.Clear ();
 		usedPooledObjects.Clear ();
 		cells.Clear ();
+		ActiveCells.Clear ();
 		totalPooledObjects = 0;
 	}
 

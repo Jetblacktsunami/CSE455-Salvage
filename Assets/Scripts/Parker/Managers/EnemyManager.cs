@@ -34,9 +34,6 @@ public class EnemyManager : MonoBehaviour
 		if(bCanSpawnEnemies)
 		{
 			Vector2 playerPos = (Vector2)PlayerInformation.Instance.gameObject.transform.position;
-
-
-
 		}
 	}
 
