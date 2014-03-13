@@ -17,7 +17,6 @@ public class beamRifle : MonoBehaviour
 	void Update () 
 	{
 		RaycastHit2D hit = Physics2D.Raycast (PlayerInformation.Instance.gameObject.transform.position, new Vector2 (Mathf.Cos (bulInfo.travelAngle * Mathf.Deg2Rad), Mathf.Sin (bulInfo.travelAngle * Mathf.Deg2Rad)), 74f , mask, -5, 5);
-		Debug.Log (hit.collider.gameObject.name);
 		if(hit)
 		{
 			if(hit.collider.tag == "Asteroid")
