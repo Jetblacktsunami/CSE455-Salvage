@@ -4,7 +4,7 @@ using System.Collections;
 public class EnemyManager : MonoBehaviour 
 {
 	public GameObject[] enemieTypes;
-
+	public int maxEnemies = 6;
 
 	private bool bCanSpawnEnemies = false;
 
