@@ -20,7 +20,7 @@ public class WorldGenerator : MonoBehaviour
 
 	public List<GameObject> planets = new List<GameObject> ();
 	public GameObject sun;
-
+	public float preLoadRange = 100;
 	/// <summary>
 	/// Gets or sets the instance.
 	/// </summary>
@@ -155,7 +155,6 @@ reroll:			float r = jump;
 
 		SpawnPlanets ();
 		CreateCells (worldspec);
-
 		SaveSpace();
 	}
 
@@ -380,7 +379,7 @@ reroll:			float r = jump;
 	/// Creates the cells.
 	/// </summary>
 	/// <param name="details">Details.</param>
-	private static void CreateCells(WorldSpecs details)
+	private void CreateCells(WorldSpecs details)
 	{
 		Vector2 startPoint = new Vector2(details.start.x - (details.mapLength * 0.5f), details.start.y - (details.mapLength * 0.5f));
 
@@ -392,40 +391,50 @@ reroll:			float r = jump;
 		{
 			for(float j = 0, y = 0; j < details.mapLength; j += details.cellLength, y++)
 			{
-				GameObject cell = new GameObject ( x + "," +  y );
-				cell.transform.parent = parent.transform;
-				cell.transform.localScale = new Vector3(details.cellLength ,details.cellLength,1.0f);
-				cell.transform.position = new Vector2(startPoint.x + i + (details.cellLength/2.0f) , startPoint.y + j + (details.cellLength / 2.0f) );
-				cell.layer = 11;
-				WorldCell temp = cell.AddComponent<WorldCell>();
-				if(isPlanetInRange(cell.transform.position))
+				Vector2 positon = new Vector2(startPoint.x + i + (details.cellLength/2.0f) , startPoint.y + j + (details.cellLength / 2.0f));
+				if(isValidCellPosition(positon) && !isPlanetInRange(positon))
 				{
-					temp.hasPlanet = true;
-				}
-				else
-				{
+					GameObject cell = new GameObject ( x + "," +  y );
+					cell.transform.parent = parent.transform;
+					cell.transform.localScale = new Vector3(details.cellLength ,details.cellLength,1.0f);
+					cell.transform.position = positon;
+					cell.layer = 11;
+					WorldCell temp = cell.AddComponent<WorldCell>();
 					ObjectPool.Pool.AddCell(temp);
+					cell.AddComponent<BoxCollider2D>().isTrigger = true;
+					cell.gameObject.isStatic = true;
 				}
-				cell.AddComponent<BoxCollider2D>().isTrigger = true;
-				cell.gameObject.isStatic = true;
 			}
-			ObjectPool.Pool.LinkCells();
 		}
+		StartCoroutine(WorldCell.GenerateALLXMLData(preLoadRange));
+		ObjectPool.Pool.LinkCells();
+
 		if(worldDoneLoading != null)
 		{
 			worldDoneLoading(ActionType.load);
 		}
 	}
 
+	private static bool isValidCellPosition(Vector2 currentPosition)
+	{
+		if(Mathf.Abs(Vector2.Distance(Vector2.zero, currentPosition)) <= (worldspec.mapLength /2.0f))
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 	private static bool isPlanetInRange(Vector2 currentPosition)
 	{
 		foreach(Vector2 position in worldspec.planetPositions)
 		{
-			if(Vector2.Distance(currentPosition,position) < (worldspec.cellLength /2.0f))
+			if(Vector2.Distance(currentPosition,position) <= (worldspec.cellLength /2.0f))
 			{
 				return true;
 			}
 		}
+		
 		return false;
 	}
 }

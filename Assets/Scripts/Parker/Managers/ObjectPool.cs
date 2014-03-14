@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class ObjectPool : MonoBehaviour
 {
+	public GameObject WhereToPool;
 	public int minPoolAmount  = 300;
 	public int maxPoolAmount = 1000;
 	private int totalPooledObjects = 0;
@@ -14,6 +15,8 @@ public class ObjectPool : MonoBehaviour
 	//specific to this game
 	public List<WorldCell> cells = new List<WorldCell>();
 	public List<WorldCell> ActiveCells = new List<WorldCell>();
+
+
 
 	private static ObjectPool instance;
 	public static ObjectPool Pool
@@ -230,6 +233,13 @@ public class ObjectPool : MonoBehaviour
 
 	public void MarkUnused(GameObject gameObj)
 	{
+		gameObj.transform.localScale = new Vector3(1f ,1f, 1f);
+		gameObj.transform.parent = null;
+		if(WhereToPool)
+		{
+			gameObj.transform.position = WhereToPool.transform.position;	
+		}
+		
 		if(usedPooledObjects.Contains(gameObj))
 		{
 			int index = usedPooledObjects.FindIndex( delegate(GameObject obj) 
@@ -258,6 +268,7 @@ public class ObjectPool : MonoBehaviour
 				}
 			}
 		}
+
 		if(pooledObjects.Count > 0)
 		{
 			for(int i = 0, j = 0; i < positions.Count && j < perlinValues.Count; i++, j++)
@@ -268,12 +279,14 @@ public class ObjectPool : MonoBehaviour
 					return new Vector2(i,j);
 				}
 
-				pooledObjects[i].gameObject.transform.position = new Vector3(positions[i].x, positions[i].y, Random.Range(-1, 2));
+				pooledObjects[i].gameObject.transform.parent = cell.parent.transform;
+				pooledObjects[i].gameObject.transform.position = (Vector3)(positions[i] + new Vector2(Random.Range(-1.0f, 1.0f),Random.Range(-1.0f, 1.0f)));
 				pooledObjects[i].gameObject.transform.localScale = new Vector3(perlinValues[j]/10.0f ,perlinValues[j]/10.0f, 1.0f);
 				pooledObjects[i].gameObject.transform.parent = cell.parent.transform;
 				Asteroid pooledAsteroid = pooledObjects[i].GetComponent<Asteroid>();
 				pooledAsteroid.assignedPosition = positions[i];
 				pooledAsteroid.parentCell = cell;
+				pooledAsteroid.Change();
 
 				cell.children.Add(pooledObjects[i].gameObject);
 				usedPooledObjects.Add(pooledObjects[i].gameObject);
@@ -286,7 +299,14 @@ public class ObjectPool : MonoBehaviour
 	
 	private void OnLevelWasLoaded()
 	{
-		if(Application.loadedLevelName == "MainMenu")
+		if(Application.loadedLevelName == "InGame")
+		{
+			if(WhereToPool)
+			{
+				WhereToPool.transform.position = Vector2.one *( WorldGenerator.worldspec.mapLength * 2f);
+			}
+		}
+		else if(Application.loadedLevelName == "MainMenu")
 		{
 			Clear ();
 		}

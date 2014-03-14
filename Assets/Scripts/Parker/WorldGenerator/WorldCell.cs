@@ -52,8 +52,8 @@ public class WorldCell : MonoBehaviour
 			float cellSize = gameObject.transform.localScale.x;
 			if(distance <= (cellSize * 2) && status != CellStatus.active)
 			{
-				status = CellStatus.active;
 				Activate();
+				status = CellStatus.active;
 			}
 			else if(distance > (cellSize * 2) && status != CellStatus.standby)
 			{
@@ -132,6 +132,95 @@ public class WorldCell : MonoBehaviour
 		children.Clear();
 	}
 
+	public static IEnumerator GenerateALLXMLData (float Range)
+	{
+#if UNITY_EDITOR
+		string tempDir = Application.dataPath + "/SaveData/";
+#else
+		string tempDir = Application.persistentDataPath + "/SaveData/";
+#endif
+		float startTimer = Time.realtimeSinceStartup;
+		if(!Directory.Exists(tempDir))
+		{
+			Directory.CreateDirectory(tempDir);
+		}
+		tempDir += WorldGenerator.worldspec.spaceName + "/";
+		if(!Directory.Exists(tempDir))
+		{
+			Directory.CreateDirectory(tempDir);
+		}
+
+		WorldGenerator.WorldSpecs details = WorldGenerator.worldspec;
+		Random.seed = details.seed;
+		float maxDistance = details.mapLength / 2.0f;
+		float halfCellLength = Mathf.Ceil(details.cellLength/2.0f);
+		Vector2 startingPos = new Vector2( -halfCellLength, -halfCellLength);
+		Vector2 endPos = new Vector2( halfCellLength, halfCellLength);
+
+		foreach( WorldCell cell in ObjectPool.Pool.cells)
+		{
+			cell.Start();
+			if(Vector2.Distance(cell.transform.position,Vector2.zero) < Range)
+			{
+				if(!cell.hasPlanet)
+				{
+					for(int i = (int)startingPos.x; i < endPos.x ; i++)
+					{
+						for(int j = (int)startingPos.y; j < endPos.y ; j++)
+						{				
+							float xCoord = ((i + cell.transform.position.x) + details.mapLength /2) / (float)details.mapLength * 25.6f;
+							float yCoord = ((j + cell.transform.position.y) + details.mapLength /2) / (float)details.mapLength * 25.6f;						
+							float scale = Mathf.PerlinNoise(xCoord,yCoord);
+							
+							if(scale > 0.95f || scale < 0.1f || (scale > 0.45f && scale < 0.5f))
+							{
+								cell.positions.Add(new Vector2(i + cell.transform.position.x, j + cell.transform.position.y));
+								cell.perlin.Add(scale);
+							}
+						}
+					}
+					
+					XmlTextWriter writer = new XmlTextWriter (cell.fileName, System.Text.Encoding.UTF8);
+					
+					writer.WriteStartDocument();
+					writer.WriteWhitespace("\n");
+					writer.WriteStartElement("Root");
+					writer.WriteWhitespace("\n");
+					
+					for(int i = 0, j = 0; i < cell.positions.Count && j < cell.perlin.Count; i++, j++)
+					{
+						writer.WriteWhitespace("\t");
+						writer.WriteStartElement("AsteroidPosition");
+						writer.WriteAttributeString("x ",cell.positions[i].x.ToString());
+						writer.WriteAttributeString("y ",cell.positions[i].y.ToString());
+						writer.WriteEndElement();
+						writer.WriteWhitespace("\n\t\t");
+						writer.WriteElementString("PerlinValue", cell.perlin[j].ToString());
+						writer.WriteWhitespace("\n");
+					}
+					
+					writer.WriteEndDocument ();
+					writer.Close ();
+				}
+				else
+				{
+					XmlTextWriter writer = new XmlTextWriter (cell.fileName, System.Text.Encoding.UTF8);
+					
+					writer.WriteStartDocument();
+					writer.WriteWhitespace("\n");
+					writer.WriteStartElement("Root");
+					writer.WriteEndElement();
+					writer.WriteWhitespace("\n");
+					writer.WriteEndDocument();
+					writer.Close ();
+				}
+			}
+		}
+	
+		yield return new WaitForSeconds(0);
+	}
+
+
 	//if this is the first time being activated the cell will call this to spawn the asteroids
 	public void GenerateXMLData ()
 	{
@@ -147,11 +236,8 @@ public class WorldCell : MonoBehaviour
 			Random.seed = details.seed;
 			float maxDistance = details.mapLength / 2.0f;
 			float halfCellLength = Mathf.Ceil(details.cellLength/2.0f);
-			float[] perlinValue = new float[((int)halfCellLength * 2) * ((int)halfCellLength * 2)];
-
 			Vector2 startingPos = new Vector2( -halfCellLength, -halfCellLength);
 			Vector2 endPos = new Vector2( halfCellLength, halfCellLength);
-			Vector2[,] asteroidPosition = new Vector2[(int)halfCellLength * 2,(int)halfCellLength * 2];
 
 			for(int i = (int)startingPos.x; i < endPos.x ; i++)
 			{
@@ -160,52 +246,14 @@ public class WorldCell : MonoBehaviour
 					float distance = Mathf.Sqrt( Mathf.Pow(i + transform.position.x,2) + Mathf.Pow(j + transform.position.y ,2));
 					if(distance < maxDistance && distance > maxDistance / 10.0)
 					{
-						float degree;
-						if( j != 0)
-						{
-							degree = Mathf.Rad2Deg * Mathf.Atan( i / j);
-							if( i >= 0)
-							{
-								if(j < 0)
-								{
-									degree += 360.0f;
-								}
-							}
-							else if(i < 0)
-							{
-								if(j > 0)
-								{
-									degree += 180.0f;
-								}
-								else if(j < 0)
-								{
-									degree += 270.0f;
-								}
-							}
-						}
-						else
-						{
-							if(i >= 0)
-							{
-								degree = 0;
-							}
-							else
-							{
-								degree = 180;
-							}
-						}
+						float xCoord = ((i + transform.position.x) + details.mapLength /2) / (float)details.mapLength * 25.6f;
+						float yCoord = ((j + transform.position.y) + details.mapLength /2) / (float)details.mapLength * 25.6f;						
+						float scale = Mathf.PerlinNoise(xCoord,yCoord);
 
-						if( details.invalidSpawnPoints == null || !details.invalidSpawnPoints.Contains(new Vector2(i,j)))
+						if(scale > 0.95f || scale < 0.1f || (scale > 0.45f && scale < 0.5f))
 						{
-							float xCoord = ((i + transform.position.x) + details.mapLength /2) / (float)details.mapLength * 25.6f;
-							float yCoord = ((j + transform.position.y) + details.mapLength /2) / (float)details.mapLength * 25.6f;						
-							float scale = Mathf.PerlinNoise(xCoord,yCoord);
-
-							if(scale > 0.95f || scale < 0.1f || (scale > 0.45f && scale < 0.5f))
-							{
-								positions.Add(asteroidPosition[i + ((int)halfCellLength),j + ((int)halfCellLength )] = new Vector2(i + transform.position.x, j + transform.position.y));
-								perlin.Add(perlinValue[(i + ((int)halfCellLength)) * (int)(halfCellLength * 2) + (j+ ((int)halfCellLength))] = scale);
-							}
+							positions.Add( new Vector2(i + transform.position.x, j + transform.position.y));
+							perlin.Add(scale);
 						}
 					}
 				}
@@ -246,7 +294,7 @@ public class WorldCell : MonoBehaviour
 			writer.Close ();
 		}
 	}
-
+	
 	//saves the current objects in the cell as well as their positions
 	public void Save()
 	{
@@ -316,10 +364,9 @@ public class WorldCell : MonoBehaviour
 	//loads all the objects in the cell
 	public void Load()
 	{
-		if(File.Exists(fileName))
+		if(File.Exists(fileName) && status != CellStatus.active)
 		{
-
-			if(positions.Count <= 0 || perlin.Count <= 0)
+			if(positions.Count <= 0 && perlin.Count <= 0)
 			{
 				positions = new List<Vector2>();
 				perlin = new List<float>();
@@ -347,10 +394,11 @@ public class WorldCell : MonoBehaviour
 			children.Clear ();
 			Vector2 indexes = ObjectPool.Pool.Redirect(positions, perlin, this);
 
-			if(indexes.x >= 0)
+			if(indexes.x >= 0 && indexes.x < positions.Count)
 			{
 				for(int i = (int)indexes.x, j = (int)indexes.y; i < positions.Count && j < perlin.Count; i++,j++)
 				{
+					Debug.Log("generating=" + i);
 					GameObject asteroidOBJ = GameObject.Instantiate(Resources.Load("Asteroid/Asteroid")) as GameObject;
 					asteroidOBJ.transform.position = (Vector3)(positions[i] + new Vector2(Random.Range(-1.0f, 1.0f),Random.Range(-1.0f, 1.0f)));
 					asteroidOBJ.transform.parent = parent.transform;
