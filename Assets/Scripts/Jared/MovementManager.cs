@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿//Description: Provides movement for the player
+
+using UnityEngine;
 using System.Collections;
 
 public class MovementManager : MonoBehaviour {
