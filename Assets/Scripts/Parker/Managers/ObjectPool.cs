@@ -233,7 +233,6 @@ public class ObjectPool : MonoBehaviour
 
 	public void MarkUnused(GameObject gameObj)
 	{
-		gameObj.transform.localScale = new Vector3(1f ,1f, 1f);
 		gameObj.transform.parent = null;
 		if(WhereToPool)
 		{
@@ -280,11 +279,9 @@ public class ObjectPool : MonoBehaviour
 				}
 
 				pooledObjects[i].gameObject.transform.parent = cell.parent.transform;
-				pooledObjects[i].gameObject.transform.position = (Vector3)(positions[i] + new Vector2(Random.Range(-1.0f, 1.0f),Random.Range(-1.0f, 1.0f)));
-				pooledObjects[i].gameObject.transform.localScale = new Vector3(perlinValues[j]/10.0f ,perlinValues[j]/10.0f, 1.0f);
-				pooledObjects[i].gameObject.transform.parent = cell.parent.transform;
 				Asteroid pooledAsteroid = pooledObjects[i].GetComponent<Asteroid>();
 				pooledAsteroid.assignedPosition = positions[i];
+				pooledAsteroid.perlinValue = perlinValues[i];
 				pooledAsteroid.parentCell = cell;
 				pooledAsteroid.Change();
 

@@ -1,12 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Parker\WorldGenerator\WorldGenerator.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Parker/Objects/Asteroid.cs">
     <Files>
-      <File FileName="Assets\Scripts\Parker\WorldGenerator\WorldGenerator.cs" Line="410" Column="21" />
-      <File FileName="Assets\Scripts\Parker\WorldGenerator\WorldGenerator.cs" Line="420" Column="60" />
-      <File FileName="Assets\Scripts\Parker\WorldGenerator\WorldCell.cs" Line="405" Column="41" />
-      <File FileName="Assets\Scripts\Parker\Managers\ObjectPool.cs" Line="237" Column="35" />
-      <File FileName="Assets\Scripts\Parker\Objects\Asteroid.cs" Line="16" Column="35" />
+      <File FileName="Assets/Scripts/Parker/Objects/Asteroid.cs" Line="18" Column="1" />
+      <File FileName="Assets/Scripts/Parker/Managers/ObjectPool.cs" Line="286" Column="22" />
+      <File FileName="Assets/Scripts/Parker/WorldGenerator/WorldCell.cs" Line="407" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -400,12 +400,11 @@ public class WorldCell : MonoBehaviour
 				{
 					Debug.Log("generating=" + i);
 					GameObject asteroidOBJ = GameObject.Instantiate(Resources.Load("Asteroid/Asteroid")) as GameObject;
-					asteroidOBJ.transform.position = (Vector3)(positions[i] + new Vector2(Random.Range(-1.0f, 1.0f),Random.Range(-1.0f, 1.0f)));
 					asteroidOBJ.transform.parent = parent.transform;
 					Asteroid temp =	asteroidOBJ.AddComponent<Asteroid>();
 					temp.assignedPosition = positions[i];
-					temp.parentCell = this;
 					temp.perlinValue = perlin[j];
+					temp.parentCell = this;
 					temp.Change();
 					children.Add(asteroidOBJ);
 					if(ObjectPool.Pool.CanPoolMore())

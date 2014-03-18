@@ -13,6 +13,8 @@ public class Asteroid : MonoBehaviour
 
 	public void Change()
 	{
+		gameObject.transform.position = (Vector3)(assignedPosition + new Vector2(Random.Range(-1.0f, 1.0f),Random.Range(-1.0f, 1.0f)));
+		gameObject.transform.localScale = new Vector3(perlinValue/10.0f ,perlinValue/10.0f, 1.0f);
 		durability = 100f * perlinValue;
 	}
 	
