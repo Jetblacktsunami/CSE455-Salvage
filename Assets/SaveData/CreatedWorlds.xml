@@ -1,0 +1,3 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Root>
+	<WorldSpec name="Aaron" area="65536" spaceLength="256" cellLength="25.6" start-x="0" start-y="0" degreeJump="1" subdivisions="10" numOfCells="100" Seed="1" pPos-x0="-89.6" pPos-y0="-89.6" pPos-x1="-89.6" pPos-y1="-64" pPos-x2="-89.6" pPos-y2="-38.4" pPos-x3="-89.6" pPos-y3="-12.8" pPos-x4="-64" pPos-y4="38.4" pPos-x5="12.8" pPos-y5="89.6" pPos-x6="-12.8" pPos-y6="140.8" pPos-x7="89.6" pPos-y7="166.4" />
+</Root>
