@@ -21,6 +21,7 @@ public class Asteroid : MonoBehaviour
 	public void DestroySelf()
 	{
 		parentCell.RemoveAsteroidPosition(assignedPosition);
+		ParticleContainer.Instance.SpawnParticleOnce ("RockExplosion",transform.position);
 		ObjectPool.Pool.Unregister (this.gameObject);
 		Destroy (gameObject);
 	}

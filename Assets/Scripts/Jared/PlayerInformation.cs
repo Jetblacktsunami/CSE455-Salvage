@@ -22,8 +22,8 @@ public class PlayerInformation : MonoBehaviour
 	private float maxFuel = 100f;						//Maximum amount of fuel of player
 	private float currentFuel = 100f;					//Current fuel level of player
 	private float fuelConsumptionRate = 1f;			//How quickly the fuel gauge decreases
-	private float speed = 10f;						//Current speed of the player
-	private float maxSpeed = 10f;						//Max possible speed of player
+	private float speed = 11f;						//Current speed of the player
+	private float maxSpeed = 11f;						//Max possible speed of player
 	private float acceleration = 10f;					//Acceleration of player towards max speed
 	private float thrusterDelay = 10f;				//Delay between input and movement
 	private float rotationSpeed = 10f;				//Turning speed of the player
@@ -177,6 +177,11 @@ public class PlayerInformation : MonoBehaviour
 	public void setCurrentHealth(int newCurrent)
 	{
 		currentHealth = newCurrent;
+		if(currentHealth <= 0)
+		{
+			currentHealth = 0;
+			ParticleContainer.Instance.SpawnParticleOnce("ShipExplosion", transform.position);
+		}
 		UpdateUI.Health.UpdateBar (currentHealth, maxHealth);
 	}
 	

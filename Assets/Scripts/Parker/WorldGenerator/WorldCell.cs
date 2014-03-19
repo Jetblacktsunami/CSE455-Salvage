@@ -139,7 +139,6 @@ public class WorldCell : MonoBehaviour
 #else
 		string tempDir = Application.persistentDataPath + "/SaveData/";
 #endif
-		float startTimer = Time.realtimeSinceStartup;
 		if(!Directory.Exists(tempDir))
 		{
 			Directory.CreateDirectory(tempDir);
@@ -152,7 +151,6 @@ public class WorldCell : MonoBehaviour
 
 		WorldGenerator.WorldSpecs details = WorldGenerator.worldspec;
 		Random.seed = details.seed;
-		float maxDistance = details.mapLength / 2.0f;
 		float halfCellLength = Mathf.Ceil(details.cellLength/2.0f);
 		Vector2 startingPos = new Vector2( -halfCellLength, -halfCellLength);
 		Vector2 endPos = new Vector2( halfCellLength, halfCellLength);
@@ -398,7 +396,6 @@ public class WorldCell : MonoBehaviour
 			{
 				for(int i = (int)indexes.x, j = (int)indexes.y; i < positions.Count && j < perlin.Count; i++,j++)
 				{
-					Debug.Log("generating=" + i);
 					GameObject asteroidOBJ = GameObject.Instantiate(Resources.Load("Asteroid/Asteroid")) as GameObject;
 					asteroidOBJ.transform.parent = parent.transform;
 					Asteroid temp =	asteroidOBJ.AddComponent<Asteroid>();

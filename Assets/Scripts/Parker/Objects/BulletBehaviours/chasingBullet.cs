@@ -37,10 +37,12 @@ public class chasingBullet : MonoBehaviour
 		if(other.gameObject.tag == "Asteroid")
 		{
 			other.gameObject.GetComponent<Asteroid>().Damage(bulInfo.damageRate);
+			ParticleContainer.Instance.SpawnParticleOnce("HitSpark", gameObject.transform.position);
 		}
 		else if(other.gameObject.tag == "Enemy")
 		{
 			other.gameObject.GetComponent<EnemyInfo>().ApplyDamage(bulInfo.damageRate);
+			ParticleContainer.Instance.SpawnParticleOnce("HitSpark", gameObject.transform.position);
 		}
 		
 		Destroy (gameObject);
