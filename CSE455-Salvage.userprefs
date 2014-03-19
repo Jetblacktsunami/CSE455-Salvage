@@ -1,17 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Ryan\MenuScripts\SubMenuScripts\OutputToXML.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Joe\EnemyAI.cs">
     <Files>
-      <File FileName="Assets\Scripts\Parker\Objects\Asteroid.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Parker\WorldGenerator\WorldCell.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Parker\Managers\ObjectPool.cs" Line="281" Column="50" />
-      <File FileName="Assets\Scripts\Jared\MovementManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Parker\Managers\ShootingManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Jared\PlayerInformation.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Parker\Managers\GameManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Ryan\InGameScripts\Pause.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Ryan\InGameScripts\PauseMenuAlpha.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Ryan\MenuScripts\SubMenuScripts\OutputToXML.cs" Line="35" Column="24" />
+      <File FileName="Assets\Scripts\Parker\Objects\ParticleContainer.cs" Line="36" Column="50" />
+      <File FileName="Assets\Scripts\Parker\Managers\EnemyManager.cs" Line="54" Column="168" />
+      <File FileName="Assets\Scripts\Joe\EnemyAI.cs" Line="43" Column="5" />
+      <File FileName="Assets\Scripts\Parker\AI\EnemyInfo.cs" Line="9" Column="14" />
+      <File FileName="Assets\Scripts\Parker\Objects\BulletInfo.cs" Line="15" Column="34" />
+      <File FileName="Assets\Scripts\Jared\MovementManager.cs" Line="43" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
