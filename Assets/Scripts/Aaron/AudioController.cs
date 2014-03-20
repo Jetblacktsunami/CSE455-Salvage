@@ -38,6 +38,8 @@ public class AudioController : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+		pInfo = GameObject.FindGameObjectWithTag("GameController").GetComponent<PlayerInformation>();
+
 		//Level Music Array
 		LevelSounds [0] = (AudioClip)Resources.Load ("Assets/Sounds/Music/Menu Music/Loading Loop");
 		LevelSounds [1] = (AudioClip)Resources.Load ("Assets/Sounds/Music/Level Music/chaser");
@@ -48,7 +50,7 @@ public class AudioController : MonoBehaviour
 		Sound_FX [0] = (AudioClip)Resources.Load ("Assets/Sounds/SoundFX/Shooting/laser_shooting_sfx");//		LevelSounds [0] = (AudioSource)Resources.Load ("Assets/Sounds/Music/Menu Music/Loading Loop");
 		Sound_FX [1] = (AudioClip)Resources.Load ("Assets/Sounds/SoundFX/Flying Ship/warp engine engage");
 		Sound_FX [2] = (AudioClip)Resources.Load ("Assets/Sounds/SoundFX/Alarm/enemy spots-lose sound");
-		Sound_FX [3] = (AudioClip)Resources.Load ("Assets/Sounds/SoundFX/Explosion/Loading Loop");
+		Sound_FX [3] = (AudioClip)Resources.Load ("Assets/Sounds/SoundFX/Explosion/explosion best");
 
 		backgrounds.loop = true; //repeats the song for the level
 
@@ -76,6 +78,35 @@ public class AudioController : MonoBehaviour
 		{
 			sfx.loop = false;
 		}
+	}
+
+	public void ChangeAudioLevel()
+	{
+		if(PlayerPrefs.GetInt("FirstPlay") == 0)
+		{
+			PlayerPrefs.SetFloat("MasterVol", 1.0f);
+			PlayerPrefs.SetFloat("MusicVol",1.0f);
+			PlayerPrefs.SetFloat("SFXVol",1.0f);
+			PlayerPrefs.SetInt("ListenerBool",1);
+			PlayerPrefs.SetInt("FirstPlay",1);
+		}
+		
+		if(backgrounds)
+			backgrounds.volume = PlayerPrefs.GetFloat("MusicVol");
+		if(backgrounds)	
+			backgrounds.volume = PlayerPrefs.GetFloat("SFXVol");
+		if(PlayerListener)
+		{
+			if(PlayerPrefs.GetInt("ListenerBool") == 1)
+			{
+				AudioListener.volume = PlayerPrefs.GetFloat("MasterVol");
+			}
+			else
+			{
+				AudioListener.volume = 0;
+			}
+		}
+		
 	}
 
 	// Update is called once per frame
@@ -145,7 +176,7 @@ public class AudioController : MonoBehaviour
 			backgrounds.Stop();
 			int gameover = LevelSounds.Length - 1;
 			backgrounds.clip = LevelSounds[gameover];	//sets backgrounds = game over music
-			backgrounds.PlayOneShot(Sound_FX[gameover]);
+			backgrounds.PlayOneShot(LevelSounds[gameover]);
 		}
 	}
 }
